@@ -4,6 +4,6 @@ public class MultipleChoiceField extends Field{
 
 
     public MultipleChoiceField(String question) {
-        super(question);
+        super(question,FieldType.MC);
     }
 }
