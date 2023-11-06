@@ -9,13 +9,10 @@
         <module name="Mini-SurveyMonkey" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="Mini-SurveyMonkey" target="17" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="Mini-SurveyMonkey" options="-parameters" />
+      <module name="Mini-SurveyMonkey" options="" />
     </option>
   </component>
 </project>
