@@ -1,12 +1,12 @@
 package org.MiniSurveyMonkey.Fields;
 import org.springframework.data.annotation.Id;
-import org.springframework.stereotype.Component;
+
 
 public abstract class Field {
     @Id
     private long id;
 
-    private Enum<FieldType> fieldType;
+    public Enum<FieldType> fieldType;
 
     private String question;
 

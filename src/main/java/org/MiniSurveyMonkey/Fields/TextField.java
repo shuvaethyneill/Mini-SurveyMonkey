@@ -1,14 +1,21 @@
 package org.MiniSurveyMonkey.Fields;
 
-public class TextField extends Field{
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document("textfield")
+public class TextField {
 
 
+    @Id
+    private String id;
 
     private String content;
 
-    public TextField (String question, String input){
-        super(question, FieldType.TEXT);
-        this.content = input;
+    private String question;
+    public TextField(String question, String content){
+        this.question = question;
+        this.content = content;
     }
 
     public String getContent() {
@@ -17,5 +24,13 @@ public class TextField extends Field{
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    @Override
+    public String toString() {
+        return "TextField{" +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                '}';
     }
 }
