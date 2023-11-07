@@ -4,9 +4,9 @@ import org.springframework.data.annotation.Id;
 
 public abstract class Field {
     @Id
-    private long id;
+    protected String id;
 
-    public Enum<FieldType> fieldType;
+    private FieldType fieldType;
 
     private String question;
 
@@ -25,6 +25,14 @@ public abstract class Field {
 
     public Enum<FieldType> getFieldTypeEnum() {
         return fieldType;
+    }
+
+    public FieldType getFieldType() {
+        return fieldType;
+    }
+
+    public void setFieldType(FieldType fieldType) {
+        this.fieldType = fieldType;
     }
 
     @Override

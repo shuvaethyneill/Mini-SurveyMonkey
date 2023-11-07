@@ -4,17 +4,14 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("textfield")
-public class TextField {
+public class TextField extends Field{
 
-
-    @Id
-    private String id;
 
     private String content;
 
-    private String question;
+
     public TextField(String question, String content){
-        this.question = question;
+        super(question,FieldType.TEXT);
         this.content = content;
     }
 
@@ -29,7 +26,7 @@ public class TextField {
     @Override
     public String toString() {
         return "TextField{" +
-                "id=" + id +
+                "id=" + super.id +
                 ", content='" + content + '\'' +
                 '}';
     }

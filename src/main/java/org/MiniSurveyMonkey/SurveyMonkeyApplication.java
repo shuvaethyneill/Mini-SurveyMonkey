@@ -1,5 +1,6 @@
 package org.MiniSurveyMonkey;
 
+import org.MiniSurveyMonkey.Fields.Field;
 import org.MiniSurveyMonkey.Fields.TextField;
 import org.MiniSurveyMonkey.Repositories.FieldRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class SurveyMonkeyApplication implements CommandLineRunner {
 		// fetch all customers
 		System.out.println("Customers found with findAll():");
 		System.out.println("-------------------------------");
-		for (TextField customer : repository.findAll()) {
+		for (Field customer : repository.findAll()) {
 			System.out.println(customer);
 		}
 		System.out.println();
