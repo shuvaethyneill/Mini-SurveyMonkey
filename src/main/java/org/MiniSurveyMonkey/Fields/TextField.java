@@ -3,7 +3,7 @@ package org.MiniSurveyMonkey.Fields;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document("textfield")
+@Document("textField")
 public class TextField extends Field{
 
 
