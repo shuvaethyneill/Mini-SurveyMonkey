@@ -51,4 +51,12 @@ public class Response {
     public String getId() {
         return id;
     }
+  
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setFieldAnswers(HashMap<String, String> fieldAnswers) {
+        this.fieldAnswers = fieldAnswers;
+    }
 }

@@ -2,12 +2,13 @@ package org.MiniSurveyMonkey.Fields;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 @Document("numberField")
+
 public class NumberField extends Field {
     private Integer upperBound;
     private Integer lowerBound;
 
-    public NumberField(String question, Integer upperBound, Integer lowerBound) {
-        super(question, FieldType.NUMBER);
+    public NumberField(String question, String formId, Integer upperBound, Integer lowerBound) {
+        super(question,FieldType.NUMBER,formId);
         this.lowerBound = lowerBound;
         this.upperBound = upperBound;
     }
