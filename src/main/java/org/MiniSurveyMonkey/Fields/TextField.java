@@ -16,6 +16,7 @@ public class TextField extends Field{
     public String toString() {
         return "TextField{" +
                 "id=" + super.id +
+                "question" + super.getQuestion() +  " " +
                 '}';
     }
 }
