@@ -13,6 +13,14 @@ public class NumberField extends Field {
     }
 
     /**
+     * getter for Id
+     * @return id
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
      * upper bound getter
      * @return upper bound
      */

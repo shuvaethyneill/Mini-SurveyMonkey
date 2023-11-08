@@ -44,5 +44,11 @@ public class Response {
         this.fieldAnswers.put(fieldId, content);
     }
 
-
+    /**
+     * getter for Id
+     * @return id
+     */
+    public String getId() {
+        return id;
+    }
 }
