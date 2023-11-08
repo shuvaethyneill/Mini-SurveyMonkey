@@ -3,7 +3,6 @@ package org.MiniSurveyMonkey;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 @Document("response")
@@ -34,6 +33,15 @@ public class Response {
      */
     public HashMap<String, String> getFieldAnswers() {
         return fieldAnswers;
+    }
+
+    /**
+     * add a new field response
+     * @param fieldId
+     * @param content
+     */
+    public void addFieldResponse(String fieldId, String content) {
+        this.fieldAnswers.put(fieldId, content);
     }
 
 

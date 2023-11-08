@@ -26,9 +26,9 @@ public class SurveyMonkeyApplication implements CommandLineRunner {
 		repository.deleteAll();
 
 		// save a couple of customers
-		repository.save(new TextField("Alice"));
-		repository.save(new TextField("ditch"));
-		repository.save(new NumberField("mitch"));
+//		repository.save(new TextField("Alice"));
+//		repository.save(new TextField("ditch"));
+//		repository.save(new NumberField("mitch"));
 
 
 		// fetch all customers
