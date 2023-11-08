@@ -17,13 +17,20 @@ import org.springframework.web.bind.annotation.PutMapping;
 public class RestController {
 
     @Autowired
-    private FormRepo formRepository;
+    private FormRepo formRepo;
     
     @Autowired
     private FieldRepo fieldRepo;
 
     @Autowired
     private ResponseRepo responseRepo;
+
+    public RestController(FormRepo formRepo, FieldRepo fieldRepo, ResponseRepo responseRepo) {
+        this.formRepo = formRepo;
+        this.fieldRepo = fieldRepo;
+        this.responseRepo = responseRepo;
+
+    }
 
     /**
      * Get Mapping to retrieve a form by Id
@@ -34,18 +41,12 @@ public class RestController {
     public Form viewForm(@RequestParam String id) {
 
         //trying to find the form in the repo
-        Form form = formRepository.findById(id).orElseThrow(() ->
+        Form form = formRepo.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Could not find Form with that id"));
 
         return form;
     }
 
-    public RestController(FormRepo formRepo, FieldRepo fieldRepo, ResponseRepo responseRepo) {
-        this.formRepo = formRepo;
-        this.fieldRepo = fieldRepo;
-        this.responseRepo = responseRepo;
-
-    }
 
     @PutMapping("/editForm")
     public ResponseEntity<Response> editForm(){
