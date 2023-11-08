@@ -6,6 +6,8 @@ public abstract class Field {
     @Id
     protected String id;
 
+    private String formId;
+
     private FieldType fieldType;
 
     private String question;
@@ -33,6 +35,14 @@ public abstract class Field {
 
     public void setFieldType(FieldType fieldType) {
         this.fieldType = fieldType;
+    }
+
+    public String getFormId() {
+        return formId;
+    }
+
+    public void setFormId(String formId) {
+        this.formId = formId;
     }
 
     @Override
