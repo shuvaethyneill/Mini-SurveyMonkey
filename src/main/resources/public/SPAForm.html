@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Form Creation</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script src="Form.js"></script>
+</head>
+<h1>Create a Form</h1>
+
+<body>
+<form id="myForm">
+
+  <div id="Question">
+    <label for="questionTitle">Question 1</label>
+    <input type="text" id="questionTitle" name="questionTitle" placeholder="Enter Survey Question">
+    <br>
+    <br> <!--adding more space-->
+  <label for="dropdown">Choose Field Type:</label>
+  <select id="dropdown" name="dropdown">
+    <option value="NumberField">Select a Field Type</option>
+    <option value="NumberField">Number Field</option>
+    <option value="TextField">Text Field</option>
+    <option value="MC">Multiple Choice</option>
+  </select>
+
+
+  <!-- Dropdown for the number of options for the mc field, hidden initially -->
+  <div id="mcOptionsContainer" style="display:none;">
+    <label for="mcOptionsDropdown">Number of Options:</label>
+    <select id="mcOptionsDropdown" name="numOptionsDropdown">
+      <option value="0">Select Value</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+    </select>
+  </div>
+
+
+  <div id="dynamicInput"></div>
+  </div>
+
+  <p></p><button onclick="addInputField()">Add Field</button></p>
+
+  <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+</form>
+
+
+</body>
+</html>
