@@ -11,4 +11,9 @@ public class HtmlController {
     public String getAddresses(Model m){
         return "baseForm";
     }
+
+    @GetMapping("/textField")
+    public String getTextField(Model m){
+        return "textField";
+    }
 }
