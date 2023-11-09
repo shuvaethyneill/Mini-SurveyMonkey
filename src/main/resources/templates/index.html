@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Home Page for Mini-SurveyMonkey</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<script>
+    function createFormPage(){
+        window.location.href = "createEndPoint";
+    }
+</script>
+
+<script>
+    function editFormPage(){
+        window.location.href = "editEndPoint";
+    }
+</script>
+
+<script>
+    function viewCreatedFormsPage(){
+        window.location.href = "viewEndPoint";
+    }
+</script>
+
+<script>
+
+</script>
+
+<style>
+    button {
+        display: block;
+        border-radius : 100px;
+        margin-bottom: 10px;
+    }
+</style>
+
+<body>
+
+<p>Welcome to Mini-SurveyMonkey!</p>
+
+<button onclick="createFormPage()">Create a new Form!</button>
+<button onclick="editFormPage()">Edit existing Form</button>
+<button onclick="viewCreatedFormsPage()">View created Forms.</button>
+
+
+
+</body>
+</html>
