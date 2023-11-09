@@ -1,31 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Home Page for Mini-SurveyMonkey</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
-
-<script>
-    function createFormPage(){
-        window.location.href = "createEndPoint";
-    }
-</script>
-
-<script>
-    function editFormPage(){
-        window.location.href = "editEndPoint";
-    }
-</script>
-
-<script>
-    function viewCreatedFormsPage(){
-        window.location.href = "viewEndPoint";
-    }
-</script>
-
-<script>
-
-</script>
 
 <style>
     button {
@@ -36,14 +14,12 @@
 </style>
 
 <body>
+<h1>Welcome to Mini-SurveyMonkey!</h1>
+<p>Please Select from Options Below</p>
 
-<p>Welcome to Mini-SurveyMonkey!</p>
-
-<button onclick="createFormPage()">Create a new Form!</button>
-<button onclick="editFormPage()">Edit existing Form</button>
-<button onclick="viewCreatedFormsPage()">View created Forms.</button>
-
-
+<button th:onclick="|window.location.href='/createFormPage'|">Create a new Form!</button>
+<button th:onclick="|window.location.href='/editFormPage'|">Edit existing Form</button>
+<button th:onclick="|window.location.href='/viewCreatedFormsPage'|">View created Forms</button>
 
 </body>
 </html>
