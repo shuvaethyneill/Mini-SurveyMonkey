@@ -13,8 +13,8 @@ public class MultipleChoiceField extends Field {
      * @param question, the question associated with this field
      * @param options, the hashmap of option name and value
      */
-    public MultipleChoiceField(String question, HashMap<String, String> options) {
-        super(question, FieldType.MC);
+    public MultipleChoiceField(String question, String formId, HashMap<String, String> options) {
+        super(question, FieldType.MC, formId);
         this.options = options;
     }
 

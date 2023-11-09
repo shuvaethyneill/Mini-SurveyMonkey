@@ -6,8 +6,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document("textField")
 public class TextField extends Field{
 
-    public TextField(String question){
-        super(question,FieldType.TEXT);
+    public TextField(String question, String formId){
+        super(question,FieldType.TEXT, formId);
 
     }
 

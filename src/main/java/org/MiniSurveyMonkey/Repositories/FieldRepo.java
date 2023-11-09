@@ -12,5 +12,7 @@ public interface FieldRepo extends MongoRepository<Field, String>{
 
     List<Field> findByFieldType(FieldType fieldType);
 
+    List<Field> findByFormId(String formId);
+
 
 }
