@@ -16,7 +16,7 @@ $(document).ready(function () {
             var inputField = $("<input>").attr({
                 type: "text",
                 name: "dynamicInput",
-                placeholder: "Enter your answer"
+                placeholder: "User answer here"
             });
             dynamicInput.append(inputField);
         } else if (selectedOption === "MC") {
@@ -28,12 +28,11 @@ $(document).ready(function () {
                 for (var i = 1; i <= selectedOption; i++) {
                     var radioBtn = $("<input>").attr({
                         type: "radio",
-                        name: "dynamicInput",
-                        placeholder: "Enter mc text"
+                        name: "dynamicInput"
                     });
                     var labelInput = $("<input>").attr({
                         type: "text",
-                        placeholder: "Option text"
+                        placeholder: "Enter mc option text"
                     });
                     dynamicInput.append(radioBtn).append(labelInput).append("<br>");
                 }
