@@ -85,7 +85,7 @@ $(document).ready(function () {
 
         const removeBtn = $('<button>').text('Remove Choice').prop('disabled', true).click(function () {
             $(this).closest('.mcOption').remove();
-            updateRemoveBtns(); // update remove buttons after removal
+            updateRemoveButtons(); // update remove buttons after removal
         });
 
         mcOptionDiv.append(radioBtn, optionInput, removeBtn);
@@ -93,7 +93,7 @@ $(document).ready(function () {
     }
 
     // Function to enable/disable remove buttons for MC options
-    function updateRemoveBtns() {
+    function updateRemoveButtons() {
         $('.mcOption').each(function (index) {
             const removeBtn = $(this).find('button');
             removeBtn.prop('disabled', index < 2);
