@@ -43,7 +43,8 @@ $(document).ready(function () {
             inputContainer.append(mcContainer);
 
             // to add more choices
-            const addChoiceBtn = $('<button>').text('Add Choice').click(function () {
+            const addChoiceBtn = $('<button>').text('Add Choice').click(function (event) {
+                event.preventDefault();
                 const optionCount = mcContainer.find('.mcOption').length + 1;
                 mcContainer.append(createMCOption(optionCount));
                 updateRemoveBtns(); // update remove buttons after addition
