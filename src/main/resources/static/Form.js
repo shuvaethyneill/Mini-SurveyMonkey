@@ -55,7 +55,7 @@ $(document).ready(function () {
                 mcContainer.append(createMCOption(questionNumber, optionCount));
                 updateRemoveButtons(); // update remove buttons after addition
             });
-            inputContainer.append(addChoiceBtn);
+            inputContainer.append('<br>').append(addChoiceBtn);
         }
     });
 
@@ -82,29 +82,34 @@ $(document).ready(function () {
         const mcOptionDiv = $('<div>').addClass('mcOption');
         const radioBtn = $('<input>').attr({
             type: 'radio',
-            name: `mcOptions${questionNumber}`,
+            name: `mcOption${questionNumber}`,
         });
 
         const optionInput = $('<input>').attr({
             type: 'text',
-            name: `mcOption${questionNumber}_${optionCount}`,
+            name: `mcOption${questionNumber}Text`,
             placeholder: 'Enter Choice'
         });
 
-        const removeBtn = $('<button>').text('Remove').prop('disabled', true).click(function () {
+        const removeButton = $('<button>').text('Remove').prop('disabled', true).click(function () {
             $(this).closest('.mcOption').remove();
             updateRemoveButtons(); // update remove buttons after removal
         });
 
-        mcOptionDiv.append(radioBtn, optionInput, removeBtn);
+        mcOptionDiv.append(radioBtn, optionInput, removeButton);
         return mcOptionDiv;
     }
 
     // Function to enable/disable remove buttons for MC options
     function updateRemoveButtons() {
-        $('.mcOption').each(function (index) {
-            const removeBtn = $(this).find('button');
-            removeBtn.prop('disabled', index < 2);
+        $('.question').each(function () {
+            const mcOptions = $(this).find('.mcOption');
+            const numOptions = mcOptions.length;
+
+            mcOptions.each(function (index) {
+                const removeButton = $(this).find('button');
+                removeButton.prop('disabled', numOptions <= 2 && index < 2);
+            });
         });
     }
 })
