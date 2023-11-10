@@ -1,11 +1,10 @@
 /**
  * File handles all SPA actions by the Form
  */
-
-$(document).ready(function () {
+$(document).ready(function() {
     let questionCount = 1; // first question added by default
 
-    $('#addQuestion').click(function (event) {
+    $('#addQuestion').click(function(event) {
         questionCount++;
         event.preventDefault();
 
@@ -20,7 +19,7 @@ $(document).ready(function () {
             placeholder: 'Enter Survey Question'
         });
 
-        const fieldTypeElements= createFieldTypeElement(questionCount)
+        const fieldTypeElements = createFieldTypeElement(questionCount)
 
         const inputContainer = $('<div>').addClass('inputContainer');
 
@@ -29,7 +28,7 @@ $(document).ready(function () {
         $('#surveyForm').append('<br><br>').append(questionDiv);
     });
 
-    $('#surveyForm').on('change', '[id^=fieldType]', function () {
+    $('#surveyForm').on('change', '[id^=fieldType]', function() {
         const selectedOption = $(this).val();
         const questionNumber = $(this).attr('id').match(/\d+/)[0];
         const parentDiv = $(this).closest('.question');
@@ -37,27 +36,88 @@ $(document).ready(function () {
 
         inputContainer.empty();
 
+        const fieldContainer = $('<div>');
         if (selectedOption === 'number') {
-            // TODO: show number field
+            const numericalContainer = $('<div>');
+
+            //lower bound
+            fieldContainer.append(
+                $('<input>').attr({
+                    type: 'number',
+                    id: `questionTitle${questionCount}` + 'numerical_lower',
+                    name: `questionTitle${questionCount}` + 'numerical_lower',
+                    placeholder: 'Lower Bound (Optional)'
+                }).on("input", checkNumericalValidity)
+            );
+
+            // upper bound
+            fieldContainer.append(
+                $('<input>').attr({
+                    type: 'number',
+                    id: `questionTitle${questionCount}` + 'numerical_upper',
+                    name: `questionTitle${questionCount}` + 'numerical_upper',
+                    placeholder: 'Upper Bound (Optional)'
+                }).on("input", checkNumericalValidity));
+
+            function checkNumericalValidity() {
+                const lower = fieldContainer.find(`#questionTitle${questionCount}` + 'numerical_lower');
+                const upper = fieldContainer.find(`#questionTitle${questionCount}` + 'numerical_upper');
+                const lowerValue = parseInt(lower.val(), 10);
+                const upperValue = parseInt(upper.val(), 10);
+
+                if (!isNaN(lowerValue) && !isNaN(upperValue) && lowerValue > upperValue) {
+                    upper.css("outline", "auto");
+                    lower.css("outline", "auto");
+                    upper.css("outline-color", "red");
+                    lower.css("outline-color", "red");
+                    upper.focus(function() {
+                        upper.css("outline-color", "red");
+                    });
+                    lower.focus(function() {
+                        lower.css("outline-color", "red");
+                    });
+                } else {
+                    upper.css({
+                        'outline': ''
+                    });
+                    lower.css({
+                        'outline': ''
+                    });
+                    upper.focus(function() {
+                        upper.css({
+                            'outline': ''
+                        });
+                    });
+                    lower.focus(function() {
+                        lower.css({
+                            'outline': ''
+                        });
+                    });
+                }
+            }
+
         } else if (selectedOption === 'text') {
             // TODO: show text field
         } else if (selectedOption === 'multipleChoice') {
             const mcContainer = $('<div>'); // container for multiple choice options
 
             // initial two multiple choice options
-            mcContainer.append(createMCOption(questionNumber, 1)).append(createMCOption(questionNumber, 2));
-            inputContainer.append(mcContainer);
+            fieldContainer.append(createMCOption(questionNumber, 1)).append(createMCOption(questionNumber, 2));
+
 
             // to add more choices
-            const addChoiceBtn = $('<button>').text('Add Choice').click(function (event) {
+            const addChoiceBtn = $('<button>').text('Add Choice').click(function(event) {
                 event.preventDefault();
-                const optionCount = mcContainer.find('.mcOption').length + 1;
-                mcContainer.append(createMCOption(questionNumber, optionCount));
+                const optionCount = fieldContainer.find('.mcOption').length + 1;
+                fieldContainer.append(createMCOption(questionNumber, optionCount));
                 updateRemoveButtons(); // update remove buttons after addition
             });
             inputContainer.append('<br>').append(addChoiceBtn);
         }
+
+        inputContainer.append(fieldContainer);
     });
+
 
     function createFieldTypeElement(questionCount) {
         const fieldTypeLabel = $('<label>').attr('for', `fieldType${questionCount}`).text('Choose Field Type:');
@@ -88,7 +148,8 @@ $(document).ready(function () {
         const optionInput = $('<input>').attr({
             type: 'text',
             name: `mcOption${questionNumber}Text`,
-            placeholder: 'Enter Choice'
+            placeholder: 'Enter Choice',
+            required: 'true'
         });
 
         const removeButton = $('<button>').text('Remove').prop('disabled', true).click(function () {
