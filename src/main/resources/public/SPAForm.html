@@ -10,39 +10,48 @@
 
 <body>
 <form id="myForm">
+  <div id="surveyForm">
+    <div class="question" id="question1">
+      <label for="questionTitle1">Question 1</label>
+      <input type="text" id="questionTitle1" name="questionTitle1" placeholder="Enter Survey Question">
+      <br>
+      <br> <!--adding more space-->
+      <label for="fieldType1">Choose Field Type:</label>
+      <select id="fieldType1" name="fieldType1">
+        <option value="">Select a Field Type</option>
+        <option value="text">Text Field</option>
+        <option value="number">Number Field</option>
+        <option value="multipleChoice">Multiple Choice</option>
+      </select>
+      <div class="inputContainer"></div>
+    </div>
+    <button id="addQuestion">Add Question</button>
 
-  <div id="Question">
-    <label for="questionTitle">Question 1</label>
-    <input type="text" id="questionTitle" name="questionTitle" placeholder="Enter Survey Question">
-    <br>
-    <br> <!--adding more space-->
-  <label for="dropdown">Choose Field Type:</label>
-  <select id="dropdown" name="dropdown">
-    <option value="NumberField">Select a Field Type</option>
-    <option value="NumberField">Number Field</option>
-    <option value="TextField">Text Field</option>
-    <option value="MC">Multiple Choice</option>
-  </select>
 
+    <!-- Dropdown for the number of options for the mc field, hidden initially -->
+    <!--
+    <div id="mcOptionsContainer" style="display:none;">
+      <button onclick="addMCOption()">Add Choice</button>
 
-  <!-- Dropdown for the number of options for the mc field, hidden initially -->
-  <div id="mcOptionsContainer" style="display:none;">
-    <label for="mcOptionsDropdown">Number of Options:</label>
-    <select id="mcOptionsDropdown" name="numOptionsDropdown">
-      <option value="0">Select Value</option>
-      <option value="2">2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-    </select>
-  </div>
+      <label for="mcOptionsDropdown">Number of Options:</label>
+      <select id="mcOptionsDropdown" name="numOptionsDropdown">
+        <option value="0">Select Value</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+      </select>
+
+    </div>
 
 
   <div id="dynamicInput"></div>
-  </div>
+    </div>
 
   <p></p><button onclick="addInputField()">Add Field</button></p>
+  -->
 
   <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+  </div>
 </form>
 
 
