@@ -94,12 +94,19 @@ $(document).ready(function() {
     }
 
 function createNumericalField(fieldContainer, questionCount, type) {
-    return $('<input>').attr({
-        type: 'number',
-        id: questionCount + type,
-        name: questionCount + type,
-        placeholder: '(Optional)'
-    }).on("input", checkNumericalValidity(fieldContainer, questionCount));
+    const divForField = $('<div>')
+
+   label = (type == upperStr ? 'Upper bound' : 'Lower bound')
+    divForField.append($('<label>').text(label))
+    divForField.append(
+        $('<input>').attr({
+           type: 'number',
+           id: questionCount + type,
+           name: questionCount + type,
+           placeholder: '(Optional)'
+       }).on("input", checkNumericalValidity(fieldContainer, questionCount)))
+
+    return divForField
 }
 
     function createTextField(questionNumber){
