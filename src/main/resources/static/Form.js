@@ -1,6 +1,9 @@
 /**
  * File handles all SPA actions by the Form
  */
+
+ const upperStr = "_upper"
+ const lowerStr = "_lower"
 $(document).ready(function() {
     let questionCount = 1; // first question added by default
 
@@ -16,7 +19,8 @@ $(document).ready(function() {
             type: 'text',
             id: `questionTitle${questionCount}`,
             name: `questionTitle${questionCount}`,
-            placeholder: 'Enter Survey Question'
+            placeholder: 'Enter Survey Question',
+            required: 'true'
         });
 
         const fieldTypeElements = createFieldTypeElement(questionCount)
@@ -38,68 +42,18 @@ $(document).ready(function() {
 
         const fieldContainer = $('<div>');
         if (selectedOption === 'number') {
-            const numericalContainer = $('<div>');
 
+            fieldContainer.append(
+                createNumericalField(fieldContainer, questionCount, lowerStr)
+            )
+
+            fieldContainer.append(
+                createNumericalField(fieldContainer, questionCount, upperStr)
+            )
             //lower bound
-            fieldContainer.append(
-                $('<input>').attr({
-                    type: 'number',
-                    id: `questionTitle${questionCount}` + 'numerical_lower',
-                    name: `questionTitle${questionCount}` + 'numerical_lower',
-                    placeholder: 'Lower Bound (Optional)'
-                }).on("input", checkNumericalValidity)
-            );
-
-            // upper bound
-            fieldContainer.append(
-                $('<input>').attr({
-                    type: 'number',
-                    id: `questionTitle${questionCount}` + 'numerical_upper',
-                    name: `questionTitle${questionCount}` + 'numerical_upper',
-                    placeholder: 'Upper Bound (Optional)'
-                }).on("input", checkNumericalValidity));
-
-            function checkNumericalValidity() {
-                const lower = fieldContainer.find(`#questionTitle${questionCount}` + 'numerical_lower');
-                const upper = fieldContainer.find(`#questionTitle${questionCount}` + 'numerical_upper');
-                const lowerValue = parseInt(lower.val(), 10);
-                const upperValue = parseInt(upper.val(), 10);
-
-                if (!isNaN(lowerValue) && !isNaN(upperValue) && lowerValue > upperValue) {
-                    upper.css("outline", "auto");
-                    lower.css("outline", "auto");
-                    upper.css("outline-color", "red");
-                    lower.css("outline-color", "red");
-                    upper.focus(function() {
-                        upper.css("outline-color", "red");
-                    });
-                    lower.focus(function() {
-                        lower.css("outline-color", "red");
-                    });
-                } else {
-                    upper.css({
-                        'outline': ''
-                    });
-                    lower.css({
-                        'outline': ''
-                    });
-                    upper.focus(function() {
-                        upper.css({
-                            'outline': ''
-                        });
-                    });
-                    lower.focus(function() {
-                        lower.css({
-                            'outline': ''
-                        });
-                    });
-                }
-            }
 
         } else if (selectedOption === 'text') {
-            const textContainer = $('<div>');
-            textContainer.append(createTextField(questionNumber))
-            inputContainer.append(textContainer)
+            fieldContainer.append(createTextField(questionNumber))
         } else if (selectedOption === 'multipleChoice') {
             const mcContainer = $('<div>'); // container for multiple choice options
 
@@ -138,6 +92,16 @@ $(document).ready(function() {
             dropdown: fieldTypeDropdown
         };
     }
+
+function createNumericalField(fieldContainer, questionCount, type) {
+    return $('<input>').attr({
+        type: 'number',
+        id: questionCount + type,
+        name: questionCount + type,
+        placeholder: '(Optional)'
+    }).on("input", checkNumericalValidity(fieldContainer, questionCount));
+}
+
     function createTextField(questionNumber){
         const textFieldDiv = $('<div>').addClass('textField');
         const textArea = $('<textarea>').attr({
@@ -188,4 +152,45 @@ $(document).ready(function() {
             });
         });
     }
+
+
+function checkNumericalValidity(fieldContainer, questionCount) {
+    return function () {
+        const lower = fieldContainer.find('#' + questionCount + lowerStr);
+        const upper = fieldContainer.find('#' + questionCount + upperStr);
+        const lowerValue = parseInt(lower.val(), 10);
+        const upperValue = parseInt(upper.val(), 10);
+
+        if (!isNaN(lowerValue) && !isNaN(upperValue) && lowerValue > upperValue) {
+            upper.css("outline", "auto");
+            lower.css("outline", "auto");
+            upper.css("outline-color", "red");
+            lower.css("outline-color", "red");
+            upper.focus(function () {
+                upper.css("outline-color", "red");
+            });
+            lower.focus(function () {
+                lower.css("outline-color", "red");
+            });
+        } else {
+            upper.css({
+                'outline': ''
+            });
+            lower.css({
+                'outline': ''
+            });
+            upper.focus(function () {
+                upper.css({
+                    'outline': ''
+                });
+            });
+            lower.focus(function () {
+                lower.css({
+                    'outline': ''
+                });
+            });
+        }
+    };
+}
+
 })
