@@ -5,8 +5,9 @@
 $(document).ready(function () {
     let questionCount = 1; // first question added by default
 
-    $('#addQuestion').click(function () {
+    $('#addQuestion').click(function (event) {
         questionCount++;
+        event.preventDefault();
 
         // each question has a div
         const questionDiv = $('<div>').addClass('question').attr('id', `question${questionCount}`);
@@ -22,7 +23,7 @@ $(document).ready(function () {
         const fieldTypeElements= createFieldTypeElement(questionCount)
 
         questionDiv.append(questionLabel).append(questionInput).append('<br><br>').append(fieldTypeElements.label).append(fieldTypeElements.dropdown);
-        $('#surveyForm').append(questionDiv);
+        $('#surveyForm').append('<br><br>').append(questionDiv);
     });
 
     $('#surveyForm').on('change', '[id^=fieldType]', function () {
@@ -59,6 +60,7 @@ $(document).ready(function () {
             id: `fieldType${questionCount}`,
             name: `fieldType${questionCount}`
         }).html(`
+        <option value="text">Select a Field Type</option>
         <option value="text">Text Field</option>
         <option value="number">Number Field</option>
         <option value="multipleChoice">Multiple Choice</option>
