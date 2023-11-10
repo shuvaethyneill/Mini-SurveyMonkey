@@ -97,7 +97,9 @@ $(document).ready(function() {
             }
 
         } else if (selectedOption === 'text') {
-            // TODO: show text field
+            const textContainer = $('<div>');
+            textContainer.append(createTextField(questionNumber))
+            inputContainer.append(textContainer)
         } else if (selectedOption === 'multipleChoice') {
             const mcContainer = $('<div>'); // container for multiple choice options
 
@@ -136,7 +138,20 @@ $(document).ready(function() {
             dropdown: fieldTypeDropdown
         };
     }
-
+    function createTextField(questionNumber){
+        const textFieldDiv = $('<div>').addClass('textField');
+        const textArea = $('<textarea>').attr({
+            type:'textArea',
+            name: `textField${questionNumber}`,
+            rows:'5',
+            cols: '50',
+            readOnly: true,
+            placeholder: 'User answer would go here'
+        });
+        $(textArea).css("resize","none")
+        textFieldDiv.append(textArea);
+        return textFieldDiv;
+    }
     // Function to create a multiple choice option
     function createMCOption(questionNumber, optionCount) {
         const mcOptionDiv = $('<div>').addClass('mcOption');
