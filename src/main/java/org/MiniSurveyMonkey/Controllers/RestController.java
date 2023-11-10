@@ -54,6 +54,13 @@ public class RestController {
         return form;
     }
 
+    @PostMapping("/submitForm")
+    public String submitForm(@RequestParam Form form){
+        formRepo.save(form);
+        return "{\"FormId\" : \""+form.getId()+"\"}";
+    }
+
+
 
     @PutMapping("/editForm")
     public Form editForm(@RequestParam String formId, @RequestParam ArrayList<Field> fields, Model m){
