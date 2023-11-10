@@ -22,7 +22,10 @@ $(document).ready(function () {
 
         const fieldTypeElements= createFieldTypeElement(questionCount)
 
+        const inputContainer = $('<div>').addClass('inputContainer');
+
         questionDiv.append(questionLabel).append(questionInput).append('<br><br>').append(fieldTypeElements.label).append(fieldTypeElements.dropdown);
+        questionDiv.append(inputContainer);
         $('#surveyForm').append('<br><br>').append(questionDiv);
     });
 
@@ -31,6 +34,8 @@ $(document).ready(function () {
         const questionNumber = $(this).attr('id').match(/\d+/)[0];
         const parentDiv = $(this).closest('.question');
         const inputContainer = parentDiv.find('.inputContainer');
+
+        inputContainer.empty();
 
         if (selectedOption === 'number') {
             // TODO: show number field
@@ -47,8 +52,8 @@ $(document).ready(function () {
             const addChoiceBtn = $('<button>').text('Add Choice').click(function (event) {
                 event.preventDefault();
                 const optionCount = mcContainer.find('.mcOption').length + 1;
-                mcContainer.append(createMCOption(optionCount));
-                updateRemoveBtns(); // update remove buttons after addition
+                mcContainer.append(createMCOption(questionNumber, optionCount));
+                updateRemoveButtons(); // update remove buttons after addition
             });
             inputContainer.append(addChoiceBtn);
         }
@@ -86,7 +91,7 @@ $(document).ready(function () {
             placeholder: 'Enter Choice'
         });
 
-        const removeBtn = $('<button>').text('Remove Choice').prop('disabled', true).click(function () {
+        const removeBtn = $('<button>').text('Remove').prop('disabled', true).click(function () {
             $(this).closest('.mcOption').remove();
             updateRemoveButtons(); // update remove buttons after removal
         });
