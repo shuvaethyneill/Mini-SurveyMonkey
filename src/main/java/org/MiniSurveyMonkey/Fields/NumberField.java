@@ -8,7 +8,9 @@ public class NumberField extends Field {
     private Integer upperBound;
     private Integer lowerBound;
 
-    public NumberField(){}
+    public NumberField(){
+        this.setFieldType(FieldType.NUMBER);
+    }
 
     public NumberField(String question, String formId, Integer upperBound, Integer lowerBound) {
         super(question,FieldType.NUMBER,formId);

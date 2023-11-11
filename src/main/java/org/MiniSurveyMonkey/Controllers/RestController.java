@@ -58,6 +58,11 @@ public class RestController {
     public String submitForm(@RequestBody Form form){
         System.out.println("Received Form: " + form); //added this for testing purposed
         formRepo.save(form);
+        for (Field f : form.getFields()) {
+            f.setFormId(form.getId());
+            fieldRepo.save(f);
+        }
+        System.out.println("Form Consists of fields: " + form.getFields()); // testing purposes
         return "{\"FormId\" : \""+form.getId()+"\"}";
     }
 
