@@ -54,6 +54,14 @@ public class RestController {
         return form;
     }
 
+    @PostMapping("/submitForm")
+    public String submitForm(@RequestBody Form form){
+        System.out.println("Received Form: " + form); //added this for testing purposed
+        formRepo.save(form);
+        return "{\"FormId\" : \""+form.getId()+"\"}";
+    }
+
+
     @GetMapping("/getFieldRest")
     public List<Field> getField( Model model){
         List<Field> f1 = fieldRepo.findAll();

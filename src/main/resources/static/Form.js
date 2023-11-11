@@ -2,10 +2,12 @@
  * File handles all SPA actions by the Form
  */
 
-$(document).ready(function () {
+ const upperStr = "_upper"
+ const lowerStr = "_lower"
+$(document).ready(function() {
     let questionCount = 1; // first question added by default
 
-    $('#addQuestion').click(function (event) {
+    $('#addQuestion').click(function(event) {
         questionCount++;
         event.preventDefault();
 
@@ -17,10 +19,11 @@ $(document).ready(function () {
             type: 'text',
             id: `questionTitle${questionCount}`,
             name: `questionTitle${questionCount}`,
-            placeholder: 'Enter Survey Question'
+            placeholder: 'Enter Survey Question',
+            required: 'true'
         });
 
-        const fieldTypeElements= createFieldTypeElement(questionCount)
+        const fieldTypeElements = createFieldTypeElement(questionCount)
 
         const inputContainer = $('<div>').addClass('inputContainer');
 
@@ -29,7 +32,7 @@ $(document).ready(function () {
         $('#surveyForm').append('<br><br>').append(questionDiv);
     });
 
-    $('#surveyForm').on('change', '[id^=fieldType]', function () {
+    $('#surveyForm').on('change', '[id^=fieldType]', function() {
         const selectedOption = $(this).val();
         const questionNumber = $(this).attr('id').match(/\d+/)[0];
         const parentDiv = $(this).closest('.question');
@@ -37,29 +40,40 @@ $(document).ready(function () {
 
         inputContainer.empty();
 
+        const fieldContainer = $('<div>');
         if (selectedOption === 'number') {
-            // TODO: show number field
+
+            fieldContainer.append(
+                createNumericalField(fieldContainer, questionCount, lowerStr)
+            )
+
+            fieldContainer.append(
+                createNumericalField(fieldContainer, questionCount, upperStr)
+            )
+            //lower bound
+
         } else if (selectedOption === 'text') {
-            const textContainer = $('<div>');
-            textContainer.append(createTextField(questionNumber))
-            inputContainer.append(textContainer)
+            fieldContainer.append(createTextField(questionNumber))
         } else if (selectedOption === 'multipleChoice') {
             const mcContainer = $('<div>'); // container for multiple choice options
 
             // initial two multiple choice options
-            mcContainer.append(createMCOption(questionNumber, 1)).append(createMCOption(questionNumber, 2));
-            inputContainer.append(mcContainer);
+            fieldContainer.append(createMCOption(questionNumber, 1)).append(createMCOption(questionNumber, 2));
+
 
             // to add more choices
-            const addChoiceBtn = $('<button>').text('Add Choice').click(function (event) {
+            const addChoiceBtn = $('<button>').text('Add Choice').click(function(event) {
                 event.preventDefault();
-                const optionCount = mcContainer.find('.mcOption').length + 1;
-                mcContainer.append(createMCOption(questionNumber, optionCount));
+                const optionCount = fieldContainer.find('.mcOption').length + 1;
+                fieldContainer.append(createMCOption(questionNumber, optionCount));
                 updateRemoveButtons(); // update remove buttons after addition
             });
             inputContainer.append('<br>').append(addChoiceBtn);
         }
+
+        inputContainer.append(fieldContainer);
     });
+
 
     function createFieldTypeElement(questionCount) {
         const fieldTypeLabel = $('<label>').attr('for', `fieldType${questionCount}`).text('Choose Field Type:');
@@ -78,6 +92,23 @@ $(document).ready(function () {
             dropdown: fieldTypeDropdown
         };
     }
+
+function createNumericalField(fieldContainer, questionCount, type) {
+    const divForField = $('<div>')
+
+   label = (type == upperStr ? 'Upper bound' : 'Lower bound')
+    divForField.append($('<label>').text(label))
+    divForField.append(
+        $('<input>').attr({
+           type: 'number',
+           id: questionCount + type,
+           name: questionCount + type,
+           placeholder: '(Optional)'
+       }).on("input", checkNumericalValidity(fieldContainer, questionCount)))
+
+    return divForField
+}
+
     function createTextField(questionNumber){
         const textFieldDiv = $('<div>').addClass('textField');
         const textArea = $('<textarea>').attr({
@@ -103,7 +134,8 @@ $(document).ready(function () {
         const optionInput = $('<input>').attr({
             type: 'text',
             name: `mcOption${questionNumber}Text`,
-            placeholder: 'Enter Choice'
+            placeholder: 'Enter Choice',
+            required: 'true'
         });
 
         const removeButton = $('<button>').text('Remove').prop('disabled', true).click(function () {
@@ -127,4 +159,107 @@ $(document).ready(function () {
             });
         });
     }
+
+
+function checkNumericalValidity(fieldContainer, questionCount) {
+    return function () {
+        const lower = fieldContainer.find('#' + questionCount + lowerStr);
+        const upper = fieldContainer.find('#' + questionCount + upperStr);
+        const lowerValue = parseInt(lower.val(), 10);
+        const upperValue = parseInt(upper.val(), 10);
+
+        if (!isNaN(lowerValue) && !isNaN(upperValue) && lowerValue > upperValue) {
+            upper.css("outline", "auto");
+            lower.css("outline", "auto");
+            upper.css("outline-color", "red");
+            lower.css("outline-color", "red");
+            upper.focus(function () {
+                upper.css("outline-color", "red");
+            });
+            lower.focus(function () {
+                lower.css("outline-color", "red");
+            });
+        } else {
+            upper.css({
+                'outline': ''
+            });
+            lower.css({
+                'outline': ''
+            });
+            upper.focus(function () {
+                upper.css({
+                    'outline': ''
+                });
+            });
+            lower.focus(function () {
+                lower.css({
+                    'outline': ''
+                });
+            });
+        }
+    };
+}
+
 })
+
+//to handle form submission
+function getFieldType(questionDiv) {
+    const selectedOption = questionDiv.find(`#fieldType${questionDiv.attr('id').match(/\d+/)[0]}`).val();
+    if (selectedOption === 'number') {
+        return 'NumberField';
+    } else if (selectedOption === 'multipleChoice') {
+        return 'MultipleChoiceField';
+    } else if (selectedOption === 'text') {
+        return 'TextField';
+    }
+    return '';
+}
+$(document).ready(function () {
+    $('#myForm').submit(function (event) {
+        event.preventDefault();
+
+        const formObject = {
+            fields: []
+        };
+
+        $('.question').each(function () {
+            const questionNumber = $(this).attr('id').match(/\d+/)[0];
+
+            const fieldObject = {
+                '@type': getFieldType($(this)),
+                question: $(`#questionTitle${questionNumber}`).val(),
+            };
+
+            if (fieldObject['@type'] === 'NumberField') {
+                fieldObject.lowerBound = $(`#${questionNumber}${lowerStr}`).val();
+                fieldObject.upperBound = $(`#${questionNumber}${upperStr}`).val();
+            }
+
+            if (fieldObject['@type'] === 'MultipleChoiceField') {
+                fieldObject.options = [];
+                fieldObject.selectedOption = ''; //blank for now because we didn't acc select anything
+
+                $(`.mcOption input[name=mcOption${questionNumber}Text]`).each(function () {
+                    fieldObject.options.push($(this).val());
+                });
+            }
+
+            formObject.fields.push(fieldObject);
+        });
+
+        //handle ajax call
+        $.ajax({
+            type: 'POST',
+            url: '/submitForm',
+            contentType: 'application/json',
+            data: JSON.stringify(formObject),
+            success: function (response) {
+                console.log("Form submitted successfully. Response:", response);
+            },
+            error: function (error) {
+                console.error("Error submitting form:", error);
+            }
+        });
+
+    })
+});
