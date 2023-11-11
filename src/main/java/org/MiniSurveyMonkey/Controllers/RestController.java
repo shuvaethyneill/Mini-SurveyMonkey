@@ -55,7 +55,8 @@ public class RestController {
     }
 
     @PostMapping("/submitForm")
-    public String submitForm(@RequestParam Form form){
+    public String submitForm(@RequestBody Form form){
+        System.out.println("Received Form: " + form); //added this for testing purposed
         formRepo.save(form);
         return "{\"FormId\" : \""+form.getId()+"\"}";
     }
