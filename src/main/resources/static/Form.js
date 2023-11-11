@@ -237,7 +237,7 @@ $(document).ready(function () {
 
             if (fieldObject['@type'] === 'MultipleChoiceField') {
                 fieldObject.options = [];
-                fieldObject.selectedOption = ''; // You need to handle selected option
+                fieldObject.selectedOption = ''; //blank for now because we didn't acc select anything
 
                 $(`.mcOption input[name=mcOption${questionNumber}Text]`).each(function () {
                     fieldObject.options.push($(this).val());
