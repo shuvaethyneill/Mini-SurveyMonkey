@@ -69,6 +69,7 @@ public class RestController {
         model.addAttribute("Fields", f1);
         return f1;
     }
+
     @PutMapping("/editForm")
     public Form editForm(@RequestParam String formId, @RequestParam ArrayList<Field> fields, Model m){
         ArrayList<Field> fieldInDb = (ArrayList<Field>) fieldRepo.findByFormId(formId);
