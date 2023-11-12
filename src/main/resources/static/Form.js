@@ -295,7 +295,10 @@ $(document).ready(function () {
     $('#myForm').submit(function (event) {
         event.preventDefault();
 
+        const formTitle = $(`#formTitle`).val();
+
         const formObject = {
+            formTitle: formTitle,
             fields: []
         };
 
