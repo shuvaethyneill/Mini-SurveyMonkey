@@ -15,6 +15,19 @@ $(document).ready(function () {
 
         const questionDiv = createQuestionDiv();
         $('#surveyForm').append('<br><br>').append(questionDiv);
+        updateDeleteQuestionButton();
+    });
+
+    $('body').on('click', '[name=deleteQuestion]', function() {
+        questionCount--;
+        const questionDiv = $(this).closest('.question')
+        const isFirstQuestion = questionDiv.prevAll('.question').length === 0;
+        const brElements = isFirstQuestion ? questionDiv.nextAll('br').slice(0, 2) : questionDiv.prevAll('br').slice(0, 2);
+
+        brElements.remove();
+        questionDiv.remove();
+        // Adjust question numbers in other elements
+        updateQuestionNumbers();
     });
 
     $('#surveyForm').on('change', '[id^=fieldType]', function () {
@@ -41,7 +54,7 @@ $(document).ready(function () {
                 event.preventDefault();
                 const optionCount = fieldContainer.find('.mcOption').length + 1;
                 fieldContainer.append(createMCOption(questionNumber, optionCount));
-                updateRemoveButtons(); // update remove buttons after addition
+                updateRemoveChoiceButtons(); // update remove buttons after addition
             });
             inputContainer.append('<br>', addChoiceBtn);
         }
@@ -64,12 +77,7 @@ function createQuestionDiv() {
     });
 
     // Add a delete button
-    const deleteQuestionButton = $('<button>').text('Delete Question').click(function () {
-        $(this).closest('.question').prevAll('br').slice(0, 2).remove();
-        questionDiv.remove();
-        // Adjust question numbers in other elements
-        updateQuestionNumbers();
-    });
+    const deleteQuestionButton = $('<button>').attr('name', 'deleteQuestion').text('Delete Question').css('margin-left', '5px');
 
     const fieldTypeElements = createFieldTypeElement();
     const inputContainer = $('<div>').addClass('inputContainer');
@@ -80,7 +88,6 @@ function createQuestionDiv() {
 }
 
 function updateQuestionNumbers() {
-    questionCount--;
     $('.question').each(function (index) {
         const questionNumber = index + 1;
 
@@ -128,6 +135,8 @@ function updateQuestionNumbers() {
             });
         });
     });
+
+    updateDeleteQuestionButton();
 }
 
 function createFieldTypeElement() {
@@ -203,7 +212,7 @@ function createMCOption(questionNumber, optionCount) {
 
     const removeButton = $('<button>').text('Remove').prop('disabled', true).click(function () {
         $(this).closest('.mcOption').remove();
-        updateRemoveButtons(); // update remove buttons after removal
+        updateRemoveChoiceButtons(); // update remove buttons after removal
     });
 
     mcOptionDiv.append(radioBtn, optionInput, removeButton);
@@ -211,7 +220,7 @@ function createMCOption(questionNumber, optionCount) {
 }
 
 // Function to enable/disable remove buttons for MC options
-function updateRemoveButtons() {
+function updateRemoveChoiceButtons() {
     $('.question').each(function () {
         const mcOptions = $(this).find('.mcOption');
         const numOptions = mcOptions.length;
@@ -221,6 +230,13 @@ function updateRemoveButtons() {
             removeButton.prop('disabled', numOptions <= 2 && index < 2);
         });
     });
+}
+
+function updateDeleteQuestionButton() {
+    const deleteButtons = $('[name="deleteQuestion"]');
+
+    // disable if there is only one, otherwise enable it
+    deleteButtons.prop('disabled', $('.question').length === 1);
 }
 
 function checkNumericalValidity(fieldContainer, questionNumber) {
