@@ -6,9 +6,7 @@ import org.MiniSurveyMonkey.Repositories.FormRepo;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -18,9 +16,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,6 +27,7 @@ import java.util.Optional;
 @SpringBootTest
 @AutoConfigureMockMvc
 public class automatedTests {
+    private String formId;
     @Autowired
     private RestController control;
 
@@ -47,9 +44,8 @@ public class automatedTests {
         assertThat(control).isNotNull();
     }
 
-
-    @Test
-    public void submitFormTest() throws Exception {
+    @BeforeEach
+    public void setUp() throws Exception {
         Form testForm = new Form();
 
         //Converts Form object to JSON for the @RequestBody parameter in the endpoint.
@@ -60,15 +56,18 @@ public class automatedTests {
                 .andReturn().getResponse().getContentAsString();
 
         JSONObject obj = new JSONObject(result);
-        String formId = obj.getString("FormId");
+        this.formId = obj.getString("FormId");
+    }
 
+    @Test
+    public void submitFormTest() throws Exception {
         assertNotEquals(Optional.empty(), formRepo.findById(formId));
     }
 
     @Test
     public void formEndpointTest() throws Exception {
-        this.mockMvc.perform(get("/form/1")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("<!DOCTYPE html>")));
+        String result = this.mockMvc.perform(get("/form/"+formId)).andReturn().getResponse().getContentAsString();
+        assertThat(result, containsString(formId));
     }
 
 }
