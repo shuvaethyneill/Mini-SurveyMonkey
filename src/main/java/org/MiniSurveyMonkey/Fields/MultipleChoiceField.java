@@ -11,7 +11,9 @@ public class MultipleChoiceField extends Field {
     private ArrayList<String> options;
     private String selectedOption;
 
-    public MultipleChoiceField() {}
+    public MultipleChoiceField() {
+        this.setFieldType(FieldType.MC);
+    }
     /**
      * Constructor for MC field
      * @param question, the question associated with this field

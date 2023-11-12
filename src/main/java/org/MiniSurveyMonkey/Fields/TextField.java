@@ -8,7 +8,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @JsonTypeName("TextField")
 public class TextField extends Field{
 
-    public TextField(){}
+    public TextField(){
+        this.setFieldType(FieldType.TEXT);
+    }
 
     public TextField(String question, String formId){
         super(question,FieldType.TEXT, formId);
