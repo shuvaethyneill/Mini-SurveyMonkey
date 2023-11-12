@@ -7,8 +7,8 @@ const lowerStr = "_lower";
 let questionCount = 1; // first question added by default
 
 $(document).ready(function () {
-    //let questionCount = 1; // first question added by default
 
+    // Add question button functionality
     $('#addQuestion').click(function(event) {
         questionCount++;
         event.preventDefault();
@@ -18,6 +18,7 @@ $(document).ready(function () {
         updateDeleteQuestionButton();
     });
 
+    // Delete question button functionality
     $('body').on('click', '[name=deleteQuestion]', function() {
         questionCount--;
         const questionDiv = $(this).closest('.question')
@@ -26,10 +27,11 @@ $(document).ready(function () {
 
         brElements.remove();
         questionDiv.remove();
-        // Adjust question numbers in other elements
-        updateQuestionNumbers();
+
+        updateQuestionNumbers(); //adjust formatting for questions
     });
 
+    // Field dropdown functionality
     $('#surveyForm').on('change', '[id^=fieldType]', function () {
         const selectedOption = $(this).val();
         const questionNumber = $(this).attr('id').match(/\d+/)[0];
@@ -63,6 +65,10 @@ $(document).ready(function () {
     });
 })
 
+/**
+ * Function to create a specific question div and its initial contents
+ * @returns {*|jQuery}
+ */
 function createQuestionDiv() {
     // each question has a div
     const questionDiv = $('<div>').addClass('question').attr('id', `question${questionCount}`);
@@ -76,7 +82,7 @@ function createQuestionDiv() {
         required: 'true'
     });
 
-    // Add a delete button
+    // add a delete button
     const deleteQuestionButton = $('<button>').attr('name', 'deleteQuestion').text('Delete Question').css('margin-left', '5px');
 
     const fieldTypeElements = createFieldTypeElement();
@@ -87,28 +93,32 @@ function createQuestionDiv() {
     return questionDiv;
 }
 
+/**
+ * Function to update attributes and labels for the remaining questions
+ * after a question has been deleted
+ */
 function updateQuestionNumbers() {
     $('.question').each(function (index) {
         const questionNumber = index + 1;
 
-        // update question div id
+        // Update question div id and question label
         $(this).attr('id', `question${questionNumber}`);
         $(this).find('label[for^="questionTitle"]').attr('for', `questionTitle${questionNumber}`).text(`Question ${questionNumber} `);
 
-        // Update question title input ID and name
+        // Update question title input id and name
         $(this).find('input[id^=questionTitle]').attr({
             id: `questionTitle${questionNumber}`,
             name: `questionTitle${questionNumber}`
         });
 
-        // Update field type dropdown ID and name
+        // Update field type dropdown id and name
         $(this).find('label[for^="fieldType"]').attr('for', `fieldType${questionNumber}`)
         $(this).find('select[id^=fieldType]').attr({
             id: `fieldType${questionNumber}`,
             name: `fieldType${questionNumber}`
         });
 
-        // Update numerical field IDs and names
+        // Update numerical field ids and names
         $(this).find('input[type="number"]').each(function () {
             const numericType = $(this).attr('id').includes(upperStr) ? upperStr : lowerStr;
             $(this).attr({
@@ -117,13 +127,13 @@ function updateQuestionNumbers() {
             });
         });
 
-        // Update text area ID and name
+        // Update textfield id and name
         $(this).find('textarea[id^=textField]').attr({
             id: `textField${questionNumber}`,
             name: `textField${questionNumber}`
         });
 
-        // Update MC option IDs and names
+        // Update MC option ids and names
         $(this).find('input[id^=mcOption]').each(function () {
             const optionType = $(this).attr('id').includes('Text') ? 'Text' : 'Radio';
             const matchResult = $(this).attr('id').match(/\d+(?=${optionType})/);
@@ -139,6 +149,10 @@ function updateQuestionNumbers() {
     updateDeleteQuestionButton();
 }
 
+/**
+ * Function to create field dropdown
+ * @returns {{label: (*|jQuery), dropdown: (*|jQuery)}}
+ */
 function createFieldTypeElement() {
     const fieldTypeLabel = $('<label>')
         .attr('for', `fieldType${questionCount}`)
@@ -160,6 +174,13 @@ function createFieldTypeElement() {
     };
 }
 
+/**
+ * Function to create numerical field specifying upper and lower bound
+ * @param fieldContainer
+ * @param questionNumber
+ * @param type
+ * @returns {*|jQuery|HTMLElement}
+ */
 function createNumericalField(fieldContainer, questionNumber, type) {
     const divForField = $('<div>')
 
@@ -176,6 +197,11 @@ function createNumericalField(fieldContainer, questionNumber, type) {
     return divForField
 }
 
+/**
+ * Function to create a sample textfield
+ * @param questionNumber
+ * @returns {*|jQuery}
+ */
 function createTextField(questionNumber) {
     const textFieldDiv = $('<div>').addClass('textField');
     const textArea = $('<textarea>').attr({
@@ -192,7 +218,12 @@ function createTextField(questionNumber) {
     return textFieldDiv;
 }
 
-// Function to create a multiple choice option
+/**
+ * Function to create a multiple choice field with options
+ * @param questionNumber
+ * @param optionCount
+ * @returns {*|jQuery}
+ */
 function createMCOption(questionNumber, optionCount) {
     const mcOptionDiv = $('<div>').addClass('mcOption');
     const radioBtn = $('<input>').attr({
@@ -219,7 +250,9 @@ function createMCOption(questionNumber, optionCount) {
     return mcOptionDiv;
 }
 
-// Function to enable/disable remove buttons for MC options
+/**
+ * Function to enable/disable remove buttons for MC options
+ */
 function updateRemoveChoiceButtons() {
     $('.question').each(function () {
         const mcOptions = $(this).find('.mcOption');
@@ -232,6 +265,9 @@ function updateRemoveChoiceButtons() {
     });
 }
 
+/**
+ * Function to enable/disable a delete question button
+ */
 function updateDeleteQuestionButton() {
     const deleteButtons = $('[name="deleteQuestion"]');
 
@@ -239,6 +275,12 @@ function updateDeleteQuestionButton() {
     deleteButtons.prop('disabled', $('.question').length === 1);
 }
 
+/**
+ * Function to check if the provided upper and lower bounds are valid
+ * @param fieldContainer
+ * @param questionNumber
+ * @returns {(function(): void)|*}
+ */
 function checkNumericalValidity(fieldContainer, questionNumber) {
     return function () {
         const lower = fieldContainer.find('#' + questionNumber + lowerStr);
@@ -278,7 +320,11 @@ function checkNumericalValidity(fieldContainer, questionNumber) {
     };
 }
 
-//to handle form submission
+/**
+ * Function to handle form fields submission
+ * @param questionDiv
+ * @returns {string}
+ */
 function getFieldType(questionDiv) {
     const selectedOption = questionDiv.find(`#fieldType${questionDiv.attr('id').match(/\d+/)[0]}`).val();
     if (selectedOption === 'number') {
@@ -298,7 +344,7 @@ $(document).ready(function () {
         const formTitle = $(`#formTitle`).val();
 
         const formObject = {
-            formTitle: formTitle,
+            formName: formTitle,
             fields: []
         };
 
