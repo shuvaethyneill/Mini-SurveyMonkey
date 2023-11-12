@@ -66,6 +66,7 @@ public class RestController {
         fieldRepo.saveAll(form.getFields());
         formRepo.save(form);
 
+
         System.out.println("Form Consists of fields: " + form.getFields()); // testing purposes
         return "{\"FormId\" : \""+form.getId()+"\"}";
     }
