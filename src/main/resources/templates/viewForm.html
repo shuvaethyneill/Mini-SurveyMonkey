@@ -12,7 +12,13 @@
 <h1>Form Page for Form ID: <span id="formId_span" th:text="${formId}"></span></h1>
 
 <!-- AJAX call to retrieve form information -->
-<div id="questionsContainer"></div>
+<div id="formContainer">
+    <form id="responseForm">
+        <div id="questionsContainer"></div>
+        <button type="submit">Submit</button>
+    </form>
+
+</div>
 
 </body>
 </html>
