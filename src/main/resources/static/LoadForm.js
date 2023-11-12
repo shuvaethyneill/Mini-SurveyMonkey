@@ -20,8 +20,8 @@ $(document).ready(function() {
         const questionsContainer = $("#questionsContainer")
         $.each(fields, function(index, field) {
             // Label
-            const questionLabel = $('<label>').attr('for', `${index + 1}`).text(`${index + 1}. ${field.question}`);
-
+            const questionLabel = $('<label>').attr('for', `${index + 1}`).text(`${index + 1}.${field.question}`);
+            questionLabel.css("display","block");
 
             const fieldContainer = $("<div>").attr({
                 id: "field-" + (field.question).replace(" ", "-")
@@ -29,19 +29,29 @@ $(document).ready(function() {
 
             fieldContainer.append(questionLabel)
             //checking which input type
-            if (field.fieldType == "TEXT") {
-                console.log("text field")
+            if (field.fieldType === "TEXT") {
+                fieldContainer.append(buildTextField(field))
                 //TODO
-            } else if (field.fieldType == "MC") {
+            } else if (field.fieldType === "MC") {
                 console.log("mc field")
                 //TODO
             } else {
                 console.log("numerical field")
                 fieldContainer.append(buildNumericalField(field))
             }
-
             questionsContainer.append(fieldContainer)
         })
+    }
+
+    function buildTextField(fieldInfo){
+        return textField = $('<textarea>').attr({
+            type:'textArea',
+            id: fieldInfo.question + fieldInfo.id,
+            name: fieldInfo.question + fieldInfo.id,
+            rows:'5',
+            cols: '50',
+            placeholder: 'User answer would go here'
+        });
     }
 
     function buildNumericalField(fieldInfo) {

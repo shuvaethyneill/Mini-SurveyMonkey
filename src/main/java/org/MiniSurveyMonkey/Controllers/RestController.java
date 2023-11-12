@@ -79,6 +79,13 @@ public class RestController {
         model.addAttribute("Fields", f1);
         return f1;
     }
+    @GetMapping("/getFormsRest")
+    public List<Form> getForms( Model model){
+        List<Form> f1 = formRepo.findAll();
+        if (f1.isEmpty()) return null;
+        model.addAttribute("Forms", f1);
+        return f1;
+    }
 
     @PutMapping("/editForm")
     public Form editForm(@RequestParam String formId, @RequestParam ArrayList<Field> fields, Model m){
