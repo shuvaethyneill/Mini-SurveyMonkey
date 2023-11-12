@@ -18,11 +18,21 @@ public class Form {
 
     private ArrayList<Response> responses;
 
+    private String formName;
+
+    private String author;
+
+
     public Form(){
+        this("","");
+    }
+
+    public Form(String formName, String author) {
+        this.formName = formName;
+        this.author = author;
         fields = new ArrayList<>();
         responses = new ArrayList<>();
     }
-
 
     public void addField(Field field){
         this.fields.add(field);
@@ -57,6 +67,22 @@ public class Form {
 
     public void setResponses(ArrayList<Response> responses) {
         this.responses = responses;
+    }
+
+    public String getFormName() {
+        return formName;
+    }
+
+    public void setFormName(String formName) {
+        this.formName = formName;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     @Override
