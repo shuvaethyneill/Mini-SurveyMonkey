@@ -2,6 +2,7 @@ package org.MiniSurveyMonkey;
 
 import org.MiniSurveyMonkey.Controllers.RestController;
 import org.MiniSurveyMonkey.Forms.Form;
+import org.MiniSurveyMonkey.Repositories.FormRepo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,11 +31,9 @@ public class automatedTests {
     @Autowired
     private MockMvc mockMvc;
 
-    @Value(value = "8080")
-    private int port;
 
     @Test
-    public void contextLoads() throws Exception {
+    public void contextLoads() {
         assertThat(control).isNotNull();
     }
 
@@ -53,7 +52,7 @@ public class automatedTests {
     @Test
     public void formEndpointTest() throws Exception {
         this.mockMvc.perform(get("/form/1")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("<!DOCTYPE html>")));;
+                .andExpect(content().string(containsString("<!DOCTYPE html>")));
     }
 
 }
