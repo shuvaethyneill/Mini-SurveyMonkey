@@ -29,7 +29,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 @AutoConfigureMockMvc
 public class automatedTests {
     @Autowired
-    private RestController controller;
+    private RestController control;
 
     @Autowired
     private MockMvc mockMvc;
@@ -39,7 +39,7 @@ public class automatedTests {
 
     @Test
     public void contextLoads() throws Exception {
-        assertThat(controller).isNotNull();
+        assertThat(control).isNotNull();
     }
 
     @Test
