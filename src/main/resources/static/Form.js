@@ -256,7 +256,7 @@ $(document).ready(function () {
             success: function (response) {
                 console.log("Form submitted successfully. Response:", response);
                 const formId = JSON.parse(response).FormId;
-                const redirectUrl = `/viewForm?formId=${formId}`;
+                const redirectUrl = `/form/${formId}`;
                 const link = `<a href="${redirectUrl}">Click here to view the form</a>`;
                 $('#submitMessage').html(`<p>Form ID: ${formId} - Form successfully created</p>${link}`);
             },

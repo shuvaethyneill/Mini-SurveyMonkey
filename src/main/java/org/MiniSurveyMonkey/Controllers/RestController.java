@@ -2,6 +2,7 @@ package org.MiniSurveyMonkey.Controllers;
 
 import org.MiniSurveyMonkey.Fields.Field;
 import org.MiniSurveyMonkey.Forms.Form;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.MediaType;
@@ -44,8 +45,8 @@ public class RestController {
      * @param id -  the id of the form
      * @return - JSON representation of the object
      */
-    @GetMapping(value = "/form", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Form viewForm(@RequestParam String id) {
+    @GetMapping(value = "/getForm/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Form viewForm(@PathVariable String id) {
 
         //trying to find the form in the repo
         Form form = formRepo.findById(id).orElseThrow(() ->
@@ -57,11 +58,15 @@ public class RestController {
     @PostMapping("/submitForm")
     public String submitForm(@RequestBody Form form){
         System.out.println("Received Form: " + form); //added this for testing purposed
-        formRepo.save(form);
+        form.setId(ObjectId.get().toString());
         for (Field f : form.getFields()) {
             f.setFormId(form.getId());
-            fieldRepo.save(f);
         }
+
+        fieldRepo.saveAll(form.getFields());
+        formRepo.save(form);
+
+
         System.out.println("Form Consists of fields: " + form.getFields()); // testing purposes
         return "{\"FormId\" : \""+form.getId()+"\"}";
     }
