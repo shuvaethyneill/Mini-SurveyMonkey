@@ -20,7 +20,7 @@ $(document).ready(function() {
         const questionsContainer = $("#questionsContainer")
         $.each(fields, function(index, field) {
             // Label
-            const questionLabel = $('<label>').attr('for', `${index + 1}`).text(`${index + 1}. ${field.question}`);
+            const questionLabel = $('<label>').attr('for', `${index + 1}`).text(`${index + 1}.${field.question}`);
             questionLabel.css("display","block");
 
             const fieldContainer = $("<div>").attr({
