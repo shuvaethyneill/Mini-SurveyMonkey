@@ -1,7 +1,7 @@
 {
     "id": "642343erwerwer2",
     "formName": "Form1",
-    "author": "Group5"
+    "author": "Group5",
     "fields": [
         {
             "@type": "NumberField",
