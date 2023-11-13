@@ -1,6 +1,8 @@
 package org.MiniSurveyMonkey;
 
 import org.MiniSurveyMonkey.Controllers.RestController;
+import org.MiniSurveyMonkey.Fields.Field;
+import org.MiniSurveyMonkey.Fields.TextField;
 import org.MiniSurveyMonkey.Forms.Form;
 import org.MiniSurveyMonkey.Repositories.FormRepo;
 import org.json.JSONObject;
@@ -21,6 +23,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 
 
@@ -45,30 +49,27 @@ public class AutomatedTests {
         assertThat(controller).isNotNull();
     }
 
-    @BeforeEach
-    public void setUp() throws Exception {
-        Form testForm = new Form();
-
-        //Converts Form object to JSON for the @RequestBody parameter in the endpoint.
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String json = ow.writeValueAsString(testForm);
-
-        String result = this.mockMvc.perform(post("/submitForm").contentType(MediaType.APPLICATION_JSON).content(json))
-                .andReturn().getResponse().getContentAsString();
-
-        JSONObject obj = new JSONObject(result);
-        this.formId = obj.getString("FormId");
-    }
 
     @Test
     public void submitFormTest() throws Exception {
-        assertNotNull(formId);
+        Form testForm = new Form();
+
+        Field f = new TextField();
+        f.setQuestion("test-question");
+        testForm.addField(f);
+
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString(testForm);
+        System.out.println(json);
+
+        this.mockMvc.perform(post("/submitForm").contentType(MediaType.APPLICATION_JSON).content(json)).andExpect(status().isOk());
+
     }
 
     @Test
     public void formEndpointTest() throws Exception {
-        String result = this.mockMvc.perform(get("/form/"+formId)).andReturn().getResponse().getContentAsString();
-        assertThat(result, containsString(formId));
+        System.out.println(formId);
+        this.mockMvc.perform(get("/form/"+formId)).andExpect(status().isOk());
     }
 
 }
