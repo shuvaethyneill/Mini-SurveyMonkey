@@ -28,7 +28,6 @@ import java.util.Optional;
 
 @SpringBootTest(classes = SurveyMonkeyApplication.class)
 @AutoConfigureMockMvc
-@DataMongoTest
 public class AutomatedTests {
     private String formId;
     @Autowired
