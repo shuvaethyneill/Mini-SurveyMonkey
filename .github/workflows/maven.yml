@@ -31,4 +31,6 @@ jobs:
       run: mvn -B package --file pom.xml
     - name: List Resources Directory
       run: ls -R src/main/resources
+    - name: Print MongoDB Connection Variables
+      run: echo "MONGODB_URI=${MONGODB_URI} MONGODB_USERNAME=${MONGODB_USERNAME} MONGODB_PASSWORD=${MONGODB_PASSWORD}"
 
