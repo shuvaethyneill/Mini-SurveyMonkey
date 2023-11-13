@@ -31,7 +31,6 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-        cache: maven
     - name: List Resources Directory
       run: ls -R src/main/resources
     - name: Build with Maven
