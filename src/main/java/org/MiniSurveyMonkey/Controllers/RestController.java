@@ -37,7 +37,6 @@ public class RestController {
         this.formRepo = formRepo;
         this.fieldRepo = fieldRepo;
         this.responseRepo = responseRepo;
-
     }
 
     /**
@@ -66,11 +65,10 @@ public class RestController {
         fieldRepo.saveAll(form.getFields());
         formRepo.save(form);
 
-
+        System.out.println("Form name: " + form.getFormName());
         System.out.println("Form Consists of fields: " + form.getFields()); // testing purposes
         return "{\"FormId\" : \""+form.getId()+"\"}";
     }
-
 
     @GetMapping("/getFieldRest")
     public List<Field> getField( Model model){
