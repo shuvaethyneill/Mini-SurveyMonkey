@@ -61,7 +61,9 @@ Currently we have set up MongoDB and integrated it with our MiniSruvey Project. 
   - Form questions can be individually deleted
   - Has ability to submit the form or reset the form entirely
 - View Single Form
-  - Display all the questions back to the user (not the form name yet)
+  - Display all the questions back to the user
+    - missing form name (will be addressed in next release)
+    - Questions that are of type MC are not currently displayed (work in progress)
 - Endpoints for all features created
   - All CRUD operations supported: Add Form, Edit Form, Read Form, Delete Form
 
