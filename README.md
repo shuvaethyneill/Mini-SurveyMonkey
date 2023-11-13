@@ -65,6 +65,14 @@ Currently we have set up MongoDB and integrated it with our MiniSruvey Project. 
 - Endpoints for all features created
   - All CRUD operations supported: Add Form, Edit Form, Read Form, Delete Form
 
+
+**What is Submitted on BrightSpace:**
+- Source Code
+- UML Class Diagram
+- Database Schema 
+  Note: ORM Diagram is not included because this project works on a nonrelational database so an ORM diagram is not applicable
+
+
 # Next Steps 
 Alpha Release:
 - Add additional features
