@@ -19,6 +19,11 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    env:
+      MONGODB_URI: ${{ secrets.MONGODB_URI }}
+      MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
+      MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
+
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 17
@@ -32,5 +37,4 @@ jobs:
     - name: List Resources Directory
       run: ls -R src/main/resources
     - name: Print MongoDB Connection Variables
-      run: echo "MONGODB_URI=${mongodb+srv://andre:surveymonkey@cluster0.d1qlp6v.mongodb.net/cluster0?retryWrites=true&w=majority} MONGODB_USERNAME=${andre} MONGODB_PASSWORD=${surveymonkey}"
-
+      run: echo "MONGODB_URI=${MONGODB_URI} MONGODB_USERNAME=${MONGODB_USERNAME} MONGODB_PASSWORD=${MONGODB_PASSWORD}"
