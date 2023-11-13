@@ -19,6 +19,11 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    env:
+      MONGODB_URI: ${{ secrets.MONGODB_URI }}
+      MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
+      MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
+
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 17
@@ -26,6 +31,9 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-        cache: maven
+    - name: List Resources Directory
+      run: ls -R src/main/resources
+    - name: Print MongoDB Connection Variables
+      run: echo "MONGODB_URI=${MONGODB_URI} MONGODB_USERNAME=${MONGODB_USERNAME} MONGODB_PASSWORD=${MONGODB_PASSWORD}"
     - name: Build with Maven
       run: mvn -B package --file pom.xml

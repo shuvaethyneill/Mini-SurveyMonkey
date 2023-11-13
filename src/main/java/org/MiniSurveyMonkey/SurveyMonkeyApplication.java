@@ -25,6 +25,7 @@ public class SurveyMonkeyApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
+		/**
 		repository.deleteAll();
 
 		repository.save(new TextField("Alice","1"));
@@ -46,7 +47,7 @@ public class SurveyMonkeyApplication implements CommandLineRunner {
 		}
 		System.out.println();
 
-
+ **/
 	}
 
 }
