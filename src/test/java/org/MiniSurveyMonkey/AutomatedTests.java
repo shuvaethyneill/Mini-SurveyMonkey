@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.hamcrest.MatcherAssert.assertThat;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,9 +26,9 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 
 import java.util.Optional;
 
-@SpringBootTest
+@SpringBootTest(classes = SurveyMonkeyApplication.class)
 @AutoConfigureMockMvc
-@ContextConfiguration(classes = SurveyMonkeyApplication.class)
+@DataMongoTest
 public class AutomatedTests {
     private String formId;
     @Autowired
