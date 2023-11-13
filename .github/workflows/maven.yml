@@ -33,7 +33,7 @@ jobs:
         distribution: 'temurin'
     - name: List Resources Directory
       run: ls -R src/main/resources
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
     - name: Print MongoDB Connection Variables
       run: echo "MONGODB_URI=${MONGODB_URI} MONGODB_USERNAME=${MONGODB_USERNAME} MONGODB_PASSWORD=${MONGODB_PASSWORD}"
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
