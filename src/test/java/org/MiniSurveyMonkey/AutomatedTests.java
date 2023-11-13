@@ -16,6 +16,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.containsString;
@@ -33,6 +34,9 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 
 import java.util.Optional;
 
+@TestPropertySource(properties = {
+        "spring.data.mongodb.uri=mongodb+srv://andre:surveymonkey@cluster0.d1qlp6v.mongodb.net/cluster0?retryWrites=true&w=majority"
+})
 @SpringBootTest(classes = SurveyMonkeyApplication.class)
 @AutoConfigureMockMvc
 public class AutomatedTests {
