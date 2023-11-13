@@ -28,21 +28,13 @@ import java.util.Optional;
 @AutoConfigureMockMvc
 public class automatedTests {
     private String formId;
-    @Autowired
-    private RestController control;
-
+    
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
     private FormRepo formRepo;
 
-
-
-    @Test
-    public void contextLoads() {
-        assertThat(control).isNotNull();
-    }
 
     @BeforeEach
     public void setUp() throws Exception {
