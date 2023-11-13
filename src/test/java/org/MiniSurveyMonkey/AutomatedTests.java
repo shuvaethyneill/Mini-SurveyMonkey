@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.containsString;
@@ -20,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.hamcrest.MatcherAssert.assertThat;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,9 +29,9 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 
 import java.util.Optional;
 
-@SpringBootTest
+@SpringBootTest(classes = SurveyMonkeyApplication.class)
 @AutoConfigureMockMvc
-public class automatedTests {
+public class AutomatedTests {
     private String formId;
 
     @Autowired
