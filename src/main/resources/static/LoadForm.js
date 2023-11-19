@@ -20,7 +20,7 @@ $(document).ready(function() {
         const questionsContainer = $("#questionsContainer")
         $.each(fields, function(index, field) {
             // Label
-            const questionLabel = $('<label>').attr('for', `${index + 1}`).text(`${index + 1}.${field.question}`);
+            const questionLabel = $('<label>').attr('for', `${index + 1}`).text(`${index + 1}. ${field.question}`);
             questionLabel.css("display","block");
 
             const fieldContainer = $("<div>").attr({
@@ -31,19 +31,18 @@ $(document).ready(function() {
             //checking which input type
             if (field.fieldType === "TEXT") {
                 fieldContainer.append(buildTextField(field))
-                //TODO
             } else if (field.fieldType === "MC") {
                 console.log("mc field")
-                //TODO
+                fieldContainer.append(buildMCField(field, index))
             } else {
                 console.log("numerical field")
                 fieldContainer.append(buildNumericalField(field))
             }
-            questionsContainer.append(fieldContainer)
+            questionsContainer.append(fieldContainer,'<br>')
         })
     }
 
-    function buildTextField(fieldInfo){
+    function buildTextField(fieldInfo) {
         return textField = $('<textarea>').attr({
             type:'textArea',
             id: fieldInfo.question + fieldInfo.id,
@@ -52,6 +51,24 @@ $(document).ready(function() {
             cols: '50',
             placeholder: 'User answer would go here'
         });
+    }
+
+    function buildMCField(fieldInfo, index) {
+        const mcFieldContainer = $('<div>');
+
+        const options = fieldInfo.options || [];
+        options.forEach(function (option, count) {
+            const radioBtn = $('<input>').attr({
+                type: 'radio',
+                name: fieldInfo.question + fieldInfo.id,
+                id: 'Q'+ (index + 1) + 'Option' + (count + 1)
+            });
+
+            const optionLabel = $('<label>').attr('for', 'Q'+ (index + 1) + 'Option' + (count + 1)).text(option);
+
+            mcFieldContainer.append(radioBtn, optionLabel, '<br>');
+        });
+        return mcFieldContainer;
     }
 
     function buildNumericalField(fieldInfo) {
@@ -67,7 +84,6 @@ $(document).ready(function() {
             } else {
                 updateErrorStatus($(this), false)
             }
-
         })
     }
 
