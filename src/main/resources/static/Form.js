@@ -83,7 +83,7 @@ function createQuestionDiv() {
     });
 
     // add a delete button
-    const deleteQuestionButton = $('<button>').attr('name', 'deleteQuestion').text('Delete Question').css('margin-left', '5px');
+    const deleteQuestionButton = $('<button>').attr('name', 'deleteQuestion').text('X').css('margin-left', '5px');
 
     const fieldTypeElements = createFieldTypeElement();
     const inputContainer = $('<div>').addClass('inputContainer');
