@@ -70,6 +70,23 @@ public class RestController {
         return "{\"FormId\" : \""+form.getId()+"\"}";
     }
 
+    @PostMapping("/submitResponse")
+    public String submitResponse(@RequestBody Response response) {
+
+        //get the form associated with these responses
+        Form f = formRepo.findById(response.getFormId()).orElseThrow(() ->
+                new ResourceNotFoundException("Could not find Form with that id"));
+
+        responseRepo.save(response);
+
+        f.addResponse(response);
+
+        formRepo.save(f);
+
+
+        return response.getId();
+    }
+
     @GetMapping("/getFieldRest")
     public List<Field> getField( Model model){
         List<Field> f1 = fieldRepo.findAll();
