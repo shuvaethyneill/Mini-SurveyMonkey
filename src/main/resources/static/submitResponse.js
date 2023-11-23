@@ -4,7 +4,7 @@ $(document).ready(function() {
             event.preventDefault();
 
             const responseObj = {
-                formName: $(document).find("#formId_span").text(),
+                formId: $(document).find("#formId_span").data("backend-id"),
                 responses: {}
             };
 
