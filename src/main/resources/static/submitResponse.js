@@ -19,4 +19,4 @@ $(document).ready(function() {
             //TODO: post request "/submitResponse" takes ResponseObj
 
         })
-}
+});

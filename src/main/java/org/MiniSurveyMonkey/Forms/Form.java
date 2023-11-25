@@ -22,6 +22,8 @@ public class Form {
 
     private String author;
 
+    private boolean closed;
+
 
     public Form(){
         this("","");
@@ -32,6 +34,7 @@ public class Form {
         this.author = author;
         fields = new ArrayList<>();
         responses = new ArrayList<>();
+        closed = false;
     }
 
     public void addField(Field field){
@@ -83,6 +86,14 @@ public class Form {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public boolean isClosed() {
+        return closed;
+    }
+
+    public void setClosed(boolean closed) {
+        this.closed = closed;
     }
 
     @Override
