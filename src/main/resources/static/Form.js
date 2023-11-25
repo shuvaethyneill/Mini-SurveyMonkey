@@ -336,15 +336,27 @@ function getFieldType(questionDiv) {
     }
     return '';
 }
-
+function getActiveUser(){
+    $.ajax({
+        type: 'GET',
+        url: '/getUser',
+        contentType: 'application/json',
+        success: function (response) {}
+    })
+}
 $(document).ready(function () {
     $('#myForm').submit(function (event) {
         event.preventDefault();
 
         const formTitle = $(`#formTitle`).val();
+        const authorText = $('#author').text();
+
+        // Extract the user value from the text content
+        const userValue = authorText.replace('Author: ', '');
 
         const formObject = {
             formName: formTitle,
+            author: userValue,
             fields: []
         };
 

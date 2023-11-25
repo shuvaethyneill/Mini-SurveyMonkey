@@ -102,6 +102,9 @@ public class Form {
                 "id='" + id + '\'' +
                 ", fields=" + fields +
                 ", responses=" + responses +
+                ", formName='" + formName + '\'' +
+                ", author='" + author + '\'' +
+                ", closed=" + closed +
                 '}';
     }
 }

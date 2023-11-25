@@ -2,6 +2,8 @@ package org.MiniSurveyMonkey.Controllers;
 
 import org.MiniSurveyMonkey.Fields.Field;
 import org.MiniSurveyMonkey.Forms.Form;
+import org.MiniSurveyMonkey.Repositories.UserRepo;
+import org.MiniSurveyMonkey.User;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -13,15 +15,13 @@ import org.MiniSurveyMonkey.Repositories.FormRepo;
 import org.MiniSurveyMonkey.Repositories.FieldRepo;
 import org.MiniSurveyMonkey.Repositories.ResponseRepo;
 import org.MiniSurveyMonkey.Response;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PutMapping;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @org.springframework.web.bind.annotation.RestController
+@SessionAttributes("user")
 public class RestController {
 
     @Autowired
@@ -32,6 +32,9 @@ public class RestController {
 
     @Autowired
     private ResponseRepo responseRepo;
+
+    @Autowired
+    private UserRepo userRepo;
 
     public RestController(FormRepo formRepo, FieldRepo fieldRepo, ResponseRepo responseRepo) {
         this.formRepo = formRepo;
@@ -116,5 +119,31 @@ public class RestController {
         f.setFields(fields);
         m.addAttribute("formId", f);
         return f;
+    }
+
+    @PostMapping("/login")
+    public String login(@RequestBody User user,Model m){
+        System.out.println("/Login Received this user: " + user);
+        for (User i: userRepo.findAll()){
+            if (i.getUsername().equals(user.getUsername())){
+                System.out.println("User Found");
+                return "{\"Username\" : \""+user.getUsername()+"\"}";
+            }
+        }
+        userRepo.save(user);
+        System.out.println("New User!");
+        m.addAttribute("user",user.getUsername());
+        return "{\"Username\" : \""+user.getUsername()+"\"}";
+    }
+    @GetMapping("/getUser")
+    public User getUser(@RequestParam String name, Model m){
+        User activeUser = new User();
+        for (User u: userRepo.findAll()){
+            if (u.getUsername().equals(name)){
+                activeUser = u;
+            }
+        }
+
+        return activeUser;
     }
 }

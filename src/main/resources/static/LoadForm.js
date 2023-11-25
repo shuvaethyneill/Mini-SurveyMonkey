@@ -17,6 +17,8 @@ $(document).ready(function() {
 
     function injectFields(form) {
         fields = form.fields
+        const existingText = $('#author').text()
+        $('#author').text(existingText+ form.author)
         const questionsContainer = $("#questionsContainer")
         $.each(fields, function(index, field) {
             // Label
