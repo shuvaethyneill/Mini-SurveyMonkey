@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var formId = $(document).find("#formId_span").text()
+    var formId = $(document).find("#formId_span").data("backend-id")
     console.log(formId)
     $.ajax({
         type: 'GET',
@@ -25,7 +25,7 @@ $(document).ready(function() {
 
             const fieldContainer = $("<div>").attr({
                 id: "field-" + (field.question).replace(" ", "-")
-            })
+            }).addClass("question").data("backend-id", field.id)
 
             fieldContainer.append(questionLabel)
             //checking which input type
