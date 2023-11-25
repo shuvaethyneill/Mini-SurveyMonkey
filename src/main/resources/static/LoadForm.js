@@ -25,7 +25,7 @@ $(document).ready(function() {
 
             const fieldContainer = $("<div>").attr({
                 id: "field-" + (field.question).replace(" ", "-")
-            })
+            }).addClass("question").data("backend-id", field.id)
 
             fieldContainer.append(questionLabel)
             //checking which input type

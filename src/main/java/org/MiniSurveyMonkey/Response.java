@@ -11,6 +11,10 @@ public class Response {
     @Id
     private String id;
 
+    private String formId;
+
+    private String responderId;
+
     //key is the String ID of a field - value String
     private HashMap<String, String> fieldAnswers;
 
@@ -58,5 +62,37 @@ public class Response {
 
     public void setFieldAnswers(HashMap<String, String> fieldAnswers) {
         this.fieldAnswers = fieldAnswers;
+    }
+
+    /**
+     * id of form response is to
+     * @return
+     */
+    public String getFormId() {
+        return formId;
+    }
+
+    /**
+     * set id of form response is to
+     * @param formId
+     */
+    public void setFormId(String formId) {
+        this.formId = formId;
+    }
+
+    /**
+     * id of responder
+     * @return string id
+     */
+    public String getResponderId() {
+        return responderId;
+    }
+
+    /**
+     * set id of responder
+     * @param responderId
+     */
+    public void setResponderId(String responderId) {
+        this.responderId = responderId;
     }
 }
