@@ -9,7 +9,6 @@ import java.util.ArrayList;
 @JsonTypeName("MultipleChoiceField")
 public class MultipleChoiceField extends Field {
     private ArrayList<String> options;
-    private String selectedOption;
 
     public MultipleChoiceField() {
         this.setFieldType(FieldType.MC);
@@ -38,21 +37,5 @@ public class MultipleChoiceField extends Field {
      */
     public void setOptions(ArrayList<String> options) {
         this.options = options;
-    }
-
-    /**
-     * Method to get the selected option
-     * @return String value of selected option
-     */
-    public String getSelectedOption() {
-        return selectedOption;
-    }
-
-    /**
-     * Method to set the selected option
-     * @param selectedOption
-     */
-    public void setSelectedOption(String selectedOption) {
-        this.selectedOption = selectedOption;
     }
 }

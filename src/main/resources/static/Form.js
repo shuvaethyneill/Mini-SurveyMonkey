@@ -63,6 +63,20 @@ $(document).ready(function () {
 
         inputContainer.append('<br>', fieldContainer);
     });
+
+    // Reset button functionality
+    $('#myForm').on('reset', function () {
+        // Remove all question divs except the first one
+        $('.question:not(:first)').remove();
+        questionCount = 1
+        const firstQuestion = $('#question1');
+        // Reset the first question
+        firstQuestion.find('select').val('');
+        firstQuestion.find('.inputContainer').empty();
+
+        updateQuestionNumbers()
+        $('#surveyForm > br').slice(2).remove();
+    });
 })
 
 /**
@@ -160,9 +174,10 @@ function createFieldTypeElement() {
 
     const fieldTypeDropdown = $('<select>').attr({
         id: `fieldType${questionCount}`,
-        name: `fieldType${questionCount}`
+        name: `fieldType${questionCount}`,
+        required: 'required'
     }).html(`
-        <option value="text">Select a Field Type</option>
+        <option value="">Select a Field Type</option>
         <option value="text">Text Field</option>
         <option value="number">Number Field</option>
         <option value="multipleChoice">Multiple Choice</option>
@@ -363,7 +378,6 @@ $(document).ready(function () {
 
             if (fieldObject['@type'] === 'MultipleChoiceField') {
                 fieldObject.options = [];
-                fieldObject.selectedOption = ''; //blank for now because we didn't acc select anything
 
                 $(`.mcOption input[name=mcOption${questionNumber}Text]`).each(function () {
                     fieldObject.options.push($(this).val());

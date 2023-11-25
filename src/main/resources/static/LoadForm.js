@@ -48,7 +48,7 @@ $(document).ready(function() {
             name: fieldInfo.question + fieldInfo.id,
             rows:'5',
             cols: '50',
-            placeholder: 'User answer would go here'
+            placeholder: 'Enter answer here'
         });
     }
 
