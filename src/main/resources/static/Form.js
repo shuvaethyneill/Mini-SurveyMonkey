@@ -66,6 +66,8 @@ $(document).ready(function () {
 
     // Reset button functionality
     $('#myForm').on('reset', function () {
+        $('#formTitle').val('');
+
         // Remove all question divs except the first one
         $('.question:not(:first)').remove();
         questionCount = 1
