@@ -1,15 +1,20 @@
 package org.MiniSurveyMonkey.Controllers;
 
+import jakarta.servlet.http.HttpSession;
+import jakarta.websocket.server.PathParam;
 import org.MiniSurveyMonkey.Forms.Form;
 import org.MiniSurveyMonkey.Repositories.FieldRepo;
 import org.MiniSurveyMonkey.Repositories.FormRepo;
 import org.MiniSurveyMonkey.Repositories.ResponseRepo;
+import org.MiniSurveyMonkey.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
 public class HtmlController {
@@ -24,7 +29,10 @@ public class HtmlController {
     private ResponseRepo responseRepo;
 
     @GetMapping("/seeBaseForm")
-    public String createForm(){
+    public String getAddresses(Model m, HttpSession session){
+
+        m.addAttribute("user", session.getAttribute("user"));
+
         return "baseForm";
     }
 
@@ -55,8 +63,11 @@ public class HtmlController {
         return "viewAllForms";
     }
 
-    @GetMapping("/chart")
-    public String getChart() {
-        return "chart";
+    @GetMapping("/homePage/{name}")
+    public String getHomePage(@ModelAttribute("user") @PathVariable(value = "name") String user, Model model, HttpSession session)
+    {
+        model.addAttribute("user", user);
+        session.setAttribute("user", user);
+        return "homePage";
     }
 }
