@@ -2,8 +2,12 @@ package org.MiniSurveyMonkey.Controllers;
 
 import jakarta.servlet.http.HttpSession;
 import org.MiniSurveyMonkey.Fields.Field;
+import org.MiniSurveyMonkey.Fields.FieldType;
 import org.MiniSurveyMonkey.Forms.Form;
-import org.MiniSurveyMonkey.Repositories.UserRepo;
+import org.MiniSurveyMonkey.Graphs.Graph;
+import org.MiniSurveyMonkey.Graphs.HistogramGraph;
+import org.MiniSurveyMonkey.Graphs.PieGraph;
+import org.MiniSurveyMonkey.Repositories.*;
 import org.MiniSurveyMonkey.User;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,14 +16,13 @@ import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import org.MiniSurveyMonkey.Repositories.FormRepo;
-import org.MiniSurveyMonkey.Repositories.FieldRepo;
-import org.MiniSurveyMonkey.Repositories.ResponseRepo;
 import org.MiniSurveyMonkey.Response;
 import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @org.springframework.web.bind.annotation.RestController
 @SessionAttributes("user")
@@ -146,14 +149,40 @@ public class RestController {
     @PostMapping("/closeForm")
     public Form closeFrom(@RequestParam String formId){
         Form temp = null;
-        for (Form f : formRepo.findAll()) {
-            if (f.getId().equals(formId))
-            {
-                temp = f;
-                temp.setClosed(true);
-                formRepo.save(temp);
+        Form f = formRepo.findById(formId).orElseThrow(() ->
+                new ResourceNotFoundException("Could not find Form with that id"));
+
+        // all answers per field
+        HashMap<String, ArrayList<String>> answersByField = new HashMap<>();
+
+        for (Response r : f.getResponses()) {
+            for (Map.Entry<String, String> entry : r.getFieldAnswers().entrySet()) {
+                //append answer
+                answersByField.computeIfAbsent(entry.getKey(), k -> new ArrayList<String>());
+                answersByField.get(entry.getKey()).add(entry.getValue());
             }
         }
+
+        for (Field field : f.getFields()) {
+            ArrayList<String> answers = answersByField.get(field.getId());
+            Graph graph = null;
+            if (field.getFieldType() == FieldType.NUMBER) {
+                graph = new HistogramGraph();
+                graph.calculateResponse(answers);
+            } else if (field.getFieldType() == FieldType.MC) {
+                graph = new PieGraph();
+            }
+
+
+            f.addGraph(graph);
+        }
+
+
+        temp = f;
+        temp.setClosed(true);
+        formRepo.save(temp);
+
         return temp;
     }
+
 }

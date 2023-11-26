@@ -29,7 +29,7 @@ public class HtmlController {
     private ResponseRepo responseRepo;
 
     @GetMapping("/seeBaseForm")
-    public String getAddresses(Model m, HttpSession session){
+    public String createForm(Model m, HttpSession session){
 
         m.addAttribute("user", session.getAttribute("user"));
 
@@ -49,9 +49,7 @@ public class HtmlController {
                 new ResourceNotFoundException("Could not find Form with that id"));
         m.addAttribute("formTitle", form.getFormName());
 
-        boolean formClosed = true;
-
-        if (formClosed) {
+        if (form.isClosed()) {
             return "viewGraphs";
         }
 

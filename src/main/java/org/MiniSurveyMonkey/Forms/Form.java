@@ -1,6 +1,7 @@
 package org.MiniSurveyMonkey.Forms;
 
 import org.MiniSurveyMonkey.Fields.Field;
+import org.MiniSurveyMonkey.Graphs.Graph;
 import org.MiniSurveyMonkey.Response;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -23,6 +24,8 @@ public class Form {
     private String author;
 
     private boolean closed;
+
+    private ArrayList<Graph> graphs;
 
 
     public Form(){
@@ -96,6 +99,18 @@ public class Form {
         this.closed = closed;
     }
 
+    public ArrayList<Graph> getGraphs() {
+        return graphs;
+    }
+
+    public void addGraph(Graph graph) {
+        this.graphs.add(graph);
+    }
+
+    public void setGraphs(ArrayList<Graph> graphs) {
+        this.graphs = graphs;
+    }
+
     @Override
     public String toString() {
         return "Form{" +
@@ -107,4 +122,6 @@ public class Form {
                 ", closed=" + closed +
                 '}';
     }
+
+
 }

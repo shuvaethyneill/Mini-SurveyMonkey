@@ -18,10 +18,14 @@ $(document).ready(function() {
     function injectGraphs(form) {
         const questionsContainer = $("#graphsContainer")
 
-        $.each(form.fields, function(index, field) {
-            var canvas = $('<canvas id="myChart" width="auto" height="600"></canvas>');
-            questionsContainer.append("<h3> Question " + (index + 1) + ": " + field.question + "</h3>")
-            questionsContainer.append(canvas);
+        $.each(form.graphs, function(index, field) {
+
+            var graph_div = $("<div>").attr({id: "chart-" + (field.question).replace(" ", "-")})
+            var chart_id = "chart" + (index + 1)
+            var canvas = $('<canvas id=' + chart_id +' width="1000" height="600"></canvas>');
+            questionsContainer.append(graph_div)
+            graph_div.append("<h3> Question " + (index + 1) + ": " + field.question + "</h3>")
+            graph_div.append(canvas);
 
             var ctx = canvas[0].getContext('2d');
             if (field.fieldType == "NUMBER") {
