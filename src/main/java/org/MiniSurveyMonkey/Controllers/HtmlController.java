@@ -32,7 +32,13 @@ public class HtmlController {
     public String getAddresses(Model m, HttpSession session){
 
         m.addAttribute("user", session.getAttribute("user"));
+
         return "baseForm";
+    }
+
+    @GetMapping("/submission-complete")
+    public String SubmitFormResponse(){
+        return "FormComplete";
     }
 
     @GetMapping("/form/{id}")
