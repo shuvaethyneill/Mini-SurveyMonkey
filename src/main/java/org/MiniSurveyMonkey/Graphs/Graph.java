@@ -1,6 +1,7 @@
 package org.MiniSurveyMonkey.Graphs;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import org.MiniSurveyMonkey.Fields.FieldType;
 import org.MiniSurveyMonkey.Fields.MultipleChoiceField;
 import org.MiniSurveyMonkey.Fields.NumberField;
 import org.MiniSurveyMonkey.Fields.TextField;
@@ -25,8 +26,10 @@ public abstract class Graph {
 
     private String fieldId;
 
-    public Graph() {
+    private GraphType graphType;
 
+    public Graph(GraphType gt) {
+        this.graphType = gt;
     }
 
     public String getFormId() {
@@ -51,6 +54,14 @@ public abstract class Graph {
 
     public void setFieldId(String fieldId) {
         this.fieldId = fieldId;
+    }
+
+    public GraphType getGraphType(){
+        return this.graphType;
+    }
+
+    public void setGraphType(GraphType graphType){
+        this.graphType = graphType;
     }
 
     public abstract void calculateResponse(ArrayList<String> responses);

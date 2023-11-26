@@ -171,6 +171,7 @@ public class RestController {
                 graph.calculateResponse(answers);
             } else if (field.getFieldType() == FieldType.MC) {
                 graph = new PieGraph();
+                graph.calculateResponse(answers);
             }
 
 

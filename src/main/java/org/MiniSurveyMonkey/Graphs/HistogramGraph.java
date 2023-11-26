@@ -9,7 +9,7 @@ public class HistogramGraph extends Graph{
     private ArrayList<String> yData;
 
     public HistogramGraph() {
-        super();
+        super(GraphType.HISTOGRAMGRAPH);
     }
 
     public ArrayList<String> getxLabels() {
@@ -27,6 +27,7 @@ public class HistogramGraph extends Graph{
     public void setyData(ArrayList<String> yData) {
         this.yData = yData;
     }
+
 
     @Override
     public void calculateResponse(ArrayList<String> responses) {
