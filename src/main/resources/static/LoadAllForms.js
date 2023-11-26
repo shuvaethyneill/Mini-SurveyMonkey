@@ -19,8 +19,6 @@ $(document).ready(function(){
             $.each(form,function (key,value){
                 const searchBool = value.id.search(expression) !== -1 || value.formName.search(expression) !== -1;
                 if(searchBool && expression.source !== '(?:)'){
-                    console.log(expression.source)
-                    console.log(value)
                     const redirectUrl = `/form/${value.id}`;
                     const link = document.createElement("a");
                     createFormLink(value, link)
