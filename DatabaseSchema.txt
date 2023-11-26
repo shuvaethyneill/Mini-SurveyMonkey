@@ -20,7 +20,7 @@
             "question": "Your text question here"
         }
     ],
-    "responses": [
+    "fieldAnswers": [
         {
             id: '6563b2dc3e3c12577c465323',
             formId: '642343erwerwer2',
