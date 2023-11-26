@@ -10,6 +10,7 @@ $(document).ready(function() {
 
             $('.question').each(function () {
                 var backendId = $(this).data("backend-id")
+
                 var response;
                 if ($(this).find('input[type="radio"]').length > 0) {
                     response = $(this).find('input[type="radio"]:checked').val();
@@ -43,5 +44,5 @@ $(document).ready(function() {
                 }
             });
 
-    })
-})
+        })
+});

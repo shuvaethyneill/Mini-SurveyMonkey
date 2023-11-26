@@ -179,7 +179,7 @@ function createFieldTypeElement() {
         name: `fieldType${questionCount}`,
         required: 'required'
     }).html(`
-        <option value="">Select a Field Type</option>
+        <option value="text">Select a Field Type</option>
         <option value="text">Text Field</option>
         <option value="number">Number Field</option>
         <option value="multipleChoice">Multiple Choice</option>
@@ -353,17 +353,28 @@ function getFieldType(questionDiv) {
     }
     return '';
 }
-
+function getActiveUser(){
+    $.ajax({
+        type: 'GET',
+        url: '/getUser',
+        contentType: 'application/json',
+        success: function (response) {}
+    })
+}
 $(document).ready(function () {
     $('#myForm').submit(function (event) {
         event.preventDefault();
         const confirmed = window.confirm("Are you sure you want to submit the form?")
-
         if(confirmed) {
             const formTitle = $(`#formTitle`).val();
+            const authorText = $('#author').text();
+
+            // Extract the user value from the text content
+            const userValue = authorText.replace('Author: ', '');
 
             const formObject = {
                 formName: formTitle,
+                author: userValue,
                 fields: []
             };
 
