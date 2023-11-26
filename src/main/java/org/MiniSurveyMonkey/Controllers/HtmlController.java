@@ -2,11 +2,13 @@ package org.MiniSurveyMonkey.Controllers;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.websocket.server.PathParam;
+import org.MiniSurveyMonkey.Forms.Form;
 import org.MiniSurveyMonkey.Repositories.FieldRepo;
 import org.MiniSurveyMonkey.Repositories.FormRepo;
 import org.MiniSurveyMonkey.Repositories.ResponseRepo;
 import org.MiniSurveyMonkey.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,6 +38,10 @@ public class HtmlController {
     @GetMapping("/form/{id}")
     public String getOneForm(@PathVariable(value = "id") String formId, Model m){
         m.addAttribute("formId", formId);
+
+        Form form = formRepo.findById(formId).orElseThrow(() ->
+                new ResourceNotFoundException("Could not find Form with that id"));
+        m.addAttribute("formTitle", form.getFormName());
         return "viewForm";
     }
     @GetMapping("/forms")

@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var formId = $(document).find("#formId_span").text()
+    var formId = $(document).find("#formId_span").data("backend-id")
     console.log(formId)
     $.ajax({
         type: 'GET',
@@ -88,7 +88,7 @@ $(document).ready(function() {
             name: fieldInfo.question + fieldInfo.id,
             rows:'5',
             cols: '50',
-            placeholder: 'User answer would go here'
+            placeholder: 'Enter answer here'
         });
     }
 
