@@ -60,7 +60,8 @@ $(document).ready(function() {
             const radioBtn = $('<input>').attr({
                 type: 'radio',
                 name: fieldInfo.question + fieldInfo.id,
-                id: 'Q'+ (index + 1) + 'Option' + (count + 1)
+                id: 'Q'+ (index + 1) + 'Option' + (count + 1),
+                value: option
             });
 
             const optionLabel = $('<label>').attr('for', 'Q'+ (index + 1) + 'Option' + (count + 1)).text(option);
