@@ -53,22 +53,35 @@ Setup:
 # Current Progress
 This is the first milestone of our project. Our project is on schedule and can be tracked using our Jira Board: https://minisurveymonkey.atlassian.net/jira/software/projects/MS/boards/1
 
-Currently we have set up MongoDB and integrated it with our MiniSruvey Project. The web application is functional for some basic use cases and has the following features implemented so far:
-- Create Form View + logic
+Currently we have set up MongoDB and integrated it with our MiniSruvey Project. The web application is functional and has the following features implemented so far:
+- **Create Form View + logic**
   - Form questions can be multiple choice, take a number input, or be a text input
     - Multiple choice fields can be individually added or removed (default of 2)
     - Number fields can have a lower or upper bound set
+  - Takes in form title as input
   - Form questions can be individually deleted
-  - Has ability to submit the form or reset the form entirely
-- View Single Form
+  - Has the ability to submit the form or reset the form entirely
+- **View Single Form and Respond**
   - Display all the questions back to the user
-    - missing form name (will be addressed in next release)
-    - Questions that are of type MC are not currently displayed (work in progress)
-- Endpoints for all features created
+    - Shows form name
+    - Correctly displays multiple choice, number field, and text field
+    - User can fill out form with responses and submit
+    - Upon submitting a form, users are brought to a success page and can navigate to the View All Forms page
+- **View All Forms View**
+  - Displays all forms in a list (clickable)
+  - User can also search for a form based on id
+- **User profile**
+  - Users can login with a username to keep track of who is an author or not when responding to forms
+- **Close Form**
+  - Author can close their form. Doing so will display form responses (analytics for each question)
+    - Pie chart for multiple choice question
+    - Graph for numerical field question
+    - Scrollable list for text responses 
+- **Endpoints for all features created**
   - All CRUD operations supported: Add Form, Edit Form, Read Form, Delete Form
 
 
-**What is Submitted on BrightSpace:**
+### What is Submitted on BrightSpace:
 - Source Code
 - UML Class Diagram
 - Database Schema 
@@ -76,12 +89,7 @@ Currently we have set up MongoDB and integrated it with our MiniSruvey Project. 
 
 
 # Next Steps 
-Alpha Release:
+**Final demo:**
 - Add additional features
-  - User profile (so we can have a form owner)
-      - Have Form owners who have the ability to close their surverys
   - Edit Form
-  - Close Form
-      - if a surveryor chooses to close their form, it should display some sort of analytics based on the form responses
-  - Delete entire Form
-  - View All Forms view 
+  - Delete Form
