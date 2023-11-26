@@ -20,5 +20,21 @@
             "question": "Your text question here"
         }
     ],
-    "responses": []
+    "responses": [
+        {
+            id: '6563b2dc3e3c12577c465323',
+            formId: '642343erwerwer2',
+            fieldAnswer: "50"
+        },
+        {
+            id: '6563b23a3e3c12577c465320',
+            formId: '642343erwerwer2',
+            fieldAnswer: "Option 1"
+        },
+        {
+            id: '6563b23a3e3c12577c465321',
+            formId: '642343erwerwer2',
+            fieldAnswer: "Testing"
+        }
+    ]
 }
