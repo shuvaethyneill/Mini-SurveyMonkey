@@ -1,6 +1,7 @@
 $(document).ready(function() {
     var formId = $(document).find("#formId_span").data("backend-id")
     console.log(formId)
+    var formClosed = true
     $.ajax({
         type: 'GET',
         url: '/getForm/' + formId,
@@ -37,7 +38,7 @@ $(document).ready(function() {
     });
 
     function injectFields(form) {
-        fields = form.fields
+        var fields = form.fields
 
         const questionsContainer = $("#questionsContainer")
         $.each(fields, function(index, field) {
@@ -82,7 +83,7 @@ $(document).ready(function() {
     }
 
     function buildTextField(fieldInfo) {
-        return textField = $('<textarea>').attr({
+        return $('<textarea>').attr({
             type:'textArea',
             id: fieldInfo.question + fieldInfo.id,
             name: fieldInfo.question + fieldInfo.id,
@@ -112,7 +113,7 @@ $(document).ready(function() {
     }
 
     function buildNumericalField(fieldInfo) {
-        return numericalField = $('<input>').attr({
+        return $('<input>').attr({
             type: 'number',
             id: fieldInfo.question + fieldInfo.id,
             name: fieldInfo.question + fieldInfo.id,

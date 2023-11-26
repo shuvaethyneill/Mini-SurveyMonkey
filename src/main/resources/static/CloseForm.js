@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    function closeFrom(formId) {
+    function closeForm(formId) {
         $.ajax({
             type: 'POST',
             url: '/closeForm',
@@ -19,7 +19,7 @@ $(document).ready(function(){
     }
 
     $("#closeButton").click(function (){
-        const formId = $(document).find("#formId_span").text()
+        var formId = $(document).find("#formId_span").data("backend-id")
         const requestData = {formId: formId}
         let formUser = $('#author').text();
         formUser = formUser.replace('Author: ', '')
@@ -31,7 +31,7 @@ $(document).ready(function(){
                 console.log('Active user: ' ,data)
                 if (formUser === data){
 
-                    closeFrom(formId);
+                    closeForm(formId);
                 }
             },
             error: function(error) {
