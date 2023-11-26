@@ -1,17 +1,29 @@
 $(document).ready(function(){
 
+
+
     $('#search').keyup(function (){
         $("#result").html('');
         let searchField = $('#search').val();
         let expression = new RegExp(searchField, "i");
-        $.getJSON('/getFormsRest', function(data){
-            $.each(data,function (key,value){
-                if(value.id.search(expression) !== -1 && expression.source !== '(?:)'){
+        $.getJSON('/getFormsRest', function(form){
+            $.each(form,function (key,value){
+                const searchBool = value.id.search(expression) !== -1 || value.formName.search(expression) !== -1;
+                if(searchBool && expression.source !== '(?:)'){
                     console.log(expression.source)
+                    console.log(value)
                     const redirectUrl = `/form/${value.id}`;
                     const link = document.createElement("a");
+                    let formName = ""
+                    if (value.formName !== formName){
+                        // Set the link text
+                        link.innerHTML = "Form: " + value.formName +",Auhtor: "+ value.author+ "<br><br>";
+                    }else{
+                        // Set the link text
+                        link.innerHTML = "Form: " + value.id + ",Auhtor: "+ value.author+"<br><br>";
+                    }
                     link.href = redirectUrl;
-                    link.innerHTML = value.id + '<br>' ;
+
                     $('#result').append(link);
                 }
             });
@@ -20,9 +32,9 @@ $(document).ready(function(){
     $.ajax({
         type:'GET',
         url:'/getFormsRest',
-        success: function(data) {
+        success: function(forms) {
             // Handle the form information
-            injectFields(data)
+            injectFields(forms)
 
         },
         error: function(error) {
@@ -42,9 +54,16 @@ $(document).ready(function(){
 
             // Set the href attribute with the dynamic variable
             link.href = redirectUrl;
+            let formName = ""
+            if (form.formName !== formName){
+                // Set the link text
+                link.innerHTML = "Form: " + form.formName +",Auhtor: "+  form.author+ "<br><br>";
+            }else{
+                // Set the link text
+                link.innerHTML = "Form: " + form.id + ",Auhtor: "+ form.author+"<br><br>";
+            }
 
-            // Set the link text
-            link.innerHTML = "Form: " + form.id + "<br><br>";
+
             fromLabel.css("display","block");
             formContainer.append(link);
         });
