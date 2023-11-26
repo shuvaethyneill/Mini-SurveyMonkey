@@ -8,8 +8,8 @@ public class PieGraph extends Graph{
 
     private ArrayList<String> yData;
 
-    public PieGraph() {
-        super(GraphType.PIEGRAPH);
+    public PieGraph(String formId, String fieldName, String fieldId) {
+        super(formId, fieldName, fieldId, GraphType.PIEGRAPH);
     }
 
     public ArrayList<String> getxLabels() {

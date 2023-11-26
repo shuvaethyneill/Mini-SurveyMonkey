@@ -28,8 +28,11 @@ public abstract class Graph {
 
     private GraphType graphType;
 
-    public Graph(GraphType gt) {
-        this.graphType = gt;
+    public Graph(String formId, String fieldName, String fieldId, GraphType graphType) {
+        this.formId = formId;
+        this.fieldName = fieldName;
+        this.fieldId = fieldId;
+        this.graphType = graphType;
     }
 
     public String getFormId() {

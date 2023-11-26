@@ -100,7 +100,7 @@ $(document).ready(function() {
         console.log("in pie")
 
         var myChart = new Chart(ctx, {
-            type: 'bar', // or 'line', 'pie', etc.
+            type: 'pie', // or 'line', 'pie', etc.
             data: {
                 labels: graph.x_labels,
                 datasets: [{

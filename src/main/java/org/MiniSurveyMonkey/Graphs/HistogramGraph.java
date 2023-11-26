@@ -8,8 +8,8 @@ public class HistogramGraph extends Graph{
 
     private ArrayList<String> yData;
 
-    public HistogramGraph() {
-        super(GraphType.HISTOGRAMGRAPH);
+    public HistogramGraph(String formId, String fieldName, String fieldId) {
+        super(formId, fieldName, fieldId, GraphType.HISTOGRAMGRAPH);
     }
 
     public ArrayList<String> getxLabels() {

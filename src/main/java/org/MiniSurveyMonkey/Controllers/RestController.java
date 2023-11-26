@@ -167,10 +167,10 @@ public class RestController {
             ArrayList<String> answers = answersByField.get(field.getId());
             Graph graph = null;
             if (field.getFieldType() == FieldType.NUMBER) {
-                graph = new HistogramGraph();
+                graph = new HistogramGraph(formId, field.getQuestion(), field.getId());
                 graph.calculateResponse(answers);
             } else if (field.getFieldType() == FieldType.MC) {
-                graph = new PieGraph();
+                graph = new PieGraph(formId, field.getQuestion(), field.getId());
                 graph.calculateResponse(answers);
             }
 
