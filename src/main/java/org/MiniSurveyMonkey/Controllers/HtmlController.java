@@ -24,8 +24,13 @@ public class HtmlController {
     private ResponseRepo responseRepo;
 
     @GetMapping("/seeBaseForm")
-    public String getAddresses(Model m){
+    public String createForm(){
         return "baseForm";
+    }
+
+    @GetMapping("/submission-complete")
+    public String SubmitFormResponse(){
+        return "FormComplete";
     }
 
     @GetMapping("/form/{id}")

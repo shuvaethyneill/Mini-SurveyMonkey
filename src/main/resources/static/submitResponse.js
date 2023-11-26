@@ -9,14 +9,39 @@ $(document).ready(function() {
             };
 
             $('.question').each(function () {
-
-                //TODO: scrape response, responses dict format is - backend-id: response
                 var backendId = $(this).data("backend-id")
-                //responseObj.responses.backendId = SCRAPE RESPONSE FROM INPUT FIELD
+                var response;
+                if ($(this).find('input[type="radio"]').length > 0) {
+                    response = $(this).find('input[type="radio"]:checked').val();
+                } else if ($(this).find('textarea').length > 0) {
+                    response = $(this).find('textarea').val();
+                } else if ($(this).find('input[type="number"]').length > 0) {
+                    console.log('help')
+                    response = $(this).find('input[type="number"]').val();
+                }
 
+                if (responseObj.responses.hasOwnProperty(backendId)) {
+                    responseObj.responses[backendId].push(response);
+                } else {
+                    responseObj.responses[backendId] = response;
+                }
             });
+             console.log(JSON.stringify(responseObj))
 
-            //TODO: post request "/submitResponse" takes ResponseObj
+            //handle ajax call
+            $.ajax({
+                type: 'POST',
+                url: '/submitResponse',
+                contentType: 'application/json',
+                data: JSON.stringify(responseObj),
+                success: function (response) {
+                    console.log("Form submitted successfully. Response:", response);
+                    window.location.replace("/submission-complete");
+                },
+                error: function (error) {
+                    console.error("Error submitting form:", error);
+                }
+            });
 
     })
 })
