@@ -19,8 +19,6 @@ $(document).ready(function(){
     }
 
     $("#closeButton").click(function (){
-        console.log("hi")
-
         const formId = $(document).find("#formId_span").text()
         const requestData = {formId: formId}
         let formUser = $('#author').text();
