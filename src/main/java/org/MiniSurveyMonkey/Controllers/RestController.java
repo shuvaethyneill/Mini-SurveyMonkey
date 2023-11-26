@@ -1,5 +1,6 @@
 package org.MiniSurveyMonkey.Controllers;
 
+import jakarta.servlet.http.HttpSession;
 import org.MiniSurveyMonkey.Fields.Field;
 import org.MiniSurveyMonkey.Forms.Form;
 import org.MiniSurveyMonkey.Repositories.UserRepo;
@@ -136,14 +137,24 @@ public class RestController {
         return "{\"Username\" : \""+user.getUsername()+"\"}";
     }
     @GetMapping("/getUser")
-    public User getUser(@RequestParam String name, Model m){
-        User activeUser = new User();
-        for (User u: userRepo.findAll()){
-            if (u.getUsername().equals(name)){
-                activeUser = u;
+    public String getUser(Model m, HttpSession session){
+
+        System.out.println( session.getAttribute("user"));
+
+        return session.getAttribute("user").toString();
+    }
+
+    @PostMapping("/closeForm")
+    public Form closeFrom(@RequestParam String formId){
+        Form temp = null;
+        for (Form f : formRepo.findAll()) {
+            if (f.getId().equals(formId))
+            {
+                temp = f;
+                temp.setClosed(true);
+                formRepo.save(temp);
             }
         }
-
-        return activeUser;
+        return temp;
     }
 }

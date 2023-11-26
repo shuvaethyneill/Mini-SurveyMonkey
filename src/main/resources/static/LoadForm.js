@@ -7,7 +7,28 @@ $(document).ready(function() {
         success: function(data) {
             // Handle the form information
             console.log('Form Information:', data);
-            injectFields(data)
+            const existingText = $('#author').text()
+            $('#author').text(existingText+ data.author)
+            getActiveUser()
+                .then(function(user) {
+
+                    if (data.author !== user){
+                        $('#closeButton').remove()
+                    }
+                })
+                .catch(function(error) {
+                    console.error('Error:', error);
+                });
+
+            if (!data.closed){
+                injectFields(data)
+
+            }
+            else{
+                $('#closeButton').remove()
+                $('#responseForm').remove();
+                $('#formContainer').append('<p>Form is closed</p>');
+            }
         },
         error: function(error) {
             // Handle errors
@@ -17,8 +38,7 @@ $(document).ready(function() {
 
     function injectFields(form) {
         fields = form.fields
-        const existingText = $('#author').text()
-        $('#author').text(existingText+ form.author)
+
         const questionsContainer = $("#questionsContainer")
         $.each(fields, function(index, field) {
             // Label
@@ -41,6 +61,24 @@ $(document).ready(function() {
             }
             questionsContainer.append(fieldContainer,'<br>')
         })
+    }
+    function getActiveUser(){
+        return new Promise(function(resolve, reject) {
+            $.ajax({
+                type: 'GET',
+                url: '/getUser',
+                success: function(data) {
+                    // Resolve the Promise with the data
+                    resolve(data);
+                },
+                error: function(error) {
+                    // Handle errors
+                    console.error('Error retrieving form information:', error);
+                    // Reject the Promise with the error
+                    reject(error);
+                }
+            });
+        });
     }
 
     function buildTextField(fieldInfo) {
