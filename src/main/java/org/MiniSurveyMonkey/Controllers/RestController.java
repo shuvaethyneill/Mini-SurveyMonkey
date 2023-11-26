@@ -3,6 +3,7 @@ package org.MiniSurveyMonkey.Controllers;
 import jakarta.servlet.http.HttpSession;
 import org.MiniSurveyMonkey.Fields.Field;
 import org.MiniSurveyMonkey.Fields.FieldType;
+import org.MiniSurveyMonkey.Fields.MultipleChoiceField;
 import org.MiniSurveyMonkey.Forms.Form;
 import org.MiniSurveyMonkey.Graphs.Visualization;
 import org.MiniSurveyMonkey.Graphs.HistogramGraph;
@@ -170,7 +171,7 @@ public class RestController {
                 visualization = new HistogramGraph(formId, field.getQuestion(), field.getId());
                 ((HistogramGraph) (visualization)).calculateResponse(answers);
             } else if (field.getFieldType() == FieldType.MC) {
-                visualization = new PieGraph(formId, field.getQuestion(), field.getId());
+                visualization = new PieGraph(formId, field.getQuestion(), field.getId(), ((MultipleChoiceField) (field)).getOptions());
                 ((PieGraph) (visualization)).calculateResponse(answers);
             }
 
