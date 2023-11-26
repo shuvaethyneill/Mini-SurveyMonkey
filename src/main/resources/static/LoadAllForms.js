@@ -1,5 +1,14 @@
 $(document).ready(function(){
-
+    function createFormLink(form, link) {
+        let formName = ""
+        if (form.formName !== formName) {
+            // Set the link text
+            link.innerHTML = "Form: " + form.formName + ",Author: " + form.author + "<br><br>";
+        } else {
+            // Set the link text
+            link.innerHTML = "Form: " + form.id + ",Author: " + form.author + "<br><br>";
+        }
+    }
 
 
     $('#search').keyup(function (){
@@ -14,14 +23,7 @@ $(document).ready(function(){
                     console.log(value)
                     const redirectUrl = `/form/${value.id}`;
                     const link = document.createElement("a");
-                    let formName = ""
-                    if (value.formName !== formName){
-                        // Set the link text
-                        link.innerHTML = "Form: " + value.formName +",Auhtor: "+ value.author+ "<br><br>";
-                    }else{
-                        // Set the link text
-                        link.innerHTML = "Form: " + value.id + ",Auhtor: "+ value.author+"<br><br>";
-                    }
+                    createFormLink(value, link)
                     link.href = redirectUrl;
 
                     $('#result').append(link);
@@ -42,6 +44,9 @@ $(document).ready(function(){
             console.error('Error retrieving form information:', error);
         }
     });
+
+
+
     function injectFields(forms){
         const formContainer = $("#formsContainer");
 
@@ -54,14 +59,7 @@ $(document).ready(function(){
 
             // Set the href attribute with the dynamic variable
             link.href = redirectUrl;
-            let formName = ""
-            if (form.formName !== formName){
-                // Set the link text
-                link.innerHTML = "Form: " + form.formName +",Auhtor: "+  form.author+ "<br><br>";
-            }else{
-                // Set the link text
-                link.innerHTML = "Form: " + form.id + ",Auhtor: "+ form.author+"<br><br>";
-            }
+            createFormLink(form, link);
 
 
             fromLabel.css("display","block");
