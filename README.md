@@ -51,9 +51,9 @@ Setup:
 
 
 # Current Progress
-This is the first milestone of our project. Our project is on schedule and can be tracked using our Jira Board: https://minisurveymonkey.atlassian.net/jira/software/projects/MS/boards/1
+We have now completed the Alpha-Release. Our project is on schedule and can be tracked using our Jira Board: https://minisurveymonkey.atlassian.net/jira/software/projects/MS/boards/1
 
-Currently we have set up MongoDB and integrated it with our MiniSruvey Project. The web application is functional and has the following features implemented so far:
+This project leverages MongoDB to perform the noSQL operations in our MiniSruvey Project. The web application is functional and has the following features implemented so far:
 - **Create Form View + logic**
   - Form questions can be multiple choice, take a number input, or be a text input
     - Multiple choice fields can be individually added or removed (default of 2)
@@ -65,19 +65,19 @@ Currently we have set up MongoDB and integrated it with our MiniSruvey Project. 
   - Display all the questions back to the user
     - Shows form name
     - Correctly displays multiple choice, number field, and text field
-    - User can fill out form with responses and submit
-    - Upon submitting a form, users are brought to a success page and can navigate to the View All Forms page
+    - User can fill out form with responses and submit (Alpha-Release)
+    - Upon submitting a form, users are brought to a success page and can navigate to the View All Forms page (Alpha-Release)
 - **View All Forms View**
   - Displays all forms in a list (clickable)
   - User can also search for a form based on id
-- **User profile**
+- **User profile** (Alpha-Release)
   - Users can login with a username to keep track of who is an author or not when responding to forms
-- **Close Form**
+- **Close Form** (Alpha-Release)
   - Author can close their form. Doing so will display form responses (analytics for each question)
     - Pie chart for multiple choice question
     - Graph for numerical field question
     - Scrollable list for text responses 
-- **Endpoints for all features created**
+- **Endpoints for all features created** (Alpha-Release)
   - All CRUD operations supported: Add Form, Edit Form, Read Form, Delete Form
 
 
@@ -89,7 +89,7 @@ Currently we have set up MongoDB and integrated it with our MiniSruvey Project. 
 
 
 # Next Steps 
-**Final demo:**
+**Final demo:** 
 - Add additional features
   - Edit Form
   - Delete Form
