@@ -1,13 +1,35 @@
 $(document).ready(function() {
     var formId = $(document).find("#formId_span").data("backend-id")
     console.log(formId)
+    var formClosed = true
     $.ajax({
         type: 'GET',
         url: '/getForm/' + formId,
         success: function(data) {
             // Handle the form information
             console.log('Form Information:', data);
-            injectFields(data)
+            const existingText = $('#author').text()
+            $('#author').text(existingText+ data.author)
+            getActiveUser()
+                .then(function(user) {
+
+                    if (data.author !== user){
+                        $('#closeButton').remove()
+                    }
+                })
+                .catch(function(error) {
+                    console.error('Error:', error);
+                });
+
+            if (!data.closed){
+                injectFields(data)
+
+            }
+            else{
+                $('#closeButton').remove()
+                $('#responseForm').remove();
+                $('#formContainer').append('<p>Form is closed</p>');
+            }
         },
         error: function(error) {
             // Handle errors
@@ -16,7 +38,8 @@ $(document).ready(function() {
     });
 
     function injectFields(form) {
-        fields = form.fields
+        var fields = form.fields
+
         const questionsContainer = $("#questionsContainer")
         $.each(fields, function(index, field) {
             // Label
@@ -40,15 +63,33 @@ $(document).ready(function() {
             questionsContainer.append(fieldContainer,'<br>')
         })
     }
+    function getActiveUser(){
+        return new Promise(function(resolve, reject) {
+            $.ajax({
+                type: 'GET',
+                url: '/getUser',
+                success: function(data) {
+                    // Resolve the Promise with the data
+                    resolve(data);
+                },
+                error: function(error) {
+                    // Handle errors
+                    console.error('Error retrieving form information:', error);
+                    // Reject the Promise with the error
+                    reject(error);
+                }
+            });
+        });
+    }
 
     function buildTextField(fieldInfo) {
-        return textField = $('<textarea>').attr({
+        return $('<textarea>').attr({
             type:'textArea',
             id: fieldInfo.question + fieldInfo.id,
             name: fieldInfo.question + fieldInfo.id,
             rows:'5',
             cols: '50',
-            placeholder: 'User answer would go here'
+            placeholder: 'Enter answer here'
         });
     }
 
@@ -60,7 +101,8 @@ $(document).ready(function() {
             const radioBtn = $('<input>').attr({
                 type: 'radio',
                 name: fieldInfo.question + fieldInfo.id,
-                id: 'Q'+ (index + 1) + 'Option' + (count + 1)
+                id: 'Q'+ (index + 1) + 'Option' + (count + 1),
+                value: option
             });
 
             const optionLabel = $('<label>').attr('for', 'Q'+ (index + 1) + 'Option' + (count + 1)).text(option);
@@ -71,7 +113,7 @@ $(document).ready(function() {
     }
 
     function buildNumericalField(fieldInfo) {
-        return numericalField = $('<input>').attr({
+        return $('<input>').attr({
             type: 'number',
             id: fieldInfo.question + fieldInfo.id,
             name: fieldInfo.question + fieldInfo.id,

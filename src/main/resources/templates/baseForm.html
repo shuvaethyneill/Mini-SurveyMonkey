@@ -7,7 +7,7 @@
   <script src="Form.js"></script>
 </head>
 <h1>Create a Form</h1>
-
+<p id="author" th:text="'Author: ' + ${user}"></p>
 <body>
 <form id="myForm">
   <div id="surveyForm">
@@ -20,12 +20,12 @@
     <div class="question" id="question1">
       <label for="questionTitle1">Question 1</label>
 
-      <input type="text" id="questionTitle1" name="questionTitle1" placeholder="Enter Survey Question">
+      <input type="text" id="questionTitle1" name="questionTitle1" placeholder="Enter Survey Question" required>
       <button name="deleteQuestion" disabled> X</button>
       <br>
       <br> <!--adding more space-->
       <label for="fieldType1">Choose Field Type:</label>
-      <select id="fieldType1" name="fieldType1">
+      <select id="fieldType1" name="fieldType1" required>
         <option value="">Select a Field Type</option>
         <option value="text">Text Field</option>
         <option value="number">Number Field</option>

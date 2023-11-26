@@ -95,4 +95,8 @@ public class Response {
     public void setResponderId(String responderId) {
         this.responderId = responderId;
     }
+
+    public String getResponseByFieldId(String fieldId) {
+        return this.fieldAnswers.get(fieldId);
+    }
 }

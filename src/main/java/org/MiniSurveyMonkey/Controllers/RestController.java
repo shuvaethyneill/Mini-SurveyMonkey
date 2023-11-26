@@ -1,7 +1,14 @@
 package org.MiniSurveyMonkey.Controllers;
 
+import jakarta.servlet.http.HttpSession;
 import org.MiniSurveyMonkey.Fields.Field;
+import org.MiniSurveyMonkey.Fields.FieldType;
 import org.MiniSurveyMonkey.Forms.Form;
+import org.MiniSurveyMonkey.Graphs.Graph;
+import org.MiniSurveyMonkey.Graphs.HistogramGraph;
+import org.MiniSurveyMonkey.Graphs.PieGraph;
+import org.MiniSurveyMonkey.Repositories.*;
+import org.MiniSurveyMonkey.User;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -9,19 +16,16 @@ import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import org.MiniSurveyMonkey.Repositories.FormRepo;
-import org.MiniSurveyMonkey.Repositories.FieldRepo;
-import org.MiniSurveyMonkey.Repositories.ResponseRepo;
 import org.MiniSurveyMonkey.Response;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PutMapping;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 @org.springframework.web.bind.annotation.RestController
+@SessionAttributes("user")
 public class RestController {
 
     @Autowired
@@ -32,6 +36,9 @@ public class RestController {
 
     @Autowired
     private ResponseRepo responseRepo;
+
+    @Autowired
+    private UserRepo userRepo;
 
     public RestController(FormRepo formRepo, FieldRepo fieldRepo, ResponseRepo responseRepo) {
         this.formRepo = formRepo;
@@ -83,7 +90,6 @@ public class RestController {
 
         formRepo.save(f);
 
-
         return response.getId();
     }
 
@@ -117,4 +123,66 @@ public class RestController {
         m.addAttribute("formId", f);
         return f;
     }
+
+    @PostMapping("/login")
+    public String login(@RequestBody User user,Model m){
+        System.out.println("/Login Received this user: " + user);
+        for (User i: userRepo.findAll()){
+            if (i.getUsername().equals(user.getUsername())){
+                System.out.println("User Found");
+                return "{\"Username\" : \""+user.getUsername()+"\"}";
+            }
+        }
+        userRepo.save(user);
+        System.out.println("New User!");
+        m.addAttribute("user",user.getUsername());
+        return "{\"Username\" : \""+user.getUsername()+"\"}";
+    }
+    @GetMapping("/getUser")
+    public String getUser(Model m, HttpSession session){
+
+        System.out.println( session.getAttribute("user"));
+
+        return session.getAttribute("user").toString();
+    }
+
+    @PostMapping("/closeForm")
+    public Form closeFrom(@RequestParam String formId){
+        Form temp = null;
+        Form f = formRepo.findById(formId).orElseThrow(() ->
+                new ResourceNotFoundException("Could not find Form with that id"));
+
+        // all answers per field
+        HashMap<String, ArrayList<String>> answersByField = new HashMap<>();
+
+        for (Response r : f.getResponses()) {
+            for (Map.Entry<String, String> entry : r.getFieldAnswers().entrySet()) {
+                //append answer
+                answersByField.computeIfAbsent(entry.getKey(), k -> new ArrayList<String>());
+                answersByField.get(entry.getKey()).add(entry.getValue());
+            }
+        }
+
+        for (Field field : f.getFields()) {
+            ArrayList<String> answers = answersByField.get(field.getId());
+            Graph graph = null;
+            if (field.getFieldType() == FieldType.NUMBER) {
+                graph = new HistogramGraph();
+                graph.calculateResponse(answers);
+            } else if (field.getFieldType() == FieldType.MC) {
+                graph = new PieGraph();
+            }
+
+
+            f.addGraph(graph);
+        }
+
+
+        temp = f;
+        temp.setClosed(true);
+        formRepo.save(temp);
+
+        return temp;
+    }
+
 }

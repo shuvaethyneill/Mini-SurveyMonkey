@@ -63,6 +63,22 @@ $(document).ready(function () {
 
         inputContainer.append('<br>', fieldContainer);
     });
+
+    // Reset button functionality
+    $('#myForm').on('reset', function () {
+        $('#formTitle').val('');
+
+        // Remove all question divs except the first one
+        $('.question:not(:first)').remove();
+        questionCount = 1
+        const firstQuestion = $('#question1');
+        // Reset the first question
+        firstQuestion.find('select').val('');
+        firstQuestion.find('.inputContainer').empty();
+
+        updateQuestionNumbers()
+        $('#surveyForm > br').slice(2).remove();
+    });
 })
 
 /**
@@ -160,7 +176,8 @@ function createFieldTypeElement() {
 
     const fieldTypeDropdown = $('<select>').attr({
         id: `fieldType${questionCount}`,
-        name: `fieldType${questionCount}`
+        name: `fieldType${questionCount}`,
+        required: 'required'
     }).html(`
         <option value="text">Select a Field Type</option>
         <option value="text">Text Field</option>
@@ -336,17 +353,28 @@ function getFieldType(questionDiv) {
     }
     return '';
 }
-
+function getActiveUser(){
+    $.ajax({
+        type: 'GET',
+        url: '/getUser',
+        contentType: 'application/json',
+        success: function (response) {}
+    })
+}
 $(document).ready(function () {
     $('#myForm').submit(function (event) {
         event.preventDefault();
         const confirmed = window.confirm("Are you sure you want to submit the form?")
-
         if(confirmed) {
             const formTitle = $(`#formTitle`).val();
+            const authorText = $('#author').text();
+
+            // Extract the user value from the text content
+            const userValue = authorText.replace('Author: ', '');
 
             const formObject = {
                 formName: formTitle,
+                author: userValue,
                 fields: []
             };
 
@@ -365,7 +393,6 @@ $(document).ready(function () {
 
                 if (fieldObject['@type'] === 'MultipleChoiceField') {
                     fieldObject.options = [];
-                    fieldObject.selectedOption = ''; //blank for now because we didn't acc select anything
 
                     $(`.mcOption input[name=mcOption${questionNumber}Text]`).each(function () {
                         fieldObject.options.push($(this).val());

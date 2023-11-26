@@ -1,6 +1,7 @@
 package org.MiniSurveyMonkey.Forms;
 
 import org.MiniSurveyMonkey.Fields.Field;
+import org.MiniSurveyMonkey.Graphs.Graph;
 import org.MiniSurveyMonkey.Response;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -22,6 +23,10 @@ public class Form {
 
     private String author;
 
+    private boolean closed;
+
+    private ArrayList<Graph> graphs;
+
 
     public Form(){
         this("","");
@@ -32,6 +37,7 @@ public class Form {
         this.author = author;
         fields = new ArrayList<>();
         responses = new ArrayList<>();
+        closed = false;
     }
 
     public void addField(Field field){
@@ -85,12 +91,37 @@ public class Form {
         this.author = author;
     }
 
+    public boolean isClosed() {
+        return closed;
+    }
+
+    public void setClosed(boolean closed) {
+        this.closed = closed;
+    }
+
+    public ArrayList<Graph> getGraphs() {
+        return graphs;
+    }
+
+    public void addGraph(Graph graph) {
+        this.graphs.add(graph);
+    }
+
+    public void setGraphs(ArrayList<Graph> graphs) {
+        this.graphs = graphs;
+    }
+
     @Override
     public String toString() {
         return "Form{" +
                 "id='" + id + '\'' +
                 ", fields=" + fields +
                 ", responses=" + responses +
+                ", formName='" + formName + '\'' +
+                ", author='" + author + '\'' +
+                ", closed=" + closed +
                 '}';
     }
+
+
 }
