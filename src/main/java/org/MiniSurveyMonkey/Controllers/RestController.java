@@ -4,7 +4,7 @@ import jakarta.servlet.http.HttpSession;
 import org.MiniSurveyMonkey.Fields.Field;
 import org.MiniSurveyMonkey.Fields.FieldType;
 import org.MiniSurveyMonkey.Forms.Form;
-import org.MiniSurveyMonkey.Graphs.Graph;
+import org.MiniSurveyMonkey.Graphs.Visualization;
 import org.MiniSurveyMonkey.Graphs.HistogramGraph;
 import org.MiniSurveyMonkey.Graphs.PieGraph;
 import org.MiniSurveyMonkey.Repositories.*;
@@ -165,17 +165,17 @@ public class RestController {
 
         for (Field field : f.getFields()) {
             ArrayList<String> answers = answersByField.get(field.getId());
-            Graph graph = null;
+            Visualization visualization = null;
             if (field.getFieldType() == FieldType.NUMBER) {
-                graph = new HistogramGraph(formId, field.getQuestion(), field.getId());
-                graph.calculateResponse(answers);
+                visualization = new HistogramGraph(formId, field.getQuestion(), field.getId());
+                ((HistogramGraph) (visualization)).calculateResponse(answers);
             } else if (field.getFieldType() == FieldType.MC) {
-                graph = new PieGraph(formId, field.getQuestion(), field.getId());
-                graph.calculateResponse(answers);
+                visualization = new PieGraph(formId, field.getQuestion(), field.getId());
+                ((PieGraph) (visualization)).calculateResponse(answers);
             }
 
 
-            f.addGraph(graph);
+            f.addVisualization(visualization);
         }
 
 

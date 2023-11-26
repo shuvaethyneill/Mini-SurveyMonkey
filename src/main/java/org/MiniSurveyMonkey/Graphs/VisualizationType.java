@@ -1,6 +1,6 @@
 package org.MiniSurveyMonkey.Graphs;
 
-public enum GraphType {
+public enum VisualizationType {
         PIEGRAPH,
         HISTOGRAMGRAPH,
         TEXT

@@ -1,10 +1,9 @@
 package org.MiniSurveyMonkey.Forms;
 
 import org.MiniSurveyMonkey.Fields.Field;
-import org.MiniSurveyMonkey.Graphs.Graph;
+import org.MiniSurveyMonkey.Graphs.Visualization;
 import org.MiniSurveyMonkey.Response;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
@@ -25,7 +24,7 @@ public class Form {
 
     private boolean closed;
 
-    private ArrayList<Graph> graphs;
+    private ArrayList<Visualization> visualizations;
 
 
     public Form(){
@@ -99,16 +98,16 @@ public class Form {
         this.closed = closed;
     }
 
-    public ArrayList<Graph> getGraphs() {
-        return graphs;
+    public ArrayList<Visualization> getGraphs() {
+        return visualizations;
     }
 
-    public void addGraph(Graph graph) {
-        this.graphs.add(graph);
+    public void addVisualization(Visualization visualization) {
+        this.visualizations.add(visualization);
     }
 
-    public void setGraphs(ArrayList<Graph> graphs) {
-        this.graphs = graphs;
+    public void setGraphs(ArrayList<Visualization> visualizations) {
+        this.visualizations = visualizations;
     }
 
     @Override
