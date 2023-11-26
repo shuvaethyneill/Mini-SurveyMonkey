@@ -1,6 +1,8 @@
+import { injectGraphs } from "/loadGraphs.js"
 $(document).ready(function() {
     var formId = $(document).find("#formId_span").data("backend-id")
     console.log(formId)
+    var formClosed = true
     $.ajax({
         type: 'GET',
         url: '/getForm/' + formId,
@@ -8,6 +10,7 @@ $(document).ready(function() {
             // Handle the form information
             console.log('Form Information:', data);
             injectFields(data)
+
         },
         error: function(error) {
             // Handle errors

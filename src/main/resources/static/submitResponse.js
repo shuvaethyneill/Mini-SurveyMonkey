@@ -8,13 +8,21 @@ $(document).ready(function() {
                 responses: {}
             };
 
-            $('.question').each(function () {
-
-                //TODO: scrape response, responses dict format is - backend-id: response
-                var backendId = $(this).data("backend-id")
-                //responseObj.responses.backendId = SCRAPE RESPONSE FROM INPUT FIELD
-
-            });
+           $('.question').each(function () {
+                           var backendId = $(this).data("backend-id")
+                           var response;
+                           if ($(this).find('input[type="radio"]').length > 0) {
+                               response = $(this).find('input[type="radio"]:checked').siblings('label').text();
+                           } else if ($(this).find('textarea').length > 0) {
+                               response = $(this).find('textarea').val();
+                           } else if ($(this).find('input[type="number"]').length > 0) {
+                               console.log('help')
+                               response = $(this).find('input[type="number"]').val();
+                           }
+                           console.log(backendId)
+                           console.log(response)
+                           responseObj.responses.backendId = response
+                       });
 
             //TODO: post request "/submitResponse" takes ResponseObj
 

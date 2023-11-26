@@ -35,11 +35,23 @@ public class HtmlController {
         Form form = formRepo.findById(formId).orElseThrow(() ->
                 new ResourceNotFoundException("Could not find Form with that id"));
         m.addAttribute("formTitle", form.getFormName());
+
+        boolean formClosed = true;
+
+        if (formClosed) {
+            return "viewGraphs";
+        }
+
         return "viewForm";
     }
     @GetMapping("/forms")
     public String getForms(Model m){
 
         return "viewAllForms";
+    }
+
+    @GetMapping("/chart")
+    public String getChart() {
+        return "chart";
     }
 }
