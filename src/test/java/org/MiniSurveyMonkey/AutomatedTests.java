@@ -5,6 +5,7 @@ import org.MiniSurveyMonkey.Fields.Field;
 import org.MiniSurveyMonkey.Fields.TextField;
 import org.MiniSurveyMonkey.Forms.Form;
 import org.MiniSurveyMonkey.Repositories.FormRepo;
+import org.MiniSurveyMonkey.Repositories.UserRepo;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,7 +32,9 @@ import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.HashMap;
 import java.util.Optional;
 
 @TestPropertySource(properties = {
@@ -46,6 +49,10 @@ public class AutomatedTests {
     private RestController controller;
     @Autowired
     private MockMvc mockMvc;
+    @Autowired
+    private FormRepo formRepo;
+    @Autowired
+    private UserRepo userRepo;
 
 
     @Test
@@ -55,7 +62,7 @@ public class AutomatedTests {
 
 
     @Test
-    public void submitFormTest() throws Exception {
+    public void submitCreateFormTest() throws Exception {
         Form testForm = new Form();
 
         Field f = new TextField();
@@ -67,13 +74,85 @@ public class AutomatedTests {
         System.out.println(json);
 
         this.mockMvc.perform(post("/submitForm").contentType(MediaType.APPLICATION_JSON).content(json)).andExpect(status().isOk());
+    }
+
+    @Test
+    public void submitResponseFormTest() throws Exception {
+        //create a new form to get a Form id
+        Form testForm = new Form();
+        testForm.setId("Test11");
+
+        formRepo.save(testForm);
+
+        //now add a response to it
+        Response r = new Response();
+        r.setFormId(testForm.getId());
+
+        HashMap<String, String> answers = new HashMap<>();
+        answers.put("fieldId1", "answer1"); //we assume the field id already exists
+
+        r.setFieldAnswers(answers);
+
+        // Convert the Response object to JSON
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = objectMapper.writeValueAsString(r);
+
+        // Perform a POST request to the /submitResponse endpoint with the JSON payload
+        mockMvc.perform(post("/submitResponse")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isOk());
 
     }
 
     @Test
+    public void closeFormTest() throws Exception{
+        Form testForm = new Form();
+        testForm.setId("Test15");
+        formRepo.save(testForm);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = objectMapper.writeValueAsString(testForm.getId());
+
+        mockMvc.perform(post("/closeForm")
+                        .param("formId", testForm.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isOk());
+
+
+        Form f = formRepo.findById(testForm.getId()).orElse(null);
+
+        assert f == null || f.isClosed();
+    }
+
+    @Test
+    public void userLoginTest() throws  Exception{
+        //login
+        String username = "TestUser";
+        // Prepare the user object
+        User user = new User();
+        user.setUsername(username);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = objectMapper.writeValueAsString(user);
+
+        // Perform a POST request to the /login endpoint
+        mockMvc.perform(post("/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.Username").value(username));
+    }
+
+
+    @Test
     public void formEndpointTest() throws Exception {
-        System.out.println(formId);
-        this.mockMvc.perform(get("/form/"+formId)).andExpect(status().isOk());
+        Form testForm = new Form();
+        testForm.setId("Test20");
+        formRepo.save(testForm);
+        this.mockMvc.perform(get("/getForm/"+testForm.getId())).andExpect(status().isOk());
+
     }
 
 }
