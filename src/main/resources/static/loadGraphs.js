@@ -80,19 +80,13 @@ $(document).ready(function() {
     }
 
     function drawBarGraph(ctx) {
-        console.log("in bar")
-        const graph = {
-            question: "test",
-            x_labels: ["val_10", "val_20", "val_30"],
-            y_data: ["5", "8", "1"]
-        }
         var myChart = new Chart(ctx, {
             type: 'bar', // or 'line', 'pie', etc.
             data: {
-                labels: graph.x_labels,
+                labels: graph.xLabels,
                 datasets: [{
                     label: 'Answers',
-                    data: graph.y_data,
+                    data: graph.yData,
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
@@ -127,7 +121,7 @@ $(document).ready(function() {
                 plugins: {
                     title: {
                         display: true,
-                        text: graph.question,
+                        text: graph.fieldName,
                         fontSize: 16
                     }
                 }
