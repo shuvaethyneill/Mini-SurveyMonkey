@@ -57,7 +57,7 @@ $(document).ready(function() {
         });
 
         graph.textResponses.forEach(function(response) {
-            var row = $("<tr>").css('border-bottom', '1px solid #ddd'); // Add border-bottom for each row
+            var row = $("<tr>").css('border-bottom', '1px solid #ddd');
             var cell = $("<td>").css({
                 'border': '1px solid #ddd',
                 'padding': '8px',
@@ -67,16 +67,7 @@ $(document).ready(function() {
             table.append(row);
         });
 
-        visual_div.append(table);
-        /*
-        var textList = $("<ul>");
-        graph.textResponses.forEach(function(response) {
-            var listItem = $("<li>").text(response);
-            textList.append(listItem);
-        });
-        visual_div.append(textList);
-
-         */
+        visual_div.append(table, '<br>', '<br>');
     }
 
     function drawBarGraph(ctx, graph) {

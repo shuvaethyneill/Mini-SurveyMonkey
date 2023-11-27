@@ -39,7 +39,5 @@ $(document).ready(function(){
                 console.error('Error retrieving form information:', error);
             }
         })
-
-
     });
 });
