@@ -16,26 +16,66 @@ $(document).ready(function() {
     });
 
     function injectGraphs(form) {
+        console.log("In inject graphs")
+        console.log(form)
         const questionsContainer = $("#graphsContainer")
 
-        $.each(form.visualization, function(index, graph) {
+        $.each(form.graphs, function(index, graph) {
 
-            var graph_div = $("<div>").attr({id: "chart-" + (graph.fieldName).replace(" ", "-")})
+            const visual_div = $("<div>").attr({id: "chart-" + (graph.fieldName).replace(" ", "-")})
+            questionsContainer.append(visual_div)
+            visual_div.append("<h3> Question " + (index + 1) + ": " + graph.fieldName + "</h3>")
             var chart_id = "chart" + (index + 1)
-            var canvas = $('<canvas id=' + chart_id +' width="1000" height="600"></canvas>');
-            questionsContainer.append(graph_div)
-            graph_div.append("<h3> Question " + (index + 1) + ": " + graph.fieldName + "</h3>")
-            graph_div.append(canvas);
 
-            var ctx = canvas[0].getContext('2d');
-            if (graph.graphType == "HISTOGRAMGRAPH") {
+            //var ctx = canvas[0].getContext('2d');
+            if (graph.graphType === "HISTOGRAMGRAPH") {
                 //drawBarGraph(form.graph[field.id])
-                drawBarGraph(ctx, graph)
+                var canvas = $('<canvas id=' + chart_id +' width="1000" height="600"></canvas>');
+                visual_div.append(canvas);
+                drawBarGraph(ctx, visualization)
             }
-            if (graph.graphType == "PIEGRAPH"){
+            else if (graph.graphType === "PIEGRAPH"){
+                var canvas = $('<canvas id=' + chart_id +' width="1000" height="600"></canvas>');
+                visual_div.append(canvas);
                 drawPieGraph(ctx, graph);
+            } else if (graph.graphType === "TEXT") {
+                displayTextResponses(visual_div, graph)
             }
         })
+    }
+
+    function displayTextResponses(visual_div, graph) {
+        console.log("in display text responses")
+        var table = $("<table>").css({
+            'border-collapse': 'collapse',
+            'width': '100%',
+            'border': '1px solid #ddd',
+            'margin-top': '10px',
+            'max-height': '200px',
+            'overflow-y': 'auto' // vertical scrolling
+        });
+
+        graph.textResponses.forEach(function(response) {
+            var row = $("<tr>").css('border-bottom', '1px solid #ddd'); // Add border-bottom for each row
+            var cell = $("<td>").css({
+                'border': '1px solid #ddd',
+                'padding': '8px',
+                'text-align': 'left'
+            }).text(response);
+            row.append(cell);
+            table.append(row);
+        });
+
+        visual_div.append(table);
+        /*
+        var textList = $("<ul>");
+        graph.textResponses.forEach(function(response) {
+            var listItem = $("<li>").text(response);
+            textList.append(listItem);
+        });
+        visual_div.append(textList);
+
+         */
     }
 
     function drawBarGraph(ctx) {

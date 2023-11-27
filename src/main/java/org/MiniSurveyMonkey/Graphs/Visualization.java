@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @JsonSubTypes({
         @JsonSubTypes.Type(value = HistogramGraph.class, name = "Histogram"),
         @JsonSubTypes.Type(value = PieGraph.class, name = "PieChart"),
+        @JsonSubTypes.Type(value = Table.class, name = "Table"),
 })
 
 
