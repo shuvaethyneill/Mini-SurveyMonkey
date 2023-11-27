@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpSession;
 import org.MiniSurveyMonkey.Fields.Field;
 import org.MiniSurveyMonkey.Fields.FieldType;
 import org.MiniSurveyMonkey.Fields.MultipleChoiceField;
+import org.MiniSurveyMonkey.Fields.NumberField;
 import org.MiniSurveyMonkey.Forms.Form;
 import org.MiniSurveyMonkey.Graphs.Table;
 import org.MiniSurveyMonkey.Graphs.Visualization;
@@ -175,7 +176,9 @@ public class RestController {
             ArrayList<String> answers = answersByField.get(field.getId());
             Visualization visualization = null;
             if (field.getFieldType() == FieldType.NUMBER) {
-                visualization = new HistogramGraph(formId, field.getQuestion(), field.getId());
+                visualization = new HistogramGraph(formId, field.getQuestion(), field.getId(),
+                        ((NumberField) field).getUpperBound() != null ? ((NumberField)field).getUpperBound() : null,
+                        ((NumberField) field).getLowerBound() != null ? ((NumberField)field).getLowerBound() : null);
                 ((HistogramGraph) (visualization)).calculateResponse(answers);
             } else if (field.getFieldType() == FieldType.MC) {
                 visualization = new PieGraph(formId, field.getQuestion(), field.getId(), ((MultipleChoiceField) (field)).getOptions());

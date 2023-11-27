@@ -6,9 +6,13 @@ import java.util.HashMap;
 public class HistogramGraph extends Graph {
     private Integer upperBound;
     private Integer lowerBound;
-    public HistogramGraph(String formId, String fieldName, String fieldId) {
+
+    public HistogramGraph(String formId, String fieldName, String fieldId, Integer upperBound, Integer lowerBound) {
         super(formId, fieldName, fieldId, VisualizationType.HISTOGRAMGRAPH);
+        this.lowerBound = lowerBound;
+        this.upperBound = upperBound;
     }
+
 
     @Override
     public void calculateResponse(ArrayList<String> responses) {

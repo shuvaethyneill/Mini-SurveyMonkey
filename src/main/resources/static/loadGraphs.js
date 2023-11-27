@@ -79,7 +79,19 @@ $(document).ready(function() {
          */
     }
 
-    function drawBarGraph(ctx) {
+    function drawBarGraph(ctx, graph) {
+        const randColor = getRandomColor(graph.yData.length);
+
+        var graph_name = graph.fieldName + " "
+
+        if (graph.upperBound != null) {
+            graph_name += "Upper Bound: " + graph.upperBound + " "
+        }
+
+        if (graph.lowerBound != null) {
+            graph_name += "Lower Bound: " + graph.lowerBound
+        }
+
         var myChart = new Chart(ctx, {
             type: 'bar', // or 'line', 'pie', etc.
             data: {
@@ -87,16 +99,8 @@ $(document).ready(function() {
                 datasets: [{
                     label: 'Answers',
                     data: graph.yData,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                    ],
+                    backgroundColor: randColor,
+                    borderColor: randColor,
                     borderWidth: 1
                 }]
             },
@@ -121,7 +125,7 @@ $(document).ready(function() {
                 plugins: {
                     title: {
                         display: true,
-                        text: graph.fieldName,
+                        text: graph_name,
                         fontSize: 16
                     }
                 }
@@ -144,6 +148,10 @@ $(document).ready(function() {
                     backgroundColor: getRandomColor(graph.yData.length),
                 }]
             },
+            options: {
+                maintainAspectRatio: false, // Disable aspect ratio
+                responsive: false, // Make the chart responsive
+            }
         });
         console.log("end pie")
         myChart.update();
