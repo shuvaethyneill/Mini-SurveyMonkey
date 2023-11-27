@@ -27,15 +27,16 @@ $(document).ready(function() {
             visual_div.append("<h3> Question " + (index + 1) + ": " + graph.fieldName + "</h3>")
             var chart_id = "chart" + (index + 1)
 
-            //var ctx = canvas[0].getContext('2d');
             if (graph.graphType === "HISTOGRAMGRAPH") {
                 //drawBarGraph(form.graph[field.id])
                 var canvas = $('<canvas id=' + chart_id +' width="1000" height="600"></canvas>');
+                var ctx = canvas[0].getContext('2d');
                 visual_div.append(canvas);
-                drawBarGraph(ctx, visualization)
+                drawBarGraph(ctx, graph)
             }
             else if (graph.graphType === "PIEGRAPH"){
                 var canvas = $('<canvas id=' + chart_id +' width="1000" height="600"></canvas>');
+                var ctx = canvas[0].getContext('2d');
                 visual_div.append(canvas);
                 drawPieGraph(ctx, graph);
             } else if (graph.graphType === "TEXT") {
@@ -138,29 +139,33 @@ $(document).ready(function() {
 
     function drawPieGraph(ctx,graph) {
         console.log("in pie")
+        console.log("graph")
 
         var myChart = new Chart(ctx, {
             type: 'pie', // or 'line', 'pie', etc.
             data: {
                 labels: graph.xLabels,
                 datasets: [{
-                    label: 'Answers',
-                    data: graph.yDataInt,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                    ],
-                    borderWidth: 1
+                    data: graph.yData,
+                    backgroundColor: getRandomColor(graph.yData.length),
                 }]
-            }
+            },
         });
         console.log("end pie")
         myChart.update();
+    }
+
+    function getRandomColor(length) {
+        const colors = []
+        for(let l = 0; l<length; l++){
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            colors.push(color);
+        }
+        return colors;
+
     }
 })

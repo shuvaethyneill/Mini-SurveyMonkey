@@ -32,7 +32,7 @@ public class RestController {
 
     @Autowired
     private FormRepo formRepo;
-    
+
     @Autowired
     private FieldRepo fieldRepo;
 
@@ -50,6 +50,7 @@ public class RestController {
 
     /**
      * Get Mapping to retrieve a form by Id
+     *
      * @param id -  the id of the form
      * @return - JSON representation of the object
      */
@@ -64,7 +65,7 @@ public class RestController {
     }
 
     @PostMapping("/submitForm")
-    public String submitForm(@RequestBody Form form){
+    public String submitForm(@RequestBody Form form) {
         System.out.println("Received Form: " + form); //added this for testing purposed
         form.setId(ObjectId.get().toString());
         for (Field f : form.getFields()) {
@@ -76,7 +77,7 @@ public class RestController {
 
         System.out.println("Form name: " + form.getFormName());
         System.out.println("Form Consists of fields: " + form.getFields()); // testing purposes
-        return "{\"FormId\" : \""+form.getId()+"\"}";
+        return "{\"FormId\" : \"" + form.getId() + "\"}";
     }
 
     @PostMapping("/submitResponse")
@@ -96,14 +97,15 @@ public class RestController {
     }
 
     @GetMapping("/getFieldRest")
-    public List<Field> getField( Model model){
+    public List<Field> getField(Model model) {
         List<Field> f1 = fieldRepo.findAll();
         if (f1.isEmpty()) return null;
         model.addAttribute("Fields", f1);
         return f1;
     }
+
     @GetMapping("/getFormsRest")
-    public List<Form> getForms( Model model){
+    public List<Form> getForms(Model model) {
         List<Form> f1 = formRepo.findAll();
         if (f1.isEmpty()) return null;
         model.addAttribute("Forms", f1);
@@ -111,7 +113,7 @@ public class RestController {
     }
 
     @PutMapping("/editForm")
-    public Form editForm(@RequestParam String formId, @RequestParam ArrayList<Field> fields, Model m){
+    public Form editForm(@RequestParam String formId, @RequestParam ArrayList<Field> fields, Model m) {
         ArrayList<Field> fieldInDb = (ArrayList<Field>) fieldRepo.findByFormId(formId);
         ArrayList<Field> toBeRemoved = new ArrayList<>(fieldInDb);
         toBeRemoved.removeAll(fields);
@@ -127,29 +129,30 @@ public class RestController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody User user,Model m){
+    public String login(@RequestBody User user, Model m) {
         System.out.println("/Login Received this user: " + user);
-        for (User i: userRepo.findAll()){
-            if (i.getUsername().equals(user.getUsername())){
+        for (User i : userRepo.findAll()) {
+            if (i.getUsername().equals(user.getUsername())) {
                 System.out.println("User Found");
-                return "{\"Username\" : \""+user.getUsername()+"\"}";
+                return "{\"Username\" : \"" + user.getUsername() + "\"}";
             }
         }
         userRepo.save(user);
         System.out.println("New User!");
-        m.addAttribute("user",user.getUsername());
-        return "{\"Username\" : \""+user.getUsername()+"\"}";
+        m.addAttribute("user", user.getUsername());
+        return "{\"Username\" : \"" + user.getUsername() + "\"}";
     }
-    @GetMapping("/getUser")
-    public String getUser(Model m, HttpSession session){
 
-        System.out.println( session.getAttribute("user"));
+    @GetMapping("/getUser")
+    public String getUser(Model m, HttpSession session) {
+
+        System.out.println(session.getAttribute("user"));
 
         return session.getAttribute("user").toString();
     }
 
     @PostMapping("/closeForm")
-    public Form closeFrom(@RequestParam String formId){
+    public Form closeFrom(@RequestParam String formId) {
         Form temp = null;
         Form f = formRepo.findById(formId).orElseThrow(() ->
                 new ResourceNotFoundException("Could not find Form with that id"));
@@ -182,6 +185,7 @@ public class RestController {
                 ((Table) (visualization)).setTextResponses(answers);
             }
 
+
             f.addVisualization(visualization);
         }
 
@@ -190,5 +194,6 @@ public class RestController {
         formRepo.save(temp);
 
         return temp;
+
     }
 }

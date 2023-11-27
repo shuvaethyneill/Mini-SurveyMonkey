@@ -8,10 +8,10 @@ public class PieGraph extends Graph {
 
     private ArrayList<String> options;
 
+
     public PieGraph(String formId, String fieldName, String fieldId, ArrayList<String> options) {
         super(formId, fieldName, fieldId, VisualizationType.PIEGRAPH);
         this.options = options;
-
     }
 
     @Override
@@ -30,6 +30,6 @@ public class PieGraph extends Graph {
             amounts.add(Integer.toString(counter));
         }
 
-        setyData(amounts);
+        this.setyData(amounts);
     }
 }
