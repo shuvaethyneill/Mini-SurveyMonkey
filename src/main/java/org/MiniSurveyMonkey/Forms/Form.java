@@ -99,7 +99,7 @@ public class Form {
         this.closed = closed;
     }
 
-    public ArrayList<Visualization> getGraphs() {
+    public ArrayList<Visualization> getVisualizations() {
         return visualizations;
     }
 
@@ -107,7 +107,7 @@ public class Form {
         this.visualizations.add(visualization);
     }
 
-    public void setGraphs(ArrayList<Visualization> visualizations) {
+    public void setVisualizations(ArrayList<Visualization> visualizations) {
         this.visualizations = visualizations;
     }
 

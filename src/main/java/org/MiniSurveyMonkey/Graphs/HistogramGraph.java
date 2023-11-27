@@ -31,4 +31,36 @@ public class HistogramGraph extends Graph {
         this.setxLabels(xLabels);
         this.setyData(yData);
     }
+
+    /**
+     * get upperboud
+     * @return upper bound
+     */
+    public Integer getUpperBound() {
+        return upperBound;
+    }
+
+    /**
+     * set the upper bound
+     * @param upperBound Integer
+     */
+    public void setUpperBound(Integer upperBound) {
+        this.upperBound = upperBound;
+    }
+
+    /**
+     * get lower bound
+     * @return lower bound
+     */
+    public Integer getLowerBound() {
+        return lowerBound;
+    }
+
+    /**
+     * sets the lower bound
+     * @param lowerBound Integer
+     */
+    public void setLowerBound(Integer lowerBound) {
+        this.lowerBound = lowerBound;
+    }
 }

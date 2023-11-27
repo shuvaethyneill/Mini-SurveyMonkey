@@ -3,6 +3,7 @@ package org.MiniSurveyMonkey.Graphs;
 import java.util.ArrayList;
 
 public abstract class Graph extends Visualization{
+
     private ArrayList<String> xLabels;
 
     private ArrayList<String> yData;
