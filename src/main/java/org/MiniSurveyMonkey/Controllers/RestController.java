@@ -3,8 +3,11 @@ package org.MiniSurveyMonkey.Controllers;
 import jakarta.servlet.http.HttpSession;
 import org.MiniSurveyMonkey.Fields.Field;
 import org.MiniSurveyMonkey.Fields.FieldType;
+import org.MiniSurveyMonkey.Fields.MultipleChoiceField;
+import org.MiniSurveyMonkey.Fields.NumberField;
 import org.MiniSurveyMonkey.Forms.Form;
-import org.MiniSurveyMonkey.Graphs.Graph;
+import org.MiniSurveyMonkey.Graphs.Table;
+import org.MiniSurveyMonkey.Graphs.Visualization;
 import org.MiniSurveyMonkey.Graphs.HistogramGraph;
 import org.MiniSurveyMonkey.Graphs.PieGraph;
 import org.MiniSurveyMonkey.Repositories.*;
@@ -30,7 +33,7 @@ public class RestController {
 
     @Autowired
     private FormRepo formRepo;
-    
+
     @Autowired
     private FieldRepo fieldRepo;
 
@@ -48,6 +51,7 @@ public class RestController {
 
     /**
      * Get Mapping to retrieve a form by Id
+     *
      * @param id -  the id of the form
      * @return - JSON representation of the object
      */
@@ -62,7 +66,7 @@ public class RestController {
     }
 
     @PostMapping("/submitForm")
-    public String submitForm(@RequestBody Form form){
+    public String submitForm(@RequestBody Form form) {
         System.out.println("Received Form: " + form); //added this for testing purposed
         form.setId(ObjectId.get().toString());
         for (Field f : form.getFields()) {
@@ -74,11 +78,11 @@ public class RestController {
 
         System.out.println("Form name: " + form.getFormName());
         System.out.println("Form Consists of fields: " + form.getFields()); // testing purposes
-        return "{\"FormId\" : \""+form.getId()+"\"}";
+        return "{\"FormId\" : \"" + form.getId() + "\"}";
     }
 
     @PostMapping("/submitResponse")
-    public String submitResponse(@RequestBody Response response) {
+    public Response submitResponse(@RequestBody Response response) {
 
         //get the form associated with these responses
         Form f = formRepo.findById(response.getFormId()).orElseThrow(() ->
@@ -90,18 +94,19 @@ public class RestController {
 
         formRepo.save(f);
 
-        return response.getId();
+        return response;
     }
 
     @GetMapping("/getFieldRest")
-    public List<Field> getField( Model model){
+    public List<Field> getField(Model model) {
         List<Field> f1 = fieldRepo.findAll();
         if (f1.isEmpty()) return null;
         model.addAttribute("Fields", f1);
         return f1;
     }
+
     @GetMapping("/getFormsRest")
-    public List<Form> getForms( Model model){
+    public List<Form> getForms(Model model) {
         List<Form> f1 = formRepo.findAll();
         if (f1.isEmpty()) return null;
         model.addAttribute("Forms", f1);
@@ -109,7 +114,7 @@ public class RestController {
     }
 
     @PutMapping("/editForm")
-    public Form editForm(@RequestParam String formId, @RequestParam ArrayList<Field> fields, Model m){
+    public Form editForm(@RequestParam String formId, @RequestParam ArrayList<Field> fields, Model m) {
         ArrayList<Field> fieldInDb = (ArrayList<Field>) fieldRepo.findByFormId(formId);
         ArrayList<Field> toBeRemoved = new ArrayList<>(fieldInDb);
         toBeRemoved.removeAll(fields);
@@ -125,29 +130,30 @@ public class RestController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody User user,Model m){
+    public String login(@RequestBody User user, Model m) {
         System.out.println("/Login Received this user: " + user);
-        for (User i: userRepo.findAll()){
-            if (i.getUsername().equals(user.getUsername())){
+        for (User i : userRepo.findAll()) {
+            if (i.getUsername().equals(user.getUsername())) {
                 System.out.println("User Found");
-                return "{\"Username\" : \""+user.getUsername()+"\"}";
+                return "{\"Username\" : \"" + user.getUsername() + "\"}";
             }
         }
         userRepo.save(user);
         System.out.println("New User!");
-        m.addAttribute("user",user.getUsername());
-        return "{\"Username\" : \""+user.getUsername()+"\"}";
+        m.addAttribute("user", user.getUsername());
+        return "{\"Username\" : \"" + user.getUsername() + "\"}";
     }
-    @GetMapping("/getUser")
-    public String getUser(Model m, HttpSession session){
 
-        System.out.println( session.getAttribute("user"));
+    @GetMapping("/getUser")
+    public String getUser(Model m, HttpSession session) {
+
+        System.out.println(session.getAttribute("user"));
 
         return session.getAttribute("user").toString();
     }
 
     @PostMapping("/closeForm")
-    public Form closeFrom(@RequestParam String formId){
+    public Form closeFrom(@RequestParam String formId) {
         Form temp = null;
         Form f = formRepo.findById(formId).orElseThrow(() ->
                 new ResourceNotFoundException("Could not find Form with that id"));
@@ -155,34 +161,42 @@ public class RestController {
         // all answers per field
         HashMap<String, ArrayList<String>> answersByField = new HashMap<>();
 
+
         for (Response r : f.getResponses()) {
+
             for (Map.Entry<String, String> entry : r.getFieldAnswers().entrySet()) {
                 //append answer
                 answersByField.computeIfAbsent(entry.getKey(), k -> new ArrayList<String>());
                 answersByField.get(entry.getKey()).add(entry.getValue());
             }
+
         }
 
         for (Field field : f.getFields()) {
             ArrayList<String> answers = answersByField.get(field.getId());
-            Graph graph = null;
+            Visualization visualization = null;
             if (field.getFieldType() == FieldType.NUMBER) {
-                graph = new HistogramGraph();
-                graph.calculateResponse(answers);
+                visualization = new HistogramGraph(formId, field.getQuestion(), field.getId(),
+                        ((NumberField) field).getUpperBound() != null ? ((NumberField)field).getUpperBound() : null,
+                        ((NumberField) field).getLowerBound() != null ? ((NumberField)field).getLowerBound() : null);
+                ((HistogramGraph) (visualization)).calculateResponse(answers);
             } else if (field.getFieldType() == FieldType.MC) {
-                graph = new PieGraph();
+                visualization = new PieGraph(formId, field.getQuestion(), field.getId(), ((MultipleChoiceField) (field)).getOptions());
+                ((PieGraph) (visualization)).calculateResponse(answers);
+            } else if (field.getFieldType() == FieldType.TEXT) {
+                visualization = new Table(formId, field.getQuestion(), field.getId());
+                ((Table) (visualization)).setTextResponses(answers);
             }
 
 
-            f.addGraph(graph);
+            f.addVisualization(visualization);
         }
-
 
         temp = f;
         temp.setClosed(true);
         formRepo.save(temp);
 
         return temp;
-    }
 
+    }
 }

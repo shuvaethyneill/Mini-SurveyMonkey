@@ -33,6 +33,7 @@ $(document).ready(function(){
         type:'GET',
         url:'/getFormsRest',
         success: function(forms) {
+            console.log(forms)
             // Handle the form information
             injectFields(forms)
 
