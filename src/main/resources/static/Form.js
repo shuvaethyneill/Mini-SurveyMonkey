@@ -63,6 +63,22 @@ $(document).ready(function () {
 
         inputContainer.append('<br>', fieldContainer);
     });
+
+    // Reset button functionality
+    $('#myForm').on('reset', function () {
+        $('#formTitle').val('');
+
+        // Remove all question divs except the first one
+        $('.question:not(:first)').remove();
+        questionCount = 1
+        const firstQuestion = $('#question1');
+        // Reset the first question
+        firstQuestion.find('select').val('');
+        firstQuestion.find('.inputContainer').empty();
+
+        updateQuestionNumbers()
+        $('#surveyForm > br').slice(2).remove();
+    });
 })
 
 /**
@@ -83,7 +99,7 @@ function createQuestionDiv() {
     });
 
     // add a delete button
-    const deleteQuestionButton = $('<button>').attr('name', 'deleteQuestion').text('Delete Question').css('margin-left', '5px');
+    const deleteQuestionButton = $('<button>').attr('name', 'deleteQuestion').text('X').css('margin-left', '5px');
 
     const fieldTypeElements = createFieldTypeElement();
     const inputContainer = $('<div>').addClass('inputContainer');
@@ -160,7 +176,8 @@ function createFieldTypeElement() {
 
     const fieldTypeDropdown = $('<select>').attr({
         id: `fieldType${questionCount}`,
-        name: `fieldType${questionCount}`
+        name: `fieldType${questionCount}`,
+        required: 'required'
     }).html(`
         <option value="text">Select a Field Type</option>
         <option value="text">Text Field</option>
@@ -336,59 +353,72 @@ function getFieldType(questionDiv) {
     }
     return '';
 }
-
+function getActiveUser(){
+    $.ajax({
+        type: 'GET',
+        url: '/getUser',
+        contentType: 'application/json',
+        success: function (response) {}
+    })
+}
 $(document).ready(function () {
     $('#myForm').submit(function (event) {
         event.preventDefault();
+        const confirmed = window.confirm("Are you sure you want to submit the form?")
+        if(confirmed) {
+            const formTitle = $(`#formTitle`).val();
+            const authorText = $('#author').text();
 
-        const formTitle = $(`#formTitle`).val();
+            // Extract the user value from the text content
+            const userValue = authorText.replace('Author: ', '');
 
-        const formObject = {
-            formName: formTitle,
-            fields: []
-        };
-
-        $('.question').each(function () {
-            const questionNumber = $(this).attr('id').match(/\d+/)[0];
-
-            const fieldObject = {
-                '@type': getFieldType($(this)),
-                question: $(`#questionTitle${questionNumber}`).val(),
+            const formObject = {
+                formName: formTitle,
+                author: userValue,
+                fields: []
             };
 
-            if (fieldObject['@type'] === 'NumberField') {
-                fieldObject.lowerBound = $(`#${questionNumber}${lowerStr}`).val();
-                fieldObject.upperBound = $(`#${questionNumber}${upperStr}`).val();
-            }
+            $('.question').each(function () {
+                const questionNumber = $(this).attr('id').match(/\d+/)[0];
 
-            if (fieldObject['@type'] === 'MultipleChoiceField') {
-                fieldObject.options = [];
-                fieldObject.selectedOption = ''; //blank for now because we didn't acc select anything
+                const fieldObject = {
+                    '@type': getFieldType($(this)),
+                    question: $(`#questionTitle${questionNumber}`).val(),
+                };
 
-                $(`.mcOption input[name=mcOption${questionNumber}Text]`).each(function () {
-                    fieldObject.options.push($(this).val());
-                });
-            }
+                if (fieldObject['@type'] === 'NumberField') {
+                    fieldObject.lowerBound = $(`#${questionNumber}${lowerStr}`).val();
+                    fieldObject.upperBound = $(`#${questionNumber}${upperStr}`).val();
+                }
 
-            formObject.fields.push(fieldObject);
-        });
+                if (fieldObject['@type'] === 'MultipleChoiceField') {
+                    fieldObject.options = [];
 
-        //handle ajax call
-        $.ajax({
-            type: 'POST',
-            url: '/submitForm',
-            contentType: 'application/json',
-            data: JSON.stringify(formObject),
-            success: function (response) {
-                console.log("Form submitted successfully. Response:", response);
-                const formId = JSON.parse(response).FormId;
-                const redirectUrl = `/form/${formId}`;
-                const link = `<a href="${redirectUrl}">Click here to view the form</a>`;
-                $('#submitMessage').html(`<p>Form ID: ${formId} - Form successfully created</p>${link}`);
-            },
-            error: function (error) {
-                console.error("Error submitting form:", error);
-            }
-        });
+                    $(`.mcOption input[name=mcOption${questionNumber}Text]`).each(function () {
+                        fieldObject.options.push($(this).val());
+                    });
+                }
+
+                formObject.fields.push(fieldObject);
+            });
+
+            //handle ajax call
+            $.ajax({
+                type: 'POST',
+                url: '/submitForm',
+                contentType: 'application/json',
+                data: JSON.stringify(formObject),
+                success: function (response) {
+                    console.log("Form submitted successfully. Response:", response);
+                    const formId = JSON.parse(response).FormId;
+                    const redirectUrl = `/form/${formId}`;
+                    const link = `<a href="${redirectUrl}">Click here to view the form</a>`;
+                    $('#submitMessage').html(`<p>Form ID: ${formId} - Form successfully created</p>${link}`);
+                },
+                error: function (error) {
+                    console.error("Error submitting form:", error);
+                }
+            });
+        } else { }
     })
 });
