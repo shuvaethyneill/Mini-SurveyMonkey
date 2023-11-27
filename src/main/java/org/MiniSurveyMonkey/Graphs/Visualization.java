@@ -1,13 +1,4 @@
 package org.MiniSurveyMonkey.Graphs;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = HistogramGraph.class, name = "Histogram"),
-        @JsonSubTypes.Type(value = PieGraph.class, name = "PieChart"),
-        @JsonSubTypes.Type(value = Table.class, name = "Table"),
-})
 
 public abstract class Visualization {
 
@@ -85,17 +76,15 @@ public abstract class Visualization {
      * Method to get the visualization type
      * @return
      */
-    public VisualizationType getGraphType(){
-        return this.visualizationType;
+    public VisualizationType getVisualizationType() {
+        return visualizationType;
     }
 
     /**
      * Method to set the visualization type
      * @param visualizationType
      */
-    public void setGraphType(VisualizationType visualizationType){
+    public void setVisualizationType(VisualizationType visualizationType) {
         this.visualizationType = visualizationType;
     }
-
-
 }

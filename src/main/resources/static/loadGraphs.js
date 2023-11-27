@@ -20,26 +20,26 @@ $(document).ready(function() {
         console.log(form)
         const questionsContainer = $("#graphsContainer")
 
-        $.each(form.graphs, function(index, graph) {
+        $.each(form.visualizations, function(index, graph) {
 
             const visual_div = $("<div>").attr({id: "chart-" + (graph.fieldName).replace(" ", "-")})
             questionsContainer.append(visual_div)
             visual_div.append("<h3> Question " + (index + 1) + ": " + graph.fieldName + "</h3>")
             var chart_id = "chart" + (index + 1)
 
-            if (graph.graphType === "HISTOGRAMGRAPH") {
+            if (graph.visualizationType === "HISTOGRAMGRAPH") {
                 //drawBarGraph(form.graph[field.id])
                 var canvas = $('<canvas id=' + chart_id +' width="1000" height="600"></canvas>');
                 var ctx = canvas[0].getContext('2d');
                 visual_div.append(canvas);
                 drawBarGraph(ctx, graph)
             }
-            else if (graph.graphType === "PIEGRAPH"){
+            else if (graph.visualizationType === "PIEGRAPH"){
                 var canvas = $('<canvas id=' + chart_id +' width="1000" height="600"></canvas>');
                 var ctx = canvas[0].getContext('2d');
                 visual_div.append(canvas);
                 drawPieGraph(ctx, graph);
-            } else if (graph.graphType === "TEXT") {
+            } else if (graph.visualizationType === "TEXT") {
                 displayTextResponses(visual_div, graph)
             }
         })

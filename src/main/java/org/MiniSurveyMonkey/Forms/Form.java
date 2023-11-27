@@ -179,7 +179,7 @@ public class Form {
      * Method to get the list of visualizations
      * @return
      */
-    public ArrayList<Visualization> getGraphs() {
+    public ArrayList<Visualization> getVisualizations() {
         return visualizations;
     }
 
@@ -195,7 +195,7 @@ public class Form {
      * Method to set the list of visualizations
      * @param visualizations
      */
-    public void setGraphs(ArrayList<Visualization> visualizations) {
+    public void setVisualizations(ArrayList<Visualization> visualizations) {
         this.visualizations = visualizations;
     }
 
