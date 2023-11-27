@@ -16,26 +16,44 @@ $(document).ready(function() {
     });
 
     function injectGraphs(form) {
+        console.log("In inject graphs")
+        console.log(form)
         const questionsContainer = $("#graphsContainer")
-
+        console.log(form.graphs)
         $.each(form.graphs, function(index, graph) {
 
-            var graph_div = $("<div>").attr({id: "chart-" + (graph.question).replace(" ", "-")})
+            const visual_div = $("<div>").attr({id: "chart-" + (graph.fieldName).replace(" ", "-")})
+            questionsContainer.append(visual_div)
+            visual_div.append("<h3> Question " + (index + 1) + ": " + graph.fieldName + "</h3>")
             var chart_id = "chart" + (index + 1)
-            var canvas = $('<canvas id=' + chart_id +' width="1000" height="600"></canvas>');
-            questionsContainer.append(graph_div)
-            graph_div.append("<h3> Question " + (index + 1) + ": " + graph.question + "</h3>")
-            graph_div.append(canvas);
 
-            var ctx = canvas[0].getContext('2d');
-            if (graph.graphType == "HISTOGRAMGRAPH") {
+            //var ctx = canvas[0].getContext('2d');
+            if (graph.graphType === "HISTOGRAMGRAPH") {
                 //drawBarGraph(form.graph[field.id])
-                drawBarGraph(ctx, graph)
+                var canvas = $('<canvas id=' + chart_id +' width="1000" height="600"></canvas>');
+                visual_div.append(canvas);
+                drawBarGraph(ctx, visualization)
             }
-            if (graph.graphType == "PIEGRAPH"){
+            else if (graph.graphType === "PIEGRAPH"){
+                var canvas = $('<canvas id=' + chart_id +' width="1000" height="600"></canvas>');
+                visual_div.append(canvas);
                 drawPieGraph(ctx, graph);
+            } else if (graph.graphType === "TEXT") {
+                console.log("In text condition")
+                console.log(graph.textResponses)
+                displayTextResponses(visual_div, graph)
             }
         })
+    }
+
+    function displayTextResponses(visual_div, graph) {
+        console.log("in display text responses")
+        var textList = $("<ul>");
+        graph.textResponses.forEach(function(response) {
+            var listItem = $("<li>").text(response);
+            textList.append(listItem);
+        });
+        visual_div.append(textList);
     }
 
     function drawBarGraph(ctx) {
