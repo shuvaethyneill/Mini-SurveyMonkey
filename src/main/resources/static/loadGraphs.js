@@ -39,8 +39,6 @@ $(document).ready(function() {
                 visual_div.append(canvas);
                 drawPieGraph(ctx, graph);
             } else if (graph.graphType === "TEXT") {
-                console.log("In text condition")
-                console.log(graph.textResponses)
                 displayTextResponses(visual_div, graph)
             }
         })
@@ -48,12 +46,36 @@ $(document).ready(function() {
 
     function displayTextResponses(visual_div, graph) {
         console.log("in display text responses")
+        var table = $("<table>").css({
+            'border-collapse': 'collapse',
+            'width': '100%',
+            'border': '1px solid #ddd',
+            'margin-top': '10px',
+            'max-height': '200px',
+            'overflow-y': 'auto' // vertical scrolling
+        });
+
+        graph.textResponses.forEach(function(response) {
+            var row = $("<tr>").css('border-bottom', '1px solid #ddd'); // Add border-bottom for each row
+            var cell = $("<td>").css({
+                'border': '1px solid #ddd',
+                'padding': '8px',
+                'text-align': 'left'
+            }).text(response);
+            row.append(cell);
+            table.append(row);
+        });
+
+        visual_div.append(table);
+        /*
         var textList = $("<ul>");
         graph.textResponses.forEach(function(response) {
             var listItem = $("<li>").text(response);
             textList.append(listItem);
         });
         visual_div.append(textList);
+
+         */
     }
 
     function drawBarGraph(ctx) {
