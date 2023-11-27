@@ -5,7 +5,7 @@ $(document).ready(function() {
 
             const responseObj = {
                 formId: $(document).find("#formId_span").data("backend-id"),
-                responses: {}
+                fieldAnswers: {}
             };
 
             $('.question').each(function () {
@@ -21,10 +21,10 @@ $(document).ready(function() {
                     response = $(this).find('input[type="number"]').val();
                 }
 
-                if (responseObj.responses.hasOwnProperty(backendId)) {
-                    responseObj.responses[backendId].push(response);
+                if (responseObj.fieldAnswers.hasOwnProperty(backendId)) {
+                    responseObj.fieldAnswers[backendId].push(response);
                 } else {
-                    responseObj.responses[backendId] = response;
+                    responseObj.fieldAnswers[backendId] = response;
                 }
             });
              console.log(JSON.stringify(responseObj))
