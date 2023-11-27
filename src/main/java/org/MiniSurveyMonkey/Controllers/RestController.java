@@ -79,7 +79,7 @@ public class RestController {
     }
 
     @PostMapping("/submitResponse")
-    public String submitResponse(@RequestBody Response response) {
+    public Response submitResponse(@RequestBody Response response) {
 
         //get the form associated with these responses
         Form f = formRepo.findById(response.getFormId()).orElseThrow(() ->
@@ -91,7 +91,7 @@ public class RestController {
 
         formRepo.save(f);
 
-        return response.getId();
+        return response;
     }
 
     @GetMapping("/getFieldRest")

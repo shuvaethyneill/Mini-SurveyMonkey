@@ -20,11 +20,11 @@ $(document).ready(function() {
 
         $.each(form.graphs, function(index, graph) {
 
-            var graph_div = $("<div>").attr({id: "chart-" + (graph.question).replace(" ", "-")})
+            var graph_div = $("<div>").attr({id: "chart-" + (graph.fieldName).replace(" ", "-")})
             var chart_id = "chart" + (index + 1)
             var canvas = $('<canvas id=' + chart_id +' width="1000" height="600"></canvas>');
             questionsContainer.append(graph_div)
-            graph_div.append("<h3> Question " + (index + 1) + ": " + graph.question + "</h3>")
+            graph_div.append("<h3> Question " + (index + 1) + ": " + graph.fieldName + "</h3>")
             graph_div.append(canvas);
 
             var ctx = canvas[0].getContext('2d');
@@ -38,20 +38,14 @@ $(document).ready(function() {
         })
     }
 
-    function drawBarGraph(ctx) {
-        console.log("in bar")
-        const graph = {
-            question: "test",
-            x_labels: ["val_10", "val_20", "val_30"],
-            y_data: ["5", "8", "1"]
-        }
+    function drawBarGraph(ctx, graph) {
         var myChart = new Chart(ctx, {
             type: 'bar', // or 'line', 'pie', etc.
             data: {
-                labels: graph.x_labels,
+                labels: graph.xLabels,
                 datasets: [{
                     label: 'Answers',
-                    data: graph.y_data,
+                    data: graph.yData,
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
@@ -86,7 +80,7 @@ $(document).ready(function() {
                 plugins: {
                     title: {
                         display: true,
-                        text: graph.question,
+                        text: graph.fieldName,
                         fontSize: 16
                     }
                 }

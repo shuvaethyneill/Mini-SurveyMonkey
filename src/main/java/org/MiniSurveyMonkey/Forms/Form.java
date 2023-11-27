@@ -37,6 +37,7 @@ public class Form {
         fields = new ArrayList<>();
         responses = new ArrayList<>();
         closed = false;
+        this.visualizations = new ArrayList<>();
     }
 
     public void addField(Field field){
