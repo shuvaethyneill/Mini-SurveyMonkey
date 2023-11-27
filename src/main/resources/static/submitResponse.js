@@ -29,20 +29,20 @@ $(document).ready(function() {
         });
         console.log(JSON.stringify(responseObj))
 
-            //handle ajax call
-            $.ajax({
-                type: 'POST',
-                url: '/submitResponse',
-                contentType: 'application/json',
-                data: JSON.stringify(responseObj),
-                success: function (response) {
-                    console.log("Form submitted successfully. Response:", response);
-                    window.location.replace("/submission-complete");
-                },
-                error: function (error) {
-                    console.error("Error submitting form:", error);
-                }
-            });
+        //handle ajax call
+        $.ajax({
+            type: 'POST',
+            url: '/submitResponse',
+            contentType: 'application/json',
+            data: JSON.stringify(responseObj),
+            success: function (response) {
+                console.log("Form submitted successfully. Response:", response);
+                window.location.replace("/submission-complete");
+            },
+            error: function (error) {
+                console.error("Error submitting form:", error);
+            }
+        });
 
-        })
+    })
 });

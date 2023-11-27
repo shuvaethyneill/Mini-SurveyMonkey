@@ -19,7 +19,7 @@ $(document).ready(function() {
         console.log("In inject graphs")
         console.log(form)
         const questionsContainer = $("#graphsContainer")
-        console.log(form.graphs)
+
         $.each(form.graphs, function(index, graph) {
 
             const visual_div = $("<div>").attr({id: "chart-" + (graph.fieldName).replace(" ", "-")})
@@ -136,16 +136,16 @@ $(document).ready(function() {
         myChart.update();
     }
 
-    function drawPieGraph(ctx, graph) {
+    function drawPieGraph(ctx,graph) {
         console.log("in pie")
 
         var myChart = new Chart(ctx, {
             type: 'pie', // or 'line', 'pie', etc.
             data: {
-                labels: graph.x_labels,
+                labels: graph.xLabels,
                 datasets: [{
                     label: 'Answers',
-                    data: graph.y_data,
+                    data: graph.yDataInt,
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
@@ -158,35 +158,9 @@ $(document).ready(function() {
                     ],
                     borderWidth: 1
                 }]
-            },
-            options: {
-                maintainAspectRatio: false, // Disable aspect ratio
-                responsive: false, // Make the chart responsive
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        scaleLabel: {
-                            display: true,
-                            labelString: "# of Responses"
-                        }
-                    },
-                    x: {
-                        scaleLabel: {
-                            display: true,
-                            labelString: "Values"
-                        }
-                    }
-                },
-                plugins: {
-                    title: {
-                        display: true,
-                        text: graph.question,
-                        fontSize: 16
-                    }
-                }
             }
         });
-        console.log("end bar")
+        console.log("end pie")
         myChart.update();
     }
 })

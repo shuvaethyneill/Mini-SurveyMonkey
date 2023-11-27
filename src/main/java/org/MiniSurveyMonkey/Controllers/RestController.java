@@ -157,12 +157,15 @@ public class RestController {
         // all answers per field
         HashMap<String, ArrayList<String>> answersByField = new HashMap<>();
 
+
         for (Response r : f.getResponses()) {
+
             for (Map.Entry<String, String> entry : r.getFieldAnswers().entrySet()) {
                 //append answer
                 answersByField.computeIfAbsent(entry.getKey(), k -> new ArrayList<String>());
                 answersByField.get(entry.getKey()).add(entry.getValue());
             }
+
         }
 
         for (Field field : f.getFields()) {
