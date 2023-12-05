@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Form Page</title>
+  <!-- Include jQuery library -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script type="module" src="../EditForm.js"></script>
+  <script type="module" src="/Form.js"></script>
+</head>
+<body>
+<h1>Form: <span id="formId_span" th:data-backend-id="${formId}" th:text="${formTitle}"></span></h1>
+
+<!-- AJAX call to retrieve form information -->
+<p id="author">Author: <span th:text="${formAuthor}"></span></p>
+<form id="myForm">
+  <div id="surveyForm">
+    <div id="inputContainer"></div>
+  </div>
+
+  <br>
+  <button id="addQuestion">Add Question</button>
+  <p><input type="submit" value="Submit" /></p>
+</form>
+
+
+
+
+
+
+
+
+</body>
+</html>
