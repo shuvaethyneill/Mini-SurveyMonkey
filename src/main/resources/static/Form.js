@@ -2,6 +2,9 @@
  * File handles all SPA actions by the Form
  */
 
+import { createQuestionDiv, updateQuestionNumbers, updateDeleteQuestionButton } from './questionUpdates.js';
+import { createNumericalField, createTextField, createMCOption, updateRemoveChoiceButtons } from './createField.js';
+
 const upperStr = "_upper";
 const lowerStr = "_lower";
 let questionCount = 1; // first question added by default
@@ -83,6 +86,7 @@ $(document).ready(function () {
     });
 })
 
+export { upperStr, lowerStr, questionCount };
 /**
  * Function to create a specific question div and its initial contents
  * @returns {*|jQuery}
