@@ -95,9 +95,15 @@ public class HtmlController {
         return "homePage";
     }
 
+    /**
+     * Get Mapping to see the delete form confirmation page
+     * @param model - the model
+     * @param session - the current session
+     * @return - HTML deleteFormConfirmation page
+     */
     @GetMapping("/deleteFormConfirmation")
-    public String showDeleteFormConfirmation(Model m, HttpSession session) {
-        m.addAttribute("user", session.getAttribute("user"));
+    public String showDeleteFormConfirmation(Model model, HttpSession session) {
+        model.addAttribute("user", session.getAttribute("user"));
         return "deleteFormConfirmation";
     }
 }

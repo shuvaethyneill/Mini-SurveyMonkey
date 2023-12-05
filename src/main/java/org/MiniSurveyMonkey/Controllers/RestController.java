@@ -246,6 +246,12 @@ public class RestController {
         return temp;
     }
 
+    /**
+     * DELETE Mapping to delete a form
+     * @param id - id of the form
+     * @param m - model
+     * @return - string success message
+     */
     @DeleteMapping("/deleteForm/{id}")
     public String deleteForm(@PathVariable String id, Model m) {
         Form f = formRepo.findById(id).orElseThrow(() ->
