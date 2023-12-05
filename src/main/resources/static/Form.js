@@ -84,13 +84,4 @@ $(document).ready(function () {
     });
 })
 
-function getActiveUser(){
-    $.ajax({
-        type: 'GET',
-        url: '/getUser',
-        contentType: 'application/json',
-        success: function (response) {}
-    })
-}
-
 export { upperStr, lowerStr, questionCount };
