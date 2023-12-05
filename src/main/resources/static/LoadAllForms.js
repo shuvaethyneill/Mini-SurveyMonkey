@@ -10,30 +10,39 @@ $(document).ready(function(){
         }
     }
 
-
+    /*
+    debounce technique to prevent multiple rapid executions of your event handler
+    Debouncing involves introducing a delay before the actual execution of the function.
+    If another event occurs within this delay, the timer resets.
+     */
+    let timeout;
     $('#search').keyup(function (){
-        $("#result").html('');
-        let searchField = $('#search').val();
-        let expression = new RegExp(searchField, "i");
-        $.getJSON('/getFormsRest', function(form){
-            $.each(form,function (key,value){
-                const searchBool = value.id.search(expression) !== -1 || value.formName.search(expression) !== -1;
-                if(searchBool && expression.source !== '(?:)'){
-                    const redirectUrl = `/form/${value.id}`;
-                    const link = document.createElement("a");
-                    createFormLink(value, link)
-                    link.href = redirectUrl;
-
-                    $('#result').append(link);
-                }
+        clearTimeout(timeout);
+        const timeoutDelay = 300;
+        timeout = setTimeout(function() {
+            $("#result").html('');
+            let searchField = $('#search').val();
+            let expression = new RegExp(searchField, "i");
+            $.getJSON('/getFormsRest', function (form) {
+                $.each(form, function (key, value) {
+                    const searchBool = value.id.search(expression) !== -1 || value.formName.search(expression) !== -1;
+                    if (searchBool && expression.source !== '(?:)') {
+                        const redirectUrl = `/form/${value.id}`;
+                        const link = document.createElement("a");
+                        createFormLink(value, link)
+                        link.href = redirectUrl;
+                        $('#result').append(link);
+                    }
+                });
             });
-        });
+        },timeoutDelay);
+
     });
     $.ajax({
         type:'GET',
         url:'/getFormsRest',
         success: function(forms) {
-            console.log(forms)
+
             // Handle the form information
             injectFields(forms)
 
