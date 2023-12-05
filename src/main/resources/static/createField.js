@@ -144,17 +144,6 @@ function updateRemoveChoiceButtons(questionNumber) {
             removeButton.prop('disabled', numOptions <= 2 && index < 2);
         });
     });
-    /*
-    const questionID = `#question${questionNumber}`;
-    const mcOptions = $(`${questionID} .mcOption`);
-    const numOptions = mcOptions.length;
-
-    mcOptions.each(function (index) {
-        const removeButton = $(this).find('button');
-        removeButton.prop('disabled', numOptions <= 2 && index < 2);
-    });
-
-     */
 }
 
 export {
