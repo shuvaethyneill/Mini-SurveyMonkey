@@ -49,16 +49,18 @@ $(document).ready(function () {
             fieldContainer.append(createTextField(questionNumber))
         } else if (selectedOption === 'multipleChoice') {
             // initial two multiple choice options
-            fieldContainer.append(createMCOption(questionNumber, 1), createMCOption(questionNumber, 2));
+            const choiceContainer = $('<div>');
+            choiceContainer.append(createMCOption(questionNumber, 1), createMCOption(questionNumber, 2));
 
             // to add more choices
-            const addChoiceBtn = $('<button>').text('Add Choice').click(function (event) {
+            const addChoiceBtn = $('<button>').text('+').click(function (event) {
                 event.preventDefault();
                 const optionCount = fieldContainer.find('.mcOption').length + 1;
-                fieldContainer.append(createMCOption(questionNumber, optionCount));
+                choiceContainer.append(createMCOption(questionNumber, optionCount));
                 updateRemoveChoiceButtons(); // update remove buttons after addition
-            });
-            inputContainer.append('<br>', addChoiceBtn);
+            }).addClass("mcAddChoiceButton");
+            fieldContainer.append(choiceContainer)
+            fieldContainer.append(addChoiceBtn);
         }
 
         inputContainer.append('<br>', fieldContainer);
@@ -89,23 +91,25 @@ function createQuestionDiv() {
     // each question has a div
     const questionDiv = $('<div>').addClass('question').attr('id', `question${questionCount}`);
 
-    const questionLabel = $('<label>').attr('for', `questionTitle${questionCount}`).text(`Question ${questionCount} `);
+    const questionHeaderDiv = $('<div>').addClass('questionHeader').attr('id', `question${questionCount}`);
+    const questionLabel = $('<label>').attr('for', `questionTitle${questionCount}`).text(`Question ${questionCount}`).addClass("questionTitle");
     const questionInput = $('<input>').attr({
         type: 'text',
         id: `questionTitle${questionCount}`,
         name: `questionTitle${questionCount}`,
         placeholder: 'Enter Survey Question',
         required: 'true'
-    });
+    }).addClass("questionTitleInput");
+
 
     // add a delete button
-    const deleteQuestionButton = $('<button>').attr('name', 'deleteQuestion').text('X').css('margin-left', '5px');
+    const deleteQuestionButton = $('<button>').addClass('deleteButton').attr('name', 'deleteQuestion').text('X');
 
     const fieldTypeElements = createFieldTypeElement();
     const inputContainer = $('<div>').addClass('inputContainer');
 
-    questionDiv.append(questionLabel,questionInput, deleteQuestionButton, '<br><br>', fieldTypeElements.label, fieldTypeElements.dropdown,inputContainer);
-
+    questionHeaderDiv.append(questionLabel,questionInput, deleteQuestionButton, fieldTypeElements.dropdown);
+    questionDiv.append(questionHeaderDiv,inputContainer)
     return questionDiv;
 }
 
@@ -170,23 +174,18 @@ function updateQuestionNumbers() {
  * @returns {{label: (*|jQuery), dropdown: (*|jQuery)}}
  */
 function createFieldTypeElement() {
-    const fieldTypeLabel = $('<label>')
-        .attr('for', `fieldType${questionCount}`)
-        .text('Choose Field Type: ');
 
     const fieldTypeDropdown = $('<select>').attr({
         id: `fieldType${questionCount}`,
         name: `fieldType${questionCount}`,
-        required: 'required'
-    }).html(`
+    }).addClass("selectFieldType").html(`
         <option value="text">Select a Field Type</option>
         <option value="text">Text Field</option>
         <option value="number">Number Field</option>
         <option value="multipleChoice">Multiple Choice</option>
-    `);
+    `).prop('required', true);;
 
     return {
-        label: fieldTypeLabel,
         dropdown: fieldTypeDropdown
     };
 }
@@ -199,7 +198,7 @@ function createFieldTypeElement() {
  * @returns {*|jQuery|HTMLElement}
  */
 function createNumericalField(fieldContainer, questionNumber, type) {
-    const divForField = $('<div>')
+    const divForField = $('<div>').addClass("numericField")
 
     const label = (type == upperStr ? 'Upper bound ' : 'Lower bound ')
     divForField.append($('<label>').text(label))
@@ -248,7 +247,7 @@ function createMCOption(questionNumber, optionCount) {
         name: `mcOption${questionNumber}Radio`,
         id: `mcOption${questionNumber}Radio${optionCount}`,
         disabled: true
-    });
+    }).addClass("mcChoiceRadio");
 
     const optionInput = $('<input>').attr({
         type: 'text',
@@ -256,9 +255,9 @@ function createMCOption(questionNumber, optionCount) {
         id: `mcOption${questionNumber}Text${optionCount}`,
         placeholder: 'Enter Choice',
         required: 'true'
-    });
+    }).addClass("mcChoiceInput");
 
-    const removeButton = $('<button>').text('Remove').prop('disabled', true).click(function () {
+    const removeButton = $('<button>').addClass("removeChoice").text('X').prop('disabled', true).click(function () {
         $(this).closest('.mcOption').remove();
         updateRemoveChoiceButtons(); // update remove buttons after removal
     });

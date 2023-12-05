@@ -6,14 +6,21 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="Login.js"></script>
+    <link rel="stylesheet" type="text/css" href="../styles/login.css">
+    <link rel="stylesheet" type="text/css" href="../styles/base.css">
 </head>
 <body>
-    <form id="LoginForm">
-        <h1>Mini-Survey Monkey</h1>
-        <h2>Please Enter Your UserName</h2>
-        <label for="username">Username :</label>
-        <input type="text" id="username" name="username" required>
-        <button type="submit" value="Submit">Login</button>
+    <div class="centered fade">
+    <h1>Mini-SurveyMonkey</h1>
+    <form class="fade2" id="LoginForm">
+        <div class="user-input">
+            <h4>Please Enter Your Username</h4>
+            <div class="input-container">
+                <input class="username" type="text" id="username" name="username"  placeholder="username" required>
+                <button class="login-button" type="submit" value="Submit">Login</button>
+            </div>
+        </div>
     </form>
+    </div>
 </body>
 </html>
