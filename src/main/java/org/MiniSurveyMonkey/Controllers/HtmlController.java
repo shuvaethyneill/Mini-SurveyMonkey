@@ -94,4 +94,10 @@ public class HtmlController {
         session.setAttribute("user", user);
         return "homePage";
     }
+
+    @GetMapping("/deleteFormConfirmation")
+    public String showDeleteFormConfirmation(Model m, HttpSession session) {
+        m.addAttribute("user", session.getAttribute("user"));
+        return "deleteFormConfirmation";
+    }
 }

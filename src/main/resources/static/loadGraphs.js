@@ -4,6 +4,16 @@ $(document).ready(function() {
         type: 'GET',
         url: '/getForm/' + formId,
         success: function(data) {
+            getActiveUser()
+                .then(function(user) {
+                    if (data.author !== user){
+                        $('#deleteFormButton').remove()
+                    }
+                })
+                .catch(function(error) {
+                    console.error('Error:', error);
+                });
+
             // Handle the form information
             console.log('Form Information:', data);
             injectGraphs(data)
@@ -13,6 +23,12 @@ $(document).ready(function() {
             // Handle errors
             console.error('Error retrieving form information:', error);
         }
+    });
+
+    // Delete form button functionality
+    $(document).on('click', '#deleteFormButton', function () {
+        console.log("delete button clicked")
+        deleteForm(formId);
     });
 
     function injectGraphs(form) {
@@ -159,6 +175,5 @@ $(document).ready(function() {
             colors.push(color);
         }
         return colors;
-
     }
 })

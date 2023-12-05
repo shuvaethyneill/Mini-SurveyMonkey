@@ -353,14 +353,7 @@ function getFieldType(questionDiv) {
     }
     return '';
 }
-function getActiveUser(){
-    $.ajax({
-        type: 'GET',
-        url: '/getUser',
-        contentType: 'application/json',
-        success: function (response) {}
-    })
-}
+
 $(document).ready(function () {
     $('#myForm').submit(function (event) {
         event.preventDefault();
