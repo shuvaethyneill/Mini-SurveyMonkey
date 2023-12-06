@@ -245,4 +245,24 @@ public class RestController {
 
         return temp;
     }
+
+    /**
+     * DELETE Mapping to delete a form
+     * @param id - id of the form
+     * @param m - model
+     * @return - string success message
+     */
+    @DeleteMapping("/deleteForm/{id}")
+    public String deleteForm(@PathVariable String id, Model m) {
+        Form f = formRepo.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Could not find Form with that id"));
+
+        // delete the associated responses, fields and the form
+        responseRepo.deleteAll(f.getResponses());
+        fieldRepo.deleteAll(f.getFields());
+        formRepo.deleteById(id);
+
+        // Return a success message
+        return "Form deleted successfully";
+    }
 }

@@ -15,6 +15,7 @@ $(document).ready(function() {
 
                     if (data.author !== user){
                         $('#closeButton').remove()
+                        $('#deleteFormButton').remove()
                         $('#editButton').remove()
                     }
                 })
@@ -24,7 +25,6 @@ $(document).ready(function() {
 
             if (!data.closed){
                 injectFields(data)
-
             }
             else{
                 $('#closeButton').remove()
@@ -37,6 +37,12 @@ $(document).ready(function() {
             // Handle errors
             console.error('Error retrieving form information:', error);
         }
+    });
+
+    // Delete form button functionality
+    $(document).on('click', '#deleteFormButton', function () {
+        console.log("delete button clicked")
+        deleteForm(formId);
     });
 
     function injectFields(form) {
@@ -64,24 +70,6 @@ $(document).ready(function() {
             }
             questionsContainer.append(fieldContainer,'<br>')
         })
-    }
-    function getActiveUser(){
-        return new Promise(function(resolve, reject) {
-            $.ajax({
-                type: 'GET',
-                url: '/getUser',
-                success: function(data) {
-                    // Resolve the Promise with the data
-                    resolve(data);
-                },
-                error: function(error) {
-                    // Handle errors
-                    console.error('Error retrieving form information:', error);
-                    // Reject the Promise with the error
-                    reject(error);
-                }
-            });
-        });
     }
 
     function buildTextField(fieldInfo) {
@@ -149,3 +137,36 @@ $(document).ready(function() {
         }
     }
 });
+
+function getActiveUser(){
+    return new Promise(function(resolve, reject) {
+        $.ajax({
+            type: 'GET',
+            url: '/getUser',
+            success: function(data) {
+                // Resolve the Promise with the data
+                resolve(data);
+            },
+            error: function(error) {
+                // Handle errors
+                console.error('Error retrieving form information:', error);
+                // Reject the Promise with the error
+                reject(error);
+            }
+        });
+    });
+}
+
+function deleteForm(id) {
+    $.ajax({
+        type: 'DELETE',
+        url: '/deleteForm/' + id,
+        success: function (data) {
+            // redirect to the delete form confirmation page
+            window.location.replace("/deleteFormConfirmation");
+        },
+        error: function (error) {
+            console.error('Error deleting form:', error);
+        }
+    });
+}

@@ -96,6 +96,17 @@ public class HtmlController {
     }
 
     /**
+     * Get Mapping to see the delete form confirmation page
+     * @param model - the model
+     * @param session - the current session
+     * @return - HTML deleteFormConfirmation page
+     */
+    @GetMapping("/deleteFormConfirmation")
+    public String showDeleteFormConfirmation(Model model, HttpSession session) {
+        model.addAttribute("user", session.getAttribute("user"));
+        return "deleteFormConfirmation";
+    }
+  
      * Method to fetch the form
      * @param m
      * @para formId - to fetch the id of the form
