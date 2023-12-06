@@ -42,7 +42,8 @@ function renderEditForm(data) {
                 // Assuming createMCOption function exists and works similarly
                 field.options.forEach(function(option, optionIndex) {
                     const mcOption = createMCOption(questionNumber, optionIndex + 1);
-                    mcOption.find(`#mcQ${questionNumber}Text${optionIndex + 1}`).val(option);
+                    console.log(option)
+                    mcOption.find(`#mcOption${questionNumber}Text${optionIndex + 1}`).val(option);
                     inputContainer.append(mcOption);
                 });
                 break;
@@ -96,7 +97,8 @@ $(document).ready(function() {
         if(confirmed) {
 
             const formObject = {
-                formId:formData.id,
+                formName: formData.formName,
+                author: formData.author,
                 fields: []
             };
 
@@ -116,7 +118,7 @@ $(document).ready(function() {
                 if (fieldObject['@type'] === 'MultipleChoiceField') {
                     fieldObject.options = [];
 
-                    $(`.mcOption input[name=mcQ${questionNumber}Text]`).each(function () {
+                    $(`.mcOption input[name=mcOption${questionNumber}Text]`).each(function () {
                         fieldObject.options.push($(this).val());
                     });
                 }
@@ -126,6 +128,36 @@ $(document).ready(function() {
 
             // Handle ajax call
             console.log(formObject);
+            $.ajax({
+                type: 'POST',
+                url: '/submitForm',
+                contentType: 'application/json',
+                data: JSON.stringify(formObject),
+                success: function (response) {
+                    console.log("Form submitted successfully. Response:", response);
+                    //delete the old form
+                    $.ajax({
+                        type: 'DELETE',
+                        url: `/deleteForm/${formData.id}`,
+                        success: function (response) {
+                            console.log("Form deleted successfully:", response);
+                            // Handle success response here, if needed
+                        },
+                        error: function (error) {
+                            console.error("Error deleting form:", error);
+                            // Handle error response here, if needed
+                        }
+                    });
+
+                    const formId = JSON.parse(response).FormId;
+                    const redirectUrl = `/form/${formId}`;
+                    const link = `<a href="${redirectUrl}">Click here to view the form</a>`;
+                    $('#submitMessage').html(`<p>Form ID: ${formId} - Form successfully created</p>${link}`);
+                },
+                error: function (error) {
+                    console.error("Error submitting form:", error);
+                }
+            });
 
 
 
