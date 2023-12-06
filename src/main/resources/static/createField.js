@@ -31,7 +31,7 @@ function createFieldTypeElement() {
 function createNumericalField(fieldContainer, questionNumber, type) {
     const divForField = $('<div>').addClass("numericField")
 
-    const label = (type == upperStr ? 'Upper bound ' : 'Lower bound ')
+    const label = (type === upperStr ? 'Upper bound ' : 'Lower bound ')
     divForField.append($('<label>').text(label))
     divForField.append(
         $('<input>').attr({
@@ -125,53 +125,18 @@ function checkNumericalValidity(fieldContainer, questionNumber) {
         const lowerValue = parseInt(lower.val(), 10);
         const upperValue = parseInt(upper.val(), 10);
 
-        if (!isNaN(lowerValue) && !isNaN(upperValue) && lowerValue > upperValue) {
-            upper.css("outline", "auto");
-            lower.css("outline", "auto");
-            upper.css("outline-color", "red");
-            lower.css("outline-color", "red");
-            upper.focus(function () {
-                upper.css("outline-color", "red");
-            });
-            lower.focus(function () {
-                lower.css("outline-color", "red");
-            });
-        } else {
-            upper.css({
-                'outline': ''
-            });
-            lower.css({
-                'outline': ''
-            });
-            upper.focus(function () {
-                upper.css({
-                    'outline': ''
-                });
-            });
-            lower.focus(function () {
-                lower.css({
-                    'outline': ''
-                });
-            });
-        }
-    };
-}
+        const isInvalid = !isNaN(lowerValue) && !isNaN(upperValue) && lowerValue > upperValue;
 
-/**
- * Function to handle form fields submission
- * @param questionDiv
- * @returns {string}
- */
-function getFieldType(questionDiv) {
-    const selectedOption = questionDiv.find(`#fieldType${questionDiv.attr('id').match(/\d+/)[0]}`).val();
-    if (selectedOption === 'number') {
-        return 'NumberField';
-    } else if (selectedOption === 'multipleChoice') {
-        return 'MultipleChoiceField';
-    } else if (selectedOption === 'text') {
-        return 'TextField';
-    }
-    return '';
+        // iterate over lower and upper input to apply styling
+        [lower, upper].forEach(input => {
+            const color = isInvalid ? 'red' : '';
+            input.css({ outline: isInvalid ? 'auto' : '', 'outline-color': color });
+
+            input.focus(function () {
+                input.css({ 'outline-color': color });
+            });
+        });
+    };
 }
 
 export {
