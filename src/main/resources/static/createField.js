@@ -4,12 +4,13 @@ import { upperStr, lowerStr, questionCount } from './Form.js';
  * Function to create field dropdown
  * @returns {{label: (*|jQuery), dropdown: (*|jQuery)}}
  */
-function createFieldTypeElement() {
+function createFieldTypeElement(question) {
+var questionNumber = (question === undefined) ? questionsCount : question
 
     const fieldTypeDropdown = $('<select>').attr({
         id: `fieldType${questionNumber}`,
         name: `fieldType${questionNumber}`,
-    })..addClass("selectFieldType").html(`
+    }).addClass("selectFieldType").html(`
         <option value="text">Select a Field Type</option>
         <option value="textField">Text Field</option>
         <option value="number">Number Field</option>
