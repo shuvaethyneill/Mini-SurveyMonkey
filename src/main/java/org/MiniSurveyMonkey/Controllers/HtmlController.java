@@ -106,7 +106,8 @@ public class HtmlController {
         model.addAttribute("user", session.getAttribute("user"));
         return "deleteFormConfirmation";
     }
-  
+
+    /**
      * Method to fetch the form
      * @param m
      * @para formId - to fetch the id of the form
@@ -121,5 +122,20 @@ public class HtmlController {
         m.addAttribute("formTitle", form.getFormName());
         m.addAttribute("formAuthor", form.getAuthor());
         return "editForm";
+    }
+
+    /**
+     * Method for getting the submission confirmation
+     * @param formId - Id of the form
+     * @param m - the model
+     * @return the submission confirmation page
+     */
+    @GetMapping("/submitFormConfirmation/{formId}")
+    public String submitConfirmation(@PathVariable(value = "formId") String formId, Model m){
+        m.addAttribute("formId", formId);
+        Form form = formRepo.findById(formId).orElseThrow(() ->
+                new ResourceNotFoundException("Could not find Form with that id"));
+        m.addAttribute("formAuthor", form.getAuthor());
+        return "submissionConfirmation";
     }
 }
