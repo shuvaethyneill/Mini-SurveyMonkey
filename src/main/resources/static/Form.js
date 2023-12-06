@@ -52,16 +52,18 @@ $(document).ready(function () {
             fieldContainer.append(createTextField(questionNumber))
         } else if (selectedOption === 'multipleChoice') {
             // initial two multiple choice options
-            fieldContainer.append(createMCOption(questionNumber, 1), createMCOption(questionNumber, 2));
+            const choiceContainer = $('<div>');
+            choiceContainer.append(createMCOption(questionNumber, 1), createMCOption(questionNumber, 2));
 
             // to add more choices
-            const addChoiceBtn = $('<button>').text('Add Choice').click(function (event) {
+            const addChoiceBtn = $('<button>').text('+').click(function (event) {
                 event.preventDefault();
                 const optionCount = fieldContainer.find('.mcOption').length + 1;
-                fieldContainer.append(createMCOption(questionNumber, optionCount));
+                choiceContainer.append(createMCOption(questionNumber, optionCount));
                 updateRemoveChoiceButtons(); // update remove buttons after addition
-            });
-            inputContainer.append('<br>', addChoiceBtn);
+            }).addClass("mcAddChoiceButton");
+            fieldContainer.append(choiceContainer)
+            fieldContainer.append(addChoiceBtn);
         }
 
         inputContainer.append('<br>', fieldContainer);
