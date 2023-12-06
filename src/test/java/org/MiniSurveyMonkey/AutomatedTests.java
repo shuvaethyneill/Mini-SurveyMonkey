@@ -186,6 +186,7 @@ public class AutomatedTests {
 
         assertEquals(fieldMC1.getOptions(), fieldMCEdited.getOptions());
         this.mockMvc.perform(delete("/deleteForm/" + testForm.getId())).andExpect(status().isOk());
+        assert(!(formRepo.existsById(testForm.getId())));
     }
 
 
