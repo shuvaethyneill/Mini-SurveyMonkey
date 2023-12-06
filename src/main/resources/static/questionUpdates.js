@@ -5,16 +5,17 @@ import { createFieldTypeElement } from './createField.js';
  * Function to create a specific question div and its initial contents
  * @returns {*|jQuery}
  */
-function createQuestionDiv() {
+function createQuestionDiv(question) {
+    var questionNumber = (question === undefined) ? questionCount : question;
     // each question has a div
-    const questionDiv = $('<div>').addClass('question').attr('id', `question${questionCount}`);
+    const questionDiv = $('<div>').addClass('question').attr('id', `question${questionNumber}`);
 
-    const questionHeaderDiv = $('<div>').addClass('questionHeader').attr('id', `question${questionCount}`);
-    const questionLabel = $('<label>').attr('for', `questionTitle${questionCount}`).text(`Question ${questionCount}`).addClass("questionTitle");
+    const questionHeaderDiv = $('<div>').addClass('questionHeader').attr('id', `question${questionNumber}`);
+    const questionLabel = $('<label>').attr('for', `questionTitle${questionNumber}`).text(`Question ${questionNumber}`).addClass("questionTitle");
     const questionInput = $('<input>').attr({
         type: 'text',
-        id: `questionTitle${questionCount}`,
-        name: `questionTitle${questionCount}`,
+        id: `questionTitle${questionNumber}`,
+        name: `questionTitle${questionNumber}`,
         placeholder: 'Enter Survey Question',
         required: 'true'
     }).addClass("questionTitleInput");
@@ -23,7 +24,7 @@ function createQuestionDiv() {
     // add a delete button
     const deleteQuestionButton = $('<button>').addClass('deleteButton').attr('name', 'deleteQuestion').text('X');
 
-    const fieldTypeElements = createFieldTypeElement();
+    const fieldTypeElements = createFieldTypeElement(questionNumber);
     const inputContainer = $('<div>').addClass('inputContainer');
 
     questionHeaderDiv.append(questionLabel,questionInput, deleteQuestionButton, fieldTypeElements.dropdown);

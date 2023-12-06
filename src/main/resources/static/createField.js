@@ -7,11 +7,11 @@ import { upperStr, lowerStr, questionCount } from './Form.js';
 function createFieldTypeElement() {
 
     const fieldTypeDropdown = $('<select>').attr({
-        id: `fieldType${questionCount}`,
-        name: `fieldType${questionCount}`,
-    }).addClass("selectFieldType").html(`
+        id: `fieldType${questionNumber}`,
+        name: `fieldType${questionNumber}`,
+    })..addClass("selectFieldType").html(`
         <option value="text">Select a Field Type</option>
-        <option value="text">Text Field</option>
+        <option value="textField">Text Field</option>
         <option value="number">Number Field</option>
         <option value="multipleChoice">Multiple Choice</option>
     `).prop('required', true);;

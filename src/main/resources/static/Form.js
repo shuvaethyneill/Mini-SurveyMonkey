@@ -48,7 +48,7 @@ $(document).ready(function () {
         if (selectedOption === 'number') {
             fieldContainer.append(createNumericalField(fieldContainer, questionNumber, lowerStr))
             fieldContainer.append(createNumericalField(fieldContainer, questionNumber, upperStr))
-        } else if (selectedOption === 'text') {
+        } else if (selectedOption === 'textField') {
             fieldContainer.append(createTextField(questionNumber))
         } else if (selectedOption === 'multipleChoice') {
             // initial two multiple choice options
