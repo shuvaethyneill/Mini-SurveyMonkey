@@ -106,7 +106,8 @@ public class HtmlController {
         model.addAttribute("user", session.getAttribute("user"));
         return "deleteFormConfirmation";
     }
-  
+
+    /**
      * Method to fetch the form
      * @param m
      * @para formId - to fetch the id of the form

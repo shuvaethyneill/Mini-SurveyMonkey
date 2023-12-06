@@ -2,8 +2,10 @@ package org.MiniSurveyMonkey;
 
 import org.MiniSurveyMonkey.Controllers.RestController;
 import org.MiniSurveyMonkey.Fields.Field;
+import org.MiniSurveyMonkey.Fields.MultipleChoiceField;
 import org.MiniSurveyMonkey.Fields.TextField;
 import org.MiniSurveyMonkey.Forms.Form;
+import org.MiniSurveyMonkey.Graphs.HistogramGraph;
 import org.MiniSurveyMonkey.Repositories.FormRepo;
 import org.MiniSurveyMonkey.Repositories.UserRepo;
 import org.json.JSONObject;
@@ -20,11 +22,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.contentOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
@@ -33,7 +35,9 @@ import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
 
@@ -154,5 +158,35 @@ public class AutomatedTests {
         this.mockMvc.perform(get("/getForm/"+testForm.getId())).andExpect(status().isOk());
 
     }
+
+    @Test
+    public void formDeleteEndpointTest() throws Exception{
+        //Creating a new form
+        Form testForm = new Form();
+        testForm.setId("Del1");
+        formRepo.save(testForm);
+
+        //Creating
+        MultipleChoiceField fieldMC1 = new MultipleChoiceField();
+        ArrayList<String> options1 = new ArrayList<>();
+        options1.add("A");
+        options1.add("B");
+        options1.add("C");
+        fieldMC1.setOptions(options1);
+        testForm.addField(fieldMC1);
+
+
+
+        //Creating a form based on the first form
+        Form editForm = new Form();
+        MultipleChoiceField fieldMCEdited = new MultipleChoiceField();
+        fieldMC1.getOptions().remove("B");
+        fieldMCEdited.setOptions(fieldMC1.getOptions());
+        editForm.addField(fieldMCEdited);
+
+        assertEquals(fieldMC1.getOptions(), fieldMCEdited.getOptions());
+        this.mockMvc.perform(delete("/deleteForm/" + testForm.getId())).andExpect(status().isOk());
+    }
+
 
 }
