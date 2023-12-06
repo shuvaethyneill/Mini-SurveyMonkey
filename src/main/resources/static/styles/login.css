@@ -1,0 +1,120 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+body, h1, h2, form {
+    margin: 0;
+    padding: 0;
+    font-family: "Unica77 LL";
+}
+
+.centered {
+    position: relative;
+}
+
+h1 {
+    text-decoration: underline;
+    font-size: 200px;
+    color: #c9c9c9;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    padding: 0;
+    line-height: 250px;
+}
+
+/* Apply background color and set font styles */
+body {
+    background-color: #f0f0f0;
+    color: #080808;
+}
+
+/* Style the form container */
+#LoginForm {
+    position: relative;
+    z-index: 1;
+    width: 800px;
+    margin: 20px auto 50px auto;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(30, 21, 42, 0.3);
+    transform: scale(1.2)
+}
+
+h4 {
+    margin: 0;
+    color: #1E152A;
+}
+
+.input-container {
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+}
+
+/* Style the username label */
+.username-label {
+    display: block;
+    margin-bottom: 8px;
+    color: #FAF4D3;
+}
+
+/* Style the username input */
+.username {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid black;
+    border-radius: 4px;
+    background-color: #EAEAEA;
+}
+
+/* Style the login button */
+.login-button {
+    background-color: #f8d35b;
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: 10px;
+    transition: background-color 0.5s ease-out 50ms, color 0.5s ease-out 50ms;
+}
+
+/* Hover effect on the login button */
+.login-button:hover {
+    background-color: #746F72;
+    color: #f8d35b;
+}
+
+.fade {
+  opacity: 0;
+  animation: fadeIn 1s ease-in-out forwards;
+}
+
+.fade2 {
+  opacity: 0;
+  animation: fadeIn 1s ease-in-out forwards;
+}
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+button, input {
+    font-family: "Unica77 LL";
+}

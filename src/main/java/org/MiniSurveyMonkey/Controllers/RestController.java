@@ -147,7 +147,7 @@ public class RestController {
      * @return - the form
      */
     @PutMapping("/editForm")
-    public Form editForm(@RequestParam String formId, @RequestParam ArrayList<Field> fields, Model m) {
+    public Form editForm(@RequestParam String formId, @RequestBody ArrayList<Field> fields, Model m) {
         ArrayList<Field> fieldInDb = (ArrayList<Field>) fieldRepo.findByFormId(formId);
         ArrayList<Field> toBeRemoved = new ArrayList<>(fieldInDb);
         toBeRemoved.removeAll(fields);

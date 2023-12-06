@@ -16,6 +16,7 @@ $(document).ready(function() {
                     if (data.author !== user){
                         $('#closeButton').remove()
                         $('#deleteFormButton').remove()
+                        $('#editButton').remove()
                     }
                 })
                 .catch(function(error) {
@@ -27,6 +28,7 @@ $(document).ready(function() {
             }
             else{
                 $('#closeButton').remove()
+                $('#editButton').remove()
                 $('#responseForm').remove();
                 $('#formContainer').append('<p>Form is closed</p>');
             }

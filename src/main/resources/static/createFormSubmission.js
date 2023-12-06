@@ -12,7 +12,7 @@ function getFieldType(questionDiv) {
             return 'NumberField';
         case 'multipleChoice':
             return 'MultipleChoiceField';
-        case 'text':
+        case 'textField':
             return 'TextField';
         default:
             return '';
@@ -71,7 +71,7 @@ $(document).ready(function () {
                 if (fieldObject['@type'] === 'MultipleChoiceField') {
                     fieldObject.options = [];
 
-                    $(`.mcOption input[name=mcQ${questionNumber}Text]`).each(function () {
+                    $(`.mcOption input[name=mcOption${questionNumber}Text]`).each(function () {
                         fieldObject.options.push($(this).val());
                     });
                 }

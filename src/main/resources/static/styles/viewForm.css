@@ -1,0 +1,170 @@
+body {
+    font-family: "Unica77 LL";
+    background-color: #f0f0f0;
+}
+h1 {
+    margin: auto;
+    margin-top: 20px;
+    max-width: 760px;
+}
+
+h4 {
+    max-width: 760px;
+
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    color: #050505;
+}
+
+#formTitle {
+    width: 90%;
+    width: calc(100% - 20px);
+    height: 25px;
+    font-size: 20px;
+    padding: 5px;
+}
+
+#formContainer {
+    max-width: 800px;
+    margin: 20px auto 50px auto;
+}
+
+#questionsContainer {
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(30, 21, 42, 0.3);
+}
+
+textarea {
+    width: calc(100% - 20px);
+    margin: 5px;
+}
+
+#formTitleDiv {
+    margin: 10px auto 30px auto;
+}
+
+.questionHeader {
+    position: relative;
+}
+
+.deleteButton {
+    position: absolute;
+    right: 0;
+    bottom: 20%;
+    background-color: #f0f0f0;
+    border: none;
+    transition: color 0.5s ease-out 50ms;
+    font-weight: bold;
+    font-size: medium;
+}
+
+.deleteButton:disabled {
+    display: none;
+}
+
+.deleteButton:hover {
+    cursor: pointer;
+    border-bottom: 1px solid #f8d35b;
+}
+
+.selectFieldType, .questionTitle, .questionTitleInput {
+    margin: 5px;
+}
+
+.addQuestion, .submit, .reset{
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #f8d35b;
+    color: black;
+    margin: 8px 5px 8px 5px;
+    font-weight: bold;
+    text-align: left;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.5s ease-out 50ms, color 0.5s ease-out 50ms
+}
+
+.addQuestion:hover, .submit:hover, .reset:hover {
+    background-color: #191923;
+    color: #FAF4D3;
+}
+
+.addQuestion {
+    background-color: #f8d35b;
+    color: black;
+}
+.actionButtons {
+    padding: 10px 20px;
+}
+
+.questionTitleInput {
+    height: 20px;
+    font-size: 15px;
+    padding: 5px;
+    width: 50%;
+}
+.selectFieldType {
+    height: 34px;
+    font-size: 15px;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+}
+
+.numericField {
+  display: inline-block;
+  margin-right: 10px;
+  padding: 1px;
+}
+
+.numericField input {
+    height: 20px;
+    font-size: 15px;
+}
+
+.numericField label {
+  display: inline-block;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.question {
+    padding: 2px;
+}
+
+.removeChoice, .mcAddChoiceButton{
+    background-color: #f0f0f0;
+    border: none;
+    transition: border-bottom 0.5s ease-out 50ms;
+    font-weight: bold;
+    font-size: small;
+}
+
+.removeChoice:disabled {
+    display: none;
+}
+
+.removeChoice:hover, .mcAddChoiceButton:hover {
+    cursor: pointer;
+    border-bottom: 1px solid #f8d35b;
+}
+
+.mcAddChoiceButton {
+    font-size: medium;
+}
+
+.mcChoiceInput {
+    height: 20px;
+    font-size: 15px;
+    margin: 5px;
+}
+
+button, input {
+    font-family: "Unica77 LL";
+}

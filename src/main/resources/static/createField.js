@@ -4,24 +4,20 @@ import { upperStr, lowerStr, questionCount } from './Form.js';
  * Function to create field dropdown
  * @returns {{label: (*|jQuery), dropdown: (*|jQuery)}}
  */
-function createFieldTypeElement() {
-    const fieldTypeLabel = $('<label>')
-        .attr('for', `fieldType${questionCount}`)
-        .text('Choose Field Type: ');
+function createFieldTypeElement(question) {
+var questionNumber = (question === undefined) ? questionsCount : question
 
     const fieldTypeDropdown = $('<select>').attr({
-        id: `fieldType${questionCount}`,
-        name: `fieldType${questionCount}`,
-        required: 'required'
-    }).html(`
+        id: `fieldType${questionNumber}`,
+        name: `fieldType${questionNumber}`,
+    }).addClass("selectFieldType").html(`
         <option value="text">Select a Field Type</option>
-        <option value="text">Text Field</option>
+        <option value="textField">Text Field</option>
         <option value="number">Number Field</option>
         <option value="multipleChoice">Multiple Choice</option>
-    `);
+    `).prop('required', true);;
 
     return {
-        label: fieldTypeLabel,
         dropdown: fieldTypeDropdown
     };
 }
@@ -34,7 +30,7 @@ function createFieldTypeElement() {
  * @returns {*|jQuery|HTMLElement}
  */
 function createNumericalField(fieldContainer, questionNumber, type) {
-    const divForField = $('<div>')
+    const divForField = $('<div>').addClass("numericField")
 
     const label = (type === upperStr ? 'Upper bound ' : 'Lower bound ')
     divForField.append($('<label>').text(label))
@@ -47,33 +43,6 @@ function createNumericalField(fieldContainer, questionNumber, type) {
         }).on("input", checkNumericalValidity(fieldContainer, questionNumber)))
 
     return divForField
-}
-
-/**
- * Function to check if the provided upper and lower bounds are valid
- * @param fieldContainer
- * @param questionNumber
- * @returns {(function(): void)|*}
- */
-function checkNumericalValidity(fieldContainer, questionNumber) {
-    return function () {
-        const lower = fieldContainer.find('#' + questionNumber + lowerStr);
-        const upper = fieldContainer.find('#' + questionNumber + upperStr);
-        const lowerValue = parseInt(lower.val(), 10);
-        const upperValue = parseInt(upper.val(), 10);
-
-        const isInvalid = !isNaN(lowerValue) && !isNaN(upperValue) && lowerValue > upperValue;
-
-        // iterate over lower and upper input to apply styling
-        [lower, upper].forEach(input => {
-            const color = isInvalid ? 'red' : '';
-            input.css({ outline: isInvalid ? 'auto' : '', 'outline-color': color });
-
-            input.focus(function () {
-                input.css({ 'outline-color': color });
-            });
-        });
-    };
 }
 
 /**
@@ -107,23 +76,22 @@ function createMCOption(questionNumber, optionCount) {
     const mcOptionDiv = $('<div>').addClass('mcOption');
     const radioBtn = $('<input>').attr({
         type: 'radio',
-        name: `mcQ${questionNumber}Radio`,
-        id: `mcQ${questionNumber}Radio${optionCount}`,
+        name: `mcOption${questionNumber}Radio`,
+        id: `mcOption${questionNumber}Radio${optionCount}`,
         disabled: true
-    });
+    }).addClass("mcChoiceRadio");
 
     const optionInput = $('<input>').attr({
         type: 'text',
-        name: `mcQ${questionNumber}Text`,
-        id: `mcQ${questionNumber}Text${optionCount}`,
+        name: `mcOption${questionNumber}Text`,
+        id: `mcOption${questionNumber}Text${optionCount}`,
         placeholder: 'Enter Choice',
         required: 'true'
-    });
+    }).addClass("mcChoiceInput");
 
-    const removeButton = $('<button>').text('Remove').prop('disabled', true).click(function () {
-        const questionContainer = $(this).closest('.question');
+    const removeButton = $('<button>').addClass("removeChoice").text('X').prop('disabled', true).click(function () {
         $(this).closest('.mcOption').remove();
-        updateRemoveChoiceButtons(questionNumber); // update remove buttons after removal
+        updateRemoveChoiceButtons(); // update remove buttons after removal
     });
 
     mcOptionDiv.append(radioBtn, optionInput, removeButton);
@@ -132,9 +100,8 @@ function createMCOption(questionNumber, optionCount) {
 
 /**
  * Function to enable/disable remove buttons for MC options
- * @param questionNumber
  */
-function updateRemoveChoiceButtons(questionNumber) {
+function updateRemoveChoiceButtons() {
     $('.question').each(function () {
         const mcOptions = $(this).find('.mcOption');
         const numOptions = mcOptions.length;
@@ -144,6 +111,33 @@ function updateRemoveChoiceButtons(questionNumber) {
             removeButton.prop('disabled', numOptions <= 2 && index < 2);
         });
     });
+}
+
+/**
+ * Function to check if the provided upper and lower bounds are valid
+ * @param fieldContainer
+ * @param questionNumber
+ * @returns {(function(): void)|*}
+ */
+function checkNumericalValidity(fieldContainer, questionNumber) {
+    return function () {
+        const lower = fieldContainer.find('#' + questionNumber + lowerStr);
+        const upper = fieldContainer.find('#' + questionNumber + upperStr);
+        const lowerValue = parseInt(lower.val(), 10);
+        const upperValue = parseInt(upper.val(), 10);
+
+        const isInvalid = !isNaN(lowerValue) && !isNaN(upperValue) && lowerValue > upperValue;
+
+        // iterate over lower and upper input to apply styling
+        [lower, upper].forEach(input => {
+            const color = isInvalid ? 'red' : '';
+            input.css({ outline: isInvalid ? 'auto' : '', 'outline-color': color });
+
+            input.focus(function () {
+                input.css({ 'outline-color': color });
+            });
+        });
+    };
 }
 
 export {
