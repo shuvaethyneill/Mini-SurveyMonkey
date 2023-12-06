@@ -10,6 +10,7 @@
     <script src="../submitResponse.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../CloseForm.js"></script>
+    <script src="../EditFunction.js"></script>
 </head>
 <body>
 <h1>Form: <span id="formId_span" th:data-backend-id="${formId}" th:text="${formTitle}"></span></h1>
@@ -18,6 +19,7 @@
 <div id="formContainer">
     <p id="author">Author: </p>
     <button type="button" id="closeButton">Close Form</button>
+    <button type="button" id="editButton">Edit Form</button>
     <form id="responseForm">
         <div id="questionsContainer"></div>
         <button type="submit">Submit</button>
