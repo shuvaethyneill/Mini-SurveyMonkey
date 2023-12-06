@@ -12,7 +12,7 @@ function getFieldType(questionDiv) {
             return 'NumberField';
         case 'multipleChoice':
             return 'MultipleChoiceField';
-        case 'text':
+        case 'textField':
             return 'TextField';
         default:
             return '';
