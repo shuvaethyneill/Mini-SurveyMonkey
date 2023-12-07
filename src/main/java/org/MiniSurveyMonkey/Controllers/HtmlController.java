@@ -109,24 +109,6 @@ public class HtmlController {
     }
 
 
-    /**
-     * Method to fetch the form
-
-     * @param m
-     * @para formId - to fetch the id of the form
-     * @return the edit Form main page
-     */
-    @GetMapping("/editForm/{formId}")
-    public String editPage(@PathVariable(value = "formId") String formId, Model m){
-        m.addAttribute("formId", formId);
-
-        Form form = formRepo.findById(formId).orElseThrow(() ->
-                new ResourceNotFoundException("Could not find Form with that id"));
-        m.addAttribute("formTitle", form.getFormName());
-        m.addAttribute("formAuthor", form.getAuthor());
-        return "editForm";
-    }
-
 
     /**
      * Method for getting the submission confirmation
@@ -154,4 +136,5 @@ public class HtmlController {
         return "myForms";
 
     }
+
 }
