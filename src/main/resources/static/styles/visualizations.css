@@ -50,3 +50,18 @@ h1 {
 canvas {
     align-self: center;
 }
+
+.homePageLink {
+    background-color: #f8d35b;
+    color: #050505;
+    padding: 5px;
+    border-radius: 8px;
+}
+
+a:visited {
+    color: #050505;
+}
+
+a {
+    color: #050505;
+}

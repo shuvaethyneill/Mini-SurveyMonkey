@@ -235,22 +235,25 @@ public class RestController {
         }
 
         for (Field field : f.getFields()) {
+            System.out.println(answersByField.get(field.getId()));
             ArrayList<String> answers = answersByField.get(field.getId());
-            Visualization visualization = null;
-            if (field.getFieldType() == FieldType.NUMBER) {
-                visualization = new HistogramGraph(formId, field.getQuestion(), field.getId(),
-                        ((NumberField) field).getUpperBound() != null ? ((NumberField)field).getUpperBound() : null,
-                        ((NumberField) field).getLowerBound() != null ? ((NumberField)field).getLowerBound() : null);
-                ((HistogramGraph) (visualization)).calculateResponse(answers);
-            } else if (field.getFieldType() == FieldType.MC) {
-                visualization = new PieGraph(formId, field.getQuestion(), field.getId(), ((MultipleChoiceField) (field)).getOptions());
-                ((PieGraph) (visualization)).calculateResponse(answers);
-            } else if (field.getFieldType() == FieldType.TEXT) {
-                visualization = new Table(formId, field.getQuestion(), field.getId());
-                ((Table) (visualization)).setTextResponses(answers);
-            }
+            if (answers != null) {
+                Visualization visualization = null;
+                if (field.getFieldType() == FieldType.NUMBER) {
+                    visualization = new HistogramGraph(formId, field.getQuestion(), field.getId(),
+                            ((NumberField) field).getUpperBound() != null ? ((NumberField) field).getUpperBound() : null,
+                            ((NumberField) field).getLowerBound() != null ? ((NumberField) field).getLowerBound() : null);
+                    ((HistogramGraph) (visualization)).calculateResponse(answers);
+                } else if (field.getFieldType() == FieldType.MC) {
+                    visualization = new PieGraph(formId, field.getQuestion(), field.getId(), ((MultipleChoiceField) (field)).getOptions());
+                    ((PieGraph) (visualization)).calculateResponse(answers);
+                } else if (field.getFieldType() == FieldType.TEXT) {
+                    visualization = new Table(formId, field.getQuestion(), field.getId());
+                    ((Table) (visualization)).setTextResponses(answers);
+                }
 
-            f.addVisualization(visualization);
+                f.addVisualization(visualization);
+            }
         }
 
         temp = f;
