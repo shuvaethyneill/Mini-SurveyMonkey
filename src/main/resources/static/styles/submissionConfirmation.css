@@ -2,7 +2,7 @@ body {
     font-family: "Unica77 LL";
     background-color: #f0f0f0;
 }
-h1 {
+h1, h3 {
     margin: auto;
     margin-top: 20px;
     max-width: 800px;
@@ -24,17 +24,15 @@ p {
     font-size: 20px;
     line-height: 30px;
 }
-.viewFormLink {
+.homePageLink, .formLink {
     background-color: #f8d35b;
     color: #050505;
     padding: 5px;
     border-radius: 8px;
 }
-
-a:visited {
+a {
     color: #050505;
 }
-
-a {
+a:visited {
     color: #050505;
 }

@@ -27,21 +27,23 @@ function renderEditForm(data) {
             case 'MultipleChoiceField':
                 questionDiv.find(`#fieldType${questionNumber}`).val('multipleChoice');
 
-                // to add more choices
-                const addChoiceBtn = $('<button>').text('Add Choice').click(function (event) {
-                    event.preventDefault();
-                    const optionCount = inputContainer.find('.mcOption').length + 1;
-                    inputContainer.append(createMCOption(questionNumber, optionCount));
-                    updateRemoveChoiceButtons(); // update remove buttons after addition
-                });
-                inputContainer.append('<br>', addChoiceBtn);
-                
                 // Assuming createMCOption function exists and works similarly
                 field.options.forEach(function(option, optionIndex) {
                     const mcOption = createMCOption(questionNumber, optionIndex + 1);
                     mcOption.find(`#mcOption${questionNumber}Text${optionIndex + 1}`).val(option);
                     inputContainer.append(mcOption);
                 });
+
+                // to add more choices
+                const addChoiceBtn = $('<button>').addClass('mcAddChoiceButton').text('+').click(function (event) {
+                    event.preventDefault();
+                    const optionCount = inputContainer.find('.mcOption').length + 1;
+                    inputContainer.append(createMCOption(questionNumber, optionCount));
+                    updateRemoveChoiceButtons(); // update remove buttons after addition
+                });
+                inputContainer.append( addChoiceBtn);
+                
+
                 break;
 
             case 'TextField':

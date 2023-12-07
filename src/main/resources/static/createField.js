@@ -140,15 +140,16 @@ function checkNumericalValidity(fieldContainer, questionNumber) {
     };
 }
 
-function createFormLink(form, link) {
+function createFormLink(form) {
     let formName = ""
+    const link = $('<div>').addClass("formLink");
+    const redirectUrl = `/form/${form.id}`;
     if (form.formName !== formName) {
-        // Set the link text
-        link.innerHTML = "Form: " + form.formName + ",Author: " + form.author + "<br><br>";
-    } else {
-        // Set the link text
-        link.innerHTML = "Form: " + form.id + ",Author: " + form.author + "<br><br>";
+        var formNameHeader = $('<a>').attr('href',redirectUrl).append($('<h3>').addClass("formTitle").text("Form: " + form.formName))
+        var author = $('<h3>').addClass("authorName").text("By: " + form.author)
+        link.append(formNameHeader, author)
     }
+    return link;
 }
 
 export {

@@ -1,23 +1,18 @@
 import {createFormLink} from "./createField.js";
 
 function formList(forms){
-    const formContainer = $("#formsList");
+        const formContainer = $("#allForms");
 
-    $.each(forms, function(index, form){
-        const fromLabel = $('<label>').attr('for',`${index + 1}`).text(`${index + 1}.${JSON.stringify(form)}`);
-        const redirectUrl = `/form/${form.id}`;
+        $.each(forms, function(index, form){
+            const fromLabel = $('<label>').attr('for',`${index + 1}`).text(`${index + 1}.${JSON.stringify(form)}`);
+            const link = createFormLink(form);
 
-        // Create an anchor element
-        const link = document.createElement("a");
+            if (link.contents().length != 0) {
+                fromLabel.css("display","block");
+                formContainer.append(link);
+            }
 
-        // Set the href attribute with the dynamic variable
-        link.href = redirectUrl;
-        createFormLink(form, link);
-
-
-        fromLabel.css("display","block");
-        formContainer.append(link);
-    });
+        });
 
 }
 $(document).ready(function(){
