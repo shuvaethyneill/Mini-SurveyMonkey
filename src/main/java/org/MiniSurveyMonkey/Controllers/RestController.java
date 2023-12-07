@@ -140,29 +140,6 @@ public class RestController {
     }
 
     /**
-     * Put Mapping to edit a form
-     * @param formId - the id of the form
-     * @param fields - the fields of the form
-     * @param m - the model
-     * @return - the form
-     */
-    @PutMapping("/editForm")
-    public Form editForm(@RequestParam String formId, @RequestBody ArrayList<Field> fields, Model m) {
-        ArrayList<Field> fieldInDb = (ArrayList<Field>) fieldRepo.findByFormId(formId);
-        ArrayList<Field> toBeRemoved = new ArrayList<>(fieldInDb);
-        toBeRemoved.removeAll(fields);
-        ArrayList<Field> toBeAdded = new ArrayList<>(fields);
-        toBeAdded.removeAll(fieldInDb);
-        fieldRepo.deleteAll(toBeRemoved);
-        fieldRepo.saveAll(toBeAdded);
-        Form f = (Form) m.getAttribute("formId");
-        assert f != null;
-        f.setFields(fields);
-        m.addAttribute("formId", f);
-        return f;
-    }
-
-    /**
      * POST Mapping to login as a user
      * @param user - the user to login with
      * @param m - the model
