@@ -38,20 +38,20 @@ $(document).ready(function() {
 
         $.each(form.visualizations, function(index, graph) {
 
-            const visual_div = $("<div>").attr({id: "chart-" + (graph.fieldName).replace(" ", "-")})
+            const visual_div = $("<div>").addClass("content").attr({id: "chart-" + (graph.fieldName).replace(" ", "-")})
             questionsContainer.append(visual_div)
             visual_div.append("<h3> Question " + (index + 1) + ": " + graph.fieldName + "</h3>")
             var chart_id = "chart" + (index + 1)
 
             if (graph.visualizationType === "HISTOGRAMGRAPH") {
                 //drawBarGraph(form.graph[field.id])
-                var canvas = $('<canvas id=' + chart_id +' width="1000" height="600"></canvas>');
+                var canvas = $('<canvas id=' + chart_id +' width="800" height="600"></canvas>');
                 var ctx = canvas[0].getContext('2d');
                 visual_div.append(canvas);
                 drawBarGraph(ctx, graph)
             }
             else if (graph.visualizationType === "PIEGRAPH"){
-                var canvas = $('<canvas id=' + chart_id +' width="1000" height="600"></canvas>');
+                var canvas = $('<canvas id=' + chart_id +' width="800" height="600"></canvas>');
                 var ctx = canvas[0].getContext('2d');
                 visual_div.append(canvas);
                 drawPieGraph(ctx, graph);

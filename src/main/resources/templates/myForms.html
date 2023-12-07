@@ -5,14 +5,15 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
   <script type="module" src="../LoadMyForms.js"></script>
+  <link rel="stylesheet" type="text/css" href="../styles/myForms.css">
+  <link rel="stylesheet" type="text/css" href="../styles/base.css">
 <body>
 
 <h1>List Of All Forms </h1>
 <h3 id="author" th:text="'Author: ' + ${user}"></h3>
 
 <div id="formsList">
-  <a class="list-group" id="result"></a>
-  <br />
+  <div id="allForms" class="content"></div>
 </div>
 </body>
 </html>

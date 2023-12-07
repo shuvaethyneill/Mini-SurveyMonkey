@@ -10,7 +10,6 @@ h1 {
 
 h4 {
     max-width: 760px;
-
     margin: auto;
     margin-top: 5px;
     margin-bottom: 10px;
@@ -30,7 +29,7 @@ h4 {
     margin: 20px auto 50px auto;
 }
 
-#questionsContainer {
+#questionsContainer, .content {
     padding: 20px;
     background-color: #f0f0f0;
     border-radius: 8px;
@@ -40,76 +39,24 @@ h4 {
 textarea {
     width: calc(100% - 20px);
     margin: 5px;
+    font-family: "Unica77 LL";
+    font-size: 15px;
 }
 
 #formTitleDiv {
     margin: 10px auto 30px auto;
 }
 
-.questionHeader {
-    position: relative;
-}
-
-.deleteButton {
-    position: absolute;
-    right: 0;
-    bottom: 20%;
-    background-color: #f0f0f0;
-    border: none;
-    transition: color 0.5s ease-out 50ms;
-    font-weight: bold;
-    font-size: medium;
-}
-
-.deleteButton:disabled {
-    display: none;
-}
-
-.deleteButton:hover {
-    cursor: pointer;
-    border-bottom: 1px solid #f8d35b;
-}
-
-.selectFieldType, .questionTitle, .questionTitleInput {
-    margin: 5px;
-}
-
-.addQuestion, .submit, .reset{
-    padding: 10px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    background-color: #f8d35b;
-    color: black;
-    margin: 8px 5px 8px 5px;
-    font-weight: bold;
-    text-align: left;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.5s ease-out 50ms, color 0.5s ease-out 50ms
-}
-
-.addQuestion:hover, .submit:hover, .reset:hover {
-    background-color: #191923;
+#submit:hover, {
+    background-color: #050505;
     color: #FAF4D3;
 }
 
-.addQuestion {
-    background-color: #f8d35b;
-    color: black;
-}
-.actionButtons {
-    padding: 10px 20px;
-}
-
-.questionTitleInput {
+.questionTitle {
     height: 20px;
-    font-size: 15px;
-    padding: 5px;
+    font-size: 17px;
     width: 50%;
-}
-.selectFieldType {
-    height: 34px;
-    font-size: 15px;
+    margin: 5px;
 }
 
 label {
@@ -118,53 +65,87 @@ label {
 }
 
 .numericField {
-  display: inline-block;
-  margin-right: 10px;
-  padding: 1px;
-}
-
-.numericField input {
     height: 20px;
     font-size: 15px;
-}
-
-.numericField label {
-  display: inline-block;
-  margin-left: 5px;
-  margin-right: 5px;
+    margin: 5px;
 }
 
 .question {
     padding: 2px;
 }
 
-.removeChoice, .mcAddChoiceButton{
-    background-color: #f0f0f0;
+button, input {
+    font-family: "Unica77 LL";
+}
+#closeButton, #deleteFormButton, #editButton, #submit{
+    padding: 10px;
     border: none;
-    transition: border-bottom 0.5s ease-out 50ms;
-    font-weight: bold;
-    font-size: small;
-}
-
-.removeChoice:disabled {
-    display: none;
-}
-
-.removeChoice:hover, .mcAddChoiceButton:hover {
+    border-radius: 8px;
     cursor: pointer;
-    border-bottom: 1px solid #f8d35b;
+    background-color: #f8d35b;
+    color: #050505;
+    margin: 8px 5px 8px 5px;
+    font-weight: bold;
+    text-align: left;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.5s ease-out 50ms, color 0.5s ease-out 50ms
 }
 
-.mcAddChoiceButton {
-    font-size: medium;
+#closeButton, #deleteFormButton, #editButton {
+    float: right;
 }
 
-.mcChoiceInput {
-    height: 20px;
+.spacer {
+    clear: both;
+}
+
+.mcLabel {
     font-size: 15px;
     margin: 5px;
 }
 
-button, input {
-    font-family: "Unica77 LL";
+.mcOptionDiv {
+    display: flex;
+}
+
+.mcOptionDiv input{
+    margin: 5px;
+}
+
+.formHeader {
+    display: flex;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.actionButtons {
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+#submit:hover, #closeButton:hover, #deleteFormButton:hover, #editButton:hover {
+    background-color: #050505;
+    color: #f8d35b;
+    cursor: pointer;
+}
+
+#formId_span {
+    margin: 5px;
+}
+
+#author {
+    margin: 5px;
+}
+
+.graphsLink{
+    background-color: #f8d35b;
+    color: #050505;
+    padding: 5px;
+    border-radius: 8px;
+}
+a {
+    color: #050505;
+}
+a:visited {
+    color: #050505;
 }

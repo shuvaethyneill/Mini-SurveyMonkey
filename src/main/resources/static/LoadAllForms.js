@@ -1,13 +1,23 @@
 import { createFormLink } from './createField.js';
 
 $(document).ready(function(){
+    $('#result').hide()
+    function createFormLink(form) {
+        let formName = ""
+        const link = $('<div>').addClass("formLink");
+        const redirectUrl = `/form/${form.id}`;
+        if (form.formName !== formName) {
+            var formNameHeader = $('<a>').attr('href',redirectUrl).append($('<h3>').addClass("formTitle").text("Form: " + form.formName))
+            var author = $('<h3>').addClass("authorName").text("By: " + form.author)
+            link.append(formNameHeader, author)
+        }
+        return link;
+    }
 
 
-    /*
-    debounce technique to prevent multiple rapid executions of your event handler
-    Debouncing involves introducing a delay before the actual execution of the function.
-    If another event occurs within this delay, the timer resets.
-     */
+    /**
+    debounced to avoid duplicate results in search
+    */
     let timeout;
     $('#search').keyup(function (){
         clearTimeout(timeout);
@@ -21,12 +31,17 @@ $(document).ready(function(){
                     const searchBool = value.id.search(expression) !== -1 || value.formName.search(expression) !== -1;
                     if (searchBool && expression.source !== '(?:)') {
                         const redirectUrl = `/form/${value.id}`;
-                        const link = document.createElement("a");
-                        createFormLink(value, link)
-                        link.href = redirectUrl;
-                        $('#result').append(link);
+                        var link = createFormLink(value)
+                        if (link.contents().length != 0) {
+                            $('#result').append(link);
+                        }
                     }
                 });
+                if ($('#result').contents().length > 0) {
+                    $('#result').show()
+                } else {
+                    $('#result').hide()
+                }
             });
         },timeoutDelay);
 
@@ -49,22 +64,17 @@ $(document).ready(function(){
 
 
     function injectFields(forms){
-        const formContainer = $("#formsContainer");
+        const formContainer = $("#allForms");
 
         $.each(forms, function(index, form){
             const fromLabel = $('<label>').attr('for',`${index + 1}`).text(`${index + 1}.${JSON.stringify(form)}`);
-            const redirectUrl = `/form/${form.id}`;
+            const link = createFormLink(form);
 
-            // Create an anchor element
-            const link = document.createElement("a");
+            if (link.contents().length != 0) {
+                fromLabel.css("display","block");
+                formContainer.append(link);
+            }
 
-            // Set the href attribute with the dynamic variable
-            link.href = redirectUrl;
-            createFormLink(form, link);
-
-
-            fromLabel.css("display","block");
-            formContainer.append(link);
         });
 
     }

@@ -6,15 +6,22 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
   <script type="module" src="LoadAllForms.js"></script>
   <script type="module" src="createField.js"></script>
+  <link rel="stylesheet" type="text/css" href="../styles/listAllForms.css">
+  <link rel="stylesheet" type="text/css" href="../styles/base.css">
 <body>
-<h1>Search for specific form</h1>
+
+<h1 class="searchTitle">Search for specific form</h1>
 <div id="formsContainer">
   <div id="searchContainer">
     <input type="text" name="search" id="search" placeholder="search" class="form-control">
   </div>
-  <a class="list-group" id="result"></a>
-  <br />
-  <h1>List of all the forms</h1>
 </div>
+<div class="content" id="result"></div>
+
+<h1 class="allFormsTitle">All Forms</h1>
+<div id="allForms" class="content">
+</div>
+
+
 </body>
 </html>

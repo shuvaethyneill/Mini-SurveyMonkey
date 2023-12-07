@@ -38,7 +38,7 @@ h4 {
     font-size: 20px;
 }
 
-#myForm {
+#eForm {
     max-width: 800px;
     margin: 20px auto 50px auto;
 }
@@ -87,7 +87,7 @@ textarea {
     margin: 5px;
 }
 
-.addQuestion, .submit, .reset{
+#addQ, #submit {
     padding: 10px;
     border: none;
     border-radius: 8px;
@@ -101,12 +101,12 @@ textarea {
     transition: background-color 0.5s ease-out 50ms, color 0.5s ease-out 50ms
 }
 
-.addQuestion:hover, .submit:hover, .reset:hover {
+#addQ:hover, #submit:hover, {
     background-color: #050505;
     color: #FAF4D3;
 }
 
-.addQuestion {
+#addQ {
     background-color: #f8d35b;
     color: black;
 }
