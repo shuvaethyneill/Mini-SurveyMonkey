@@ -4,17 +4,15 @@
   <title>View Forms</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-  <script type="module" src="LoadAllForms.js"></script>
-  <script type="module" src="createField.js"></script>
+  <script type="module" src="../LoadMyForms.js"></script>
 <body>
-<h1>Search for specific form</h1>
-<div id="formsContainer">
-  <div id="searchContainer">
-    <input type="text" name="search" id="search" placeholder="search" class="form-control">
-  </div>
+
+<h1>List Of All Forms </h1>
+<h3 id="author" th:text="'Author: ' + ${user}"></h3>
+
+<div id="formsList">
   <a class="list-group" id="result"></a>
   <br />
-  <h1>List of all the forms</h1>
 </div>
 </body>
 </html>
