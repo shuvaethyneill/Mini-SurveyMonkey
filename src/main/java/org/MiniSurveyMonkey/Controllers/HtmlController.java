@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class HtmlController {
@@ -121,5 +122,16 @@ public class HtmlController {
         m.addAttribute("formTitle", form.getFormName());
         m.addAttribute("formAuthor", form.getAuthor());
         return "editForm";
+    }
+
+    /* Method to fetch the form of a particulat user
+     * @param m
+     * @para user - to fetch the id of the form
+     * @return the edit All Forms
+     */
+    @GetMapping("/myForms/{name}")
+    public String getUserForms(@PathVariable(value = "name") String user, Model m){
+        m.addAttribute("user", user);
+        return "myForms";
     }
 }

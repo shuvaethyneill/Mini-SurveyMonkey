@@ -7,14 +7,11 @@ import {getFieldType} from "./createFormSubmission.js";
 function renderEditForm(data) {
     data.forEach(function(field, index) {
         const questionNumber = index + 1;
-        console.log(questionNumber)
         const questionDiv = createQuestionDiv(questionNumber); // Create a new question div
 
         // Populate question title
         questionDiv.find(`#questionTitle${questionNumber}`).val(field.question);
         const inputContainer = questionDiv.find('.inputContainer');
-        console.log("BROOOO PLEASE")
-        console.log(inputContainer)
         // Identify the field type and populate accordingly
         switch (field['@type']) {
             case 'NumberField':
@@ -42,7 +39,6 @@ function renderEditForm(data) {
                 // Assuming createMCOption function exists and works similarly
                 field.options.forEach(function(option, optionIndex) {
                     const mcOption = createMCOption(questionNumber, optionIndex + 1);
-                    console.log(option)
                     mcOption.find(`#mcOption${questionNumber}Text${optionIndex + 1}`).val(option);
                     inputContainer.append(mcOption);
                 });
@@ -82,7 +78,6 @@ $(document).ready(function() {
     });
 
     $('#addQ').click(function(event) {
-        console.log("in here")
         event.preventDefault();
 
         const questionDiv = createQuestionDiv(++formData.fields.length);
@@ -158,8 +153,6 @@ $(document).ready(function() {
                     console.error("Error submitting form:", error);
                 }
             });
-
-
 
         }
     })
