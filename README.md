@@ -70,17 +70,17 @@ This project leverages MongoDB to perform the noSQL operations in our MiniSruvey
 - **View All Forms View**
   - Displays all forms in a list (clickable)
   - User can also search for a form based on id
-- **User profile** (Alpha-Release)
+- **User profile**
   - Users can login with a username to keep track of who is an author or not when responding to forms
 - **Close Form**
   - Author can close their form. Doing so will display form responses (analytics for each question)
     - Pie chart for multiple choice question
     - Graph for numerical field question
     - Scrollable list for text responses
--  **Delete Form**
+-  **Delete Form** (Final Demo addition)
   - Author can delete a form they have previously created (closed or not). 
     - Delete form button appears only for the author of the form
-- **Edit Form**
+- **Edit Form** (Final Demo addition)
   - Author can edit a form they have previously created. 
     - Adjust and switch the field types on the form
     - Delete or add more questions
