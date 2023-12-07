@@ -7,19 +7,20 @@
   <!-- Include jQuery library -->
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <script type="module" src="../EditForm.js"></script>
+  <link rel="stylesheet" type="text/css" href="../styles/editForm.css">
+  <link rel="stylesheet" type="text/css" href="../styles/base.css">
 </head>
 <body>
 <h1>Form: <span id="formId_span" th:data-backend-id="${formId}" th:text="${formTitle}"></span></h1>
-
-<!-- AJAX call to retrieve form information -->
-<p id="author">Author: <span th:text="${formAuthor}"></span></p>
+<h4><span id="author" th:text="'Author: ' + ${user}"></span></h4>
 <form id="eForm">
+  <div class="wholeForm">
   <div id="surveyForm">
     <div id="inputContainer"></div>
   </div>
 
-  <br>
   <button id="addQ">Add Question</button>
+  </div>
   <p><input type="submit" value="Submit" /></p>
   <div id="submitMessage"></div>
 </form>
