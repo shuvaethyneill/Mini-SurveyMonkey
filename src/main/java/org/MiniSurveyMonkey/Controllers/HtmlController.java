@@ -124,10 +124,10 @@ public class HtmlController {
         return "editForm";
     }
 
-    /* Method to fetch the form
+    /* Method to fetch the form of a particulat user
      * @param m
-     * @para formId - to fetch the id of the form
-     * @return the edit Form main page
+     * @para user - to fetch the id of the form
+     * @return the edit All Forms
      */
     @GetMapping("/myForms/{name}")
     public String getUserForms(@PathVariable(value = "name") String user, Model m){

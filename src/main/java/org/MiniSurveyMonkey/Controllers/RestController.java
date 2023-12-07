@@ -137,9 +137,10 @@ public class RestController {
     }
 
     /**
-     * Get Mapping to retrieve all the forms
+     * Get Mapping to retrieve all the forms associated with an author
      * @param model
-     * @return - the retrieved forms
+     * @param user - the user's whose forms we need to retrieve
+     * @return - the retrieved forms belonging ot an author
      */
     @GetMapping("/getUserForms/{user}")
     public List<Form> getUserForms(@PathVariable String user, Model model) {
