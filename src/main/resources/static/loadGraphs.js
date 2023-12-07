@@ -36,29 +36,36 @@ $(document).ready(function() {
         console.log(form)
         const questionsContainer = $("#graphsContainer")
 
-        $.each(form.visualizations, function(index, graph) {
+        if (form.responses.length != 0) {
 
-            const visual_div = $("<div>").addClass("content").attr({id: "chart-" + (graph.fieldName).replace(" ", "-")})
+            $.each(form.visualizations, function(index, graph) {
+                const visual_div = $("<div>").addClass("content").attr({id: "chart-" + (graph.fieldName).replace(" ", "-")})
+                questionsContainer.append(visual_div)
+                visual_div.append("<h3> Question " + (index + 1) + ": " + graph.fieldName + "</h3>")
+                var chart_id = "chart" + (index + 1)
+
+                if (graph.visualizationType === "HISTOGRAMGRAPH") {
+                    //drawBarGraph(form.graph[field.id])
+                    var canvas = $('<canvas id=' + chart_id +' width="800" height="600"></canvas>');
+                    var ctx = canvas[0].getContext('2d');
+                    visual_div.append(canvas);
+                    drawBarGraph(ctx, graph)
+                }
+                else if (graph.visualizationType === "PIEGRAPH"){
+                    var canvas = $('<canvas id=' + chart_id +' width="800" height="600"></canvas>');
+                    var ctx = canvas[0].getContext('2d');
+                    visual_div.append(canvas);
+                    drawPieGraph(ctx, graph);
+                } else if (graph.visualizationType === "TEXT") {
+                    displayTextResponses(visual_div, graph)
+                }
+            })
+        } else {
+            const visual_div = $("<div>").addClass("content");
+            const link = '/homePage/' + form.author
+            visual_div.append('<p>There are no responses to show. <span class="homePageLink"><a href="' + link + '">Home Page</a></span></p>')
             questionsContainer.append(visual_div)
-            visual_div.append("<h3> Question " + (index + 1) + ": " + graph.fieldName + "</h3>")
-            var chart_id = "chart" + (index + 1)
-
-            if (graph.visualizationType === "HISTOGRAMGRAPH") {
-                //drawBarGraph(form.graph[field.id])
-                var canvas = $('<canvas id=' + chart_id +' width="800" height="600"></canvas>');
-                var ctx = canvas[0].getContext('2d');
-                visual_div.append(canvas);
-                drawBarGraph(ctx, graph)
-            }
-            else if (graph.visualizationType === "PIEGRAPH"){
-                var canvas = $('<canvas id=' + chart_id +' width="800" height="600"></canvas>');
-                var ctx = canvas[0].getContext('2d');
-                visual_div.append(canvas);
-                drawPieGraph(ctx, graph);
-            } else if (graph.visualizationType === "TEXT") {
-                displayTextResponses(visual_div, graph)
-            }
-        })
+        }
     }
 
     function displayTextResponses(visual_div, graph) {
