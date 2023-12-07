@@ -51,10 +51,10 @@ Setup:
 
 
 # Current Progress
-We have now completed the Alpha-Release. Our project is on schedule and can be tracked using our Jira Board: https://minisurveymonkey.atlassian.net/jira/software/projects/MS/boards/1
+We have now completed the Final Demo. Our project was completed on schedule and was tracked using our Jira Board: https://minisurveymonkey.atlassian.net/jira/software/projects/MS/boards/1
 
-This project leverages MongoDB to perform the noSQL operations in our MiniSruvey Project. The web application is functional and has the following features implemented so far:
-- **Create Form View + logic**
+This project leverages MongoDB to perform the noSQL operations in our MiniSruvey Project. The web application is functional and has the following features implemented:
+- **Create Form**
   - Form questions can be multiple choice, take a number input, or be a text input
     - Multiple choice fields can be individually added or removed (default of 2)
     - Number fields can have a lower or upper bound set
@@ -72,13 +72,20 @@ This project leverages MongoDB to perform the noSQL operations in our MiniSruvey
   - User can also search for a form based on id
 - **User profile** (Alpha-Release)
   - Users can login with a username to keep track of who is an author or not when responding to forms
-- **Close Form** (Alpha-Release)
+- **Close Form**
   - Author can close their form. Doing so will display form responses (analytics for each question)
     - Pie chart for multiple choice question
     - Graph for numerical field question
-    - Scrollable list for text responses 
-- **Endpoints for all features created** (Alpha-Release)
-  - All CRUD operations supported: Add Form, Edit Form, Read Form, Delete Form
+    - Scrollable list for text responses
+-  **Delete Form**
+  - Author can delete a form they have previously created (closed or not). 
+    - Delete form button appears only for the author of the form
+- **Edit Form**
+  - Author can edit a form they have previously created. 
+    - Adjust and switch the field types on the form
+    - Delete or add more questions
+- **Endpoints for all features created**
+  - All CRUD operations supported: Add Form, Delete Form, Read Form, Delete Form
 
 
 ### What is Submitted on BrightSpace:
@@ -86,10 +93,3 @@ This project leverages MongoDB to perform the noSQL operations in our MiniSruvey
 - UML Class Diagram
 - Database Schema 
   Note: ORM Diagram is not included because this project works on a nonrelational database so an ORM diagram is not applicable
-
-
-# Next Steps 
-**Final demo:** 
-- Add additional features
-  - Edit Form
-  - Delete Form
