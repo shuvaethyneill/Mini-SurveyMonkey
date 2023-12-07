@@ -147,9 +147,8 @@ $(document).ready(function() {
                     });
 
                     const formId = JSON.parse(response).FormId;
-                    const redirectUrl = `/form/${formId}`;
-                    const link = `<a href="${redirectUrl}">Click here to view the form</a>`;
-                    $('#submitMessage').html(`<p>Form ID: ${formId} - Form successfully created</p>${link}`);
+                    const redirectUrl = "/submitFormConfirmation/" + formId
+                    window.location.replace(redirectUrl);
                 },
                 error: function (error) {
                     console.error("Error submitting form:", error);

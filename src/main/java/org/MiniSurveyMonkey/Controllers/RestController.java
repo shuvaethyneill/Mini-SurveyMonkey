@@ -154,7 +154,8 @@ public class RestController {
         return userForms;
     }
 
-     * POST Mapping to login as a user
+    /**
+     *  POST Mapping to login as a user
      * @param user - the user to login with
      * @param m - the model
      * @return - JSON representation of the username
