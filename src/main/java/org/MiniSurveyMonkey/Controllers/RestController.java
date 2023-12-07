@@ -22,10 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.MiniSurveyMonkey.Response;
 import org.springframework.web.bind.annotation.PutMapping;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @org.springframework.web.bind.annotation.RestController
 @SessionAttributes("user")
@@ -137,6 +134,23 @@ public class RestController {
         if (f1.isEmpty()) return null;
         model.addAttribute("Forms", f1);
         return f1;
+    }
+
+    /**
+     * Get Mapping to retrieve all the forms associated with an author
+     * @param model
+     * @param user - the user's whose forms we need to retrieve
+     * @return - the retrieved forms belonging ot an author
+     */
+    @GetMapping("/getUserForms/{user}")
+    public List<Form> getUserForms(@PathVariable String user, Model model) {
+        List<Form> userForms = formRepo.findByAuthor(user);
+        if (userForms.isEmpty()) {
+            // Handle the case where no forms are found for the user
+            return Collections.emptyList();
+        }
+        model.addAttribute("Forms", userForms);
+        return userForms;
     }
 
     /**

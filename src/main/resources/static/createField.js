@@ -140,11 +140,23 @@ function checkNumericalValidity(fieldContainer, questionNumber) {
     };
 }
 
+function createFormLink(form, link) {
+    let formName = ""
+    if (form.formName !== formName) {
+        // Set the link text
+        link.innerHTML = "Form: " + form.formName + ",Author: " + form.author + "<br><br>";
+    } else {
+        // Set the link text
+        link.innerHTML = "Form: " + form.id + ",Author: " + form.author + "<br><br>";
+    }
+}
+
 export {
     createFieldTypeElement,
     createNumericalField,
     checkNumericalValidity,
     createTextField,
     createMCOption,
+    createFormLink,
     updateRemoveChoiceButtons
 };

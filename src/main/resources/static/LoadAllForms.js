@@ -1,14 +1,7 @@
+import { createFormLink } from './createField.js';
+
 $(document).ready(function(){
-    function createFormLink(form, link) {
-        let formName = ""
-        if (form.formName !== formName) {
-            // Set the link text
-            link.innerHTML = "Form: " + form.formName + ",Author: " + form.author + "<br><br>";
-        } else {
-            // Set the link text
-            link.innerHTML = "Form: " + form.id + ",Author: " + form.author + "<br><br>";
-        }
-    }
+
 
     /*
     debounce technique to prevent multiple rapid executions of your event handler
