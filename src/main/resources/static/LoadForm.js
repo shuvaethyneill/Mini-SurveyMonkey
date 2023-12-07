@@ -30,7 +30,7 @@ $(document).ready(function() {
                 $('#closeButton').remove()
                 $('#editButton').remove()
                 $('#responseForm').remove();
-                $('#formContainer').append('<p>Form is closed</p>');
+                $('#formContainer').append("<div class='content'><p>Form is closed</p></div>");
             }
         },
         error: function(error) {

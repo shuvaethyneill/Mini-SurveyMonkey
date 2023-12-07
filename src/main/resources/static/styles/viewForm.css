@@ -29,7 +29,7 @@ h4 {
     margin: 20px auto 50px auto;
 }
 
-#questionsContainer {
+#questionsContainer, .content {
     padding: 20px;
     background-color: #f0f0f0;
     border-radius: 8px;
@@ -48,7 +48,7 @@ textarea {
 }
 
 #submit:hover, {
-    background-color: #191923;
+    background-color: #050505;
     color: #FAF4D3;
 }
 
@@ -123,10 +123,29 @@ button, input {
     margin-left: 20px;
 }
 
+#submit:hover, #closeButton:hover, #deleteFormButton:hover, #editButton:hover {
+    background-color: #050505;
+    color: #f8d35b;
+    cursor: pointer;
+}
+
 #formId_span {
     margin: 5px;
 }
 
 #author {
     margin: 5px;
+}
+
+.graphsLink{
+    background-color: #f8d35b;
+    color: #050505;
+    padding: 5px;
+    border-radius: 8px;
+}
+a {
+    color: #050505;
+}
+a:visited {
+    color: #050505;
 }
