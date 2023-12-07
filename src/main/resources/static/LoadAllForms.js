@@ -1,3 +1,5 @@
+import { createFormLink } from './createField.js';
+
 $(document).ready(function(){
     $('#result').hide()
     function createFormLink(form) {

@@ -18,7 +18,7 @@
         <h4>What would you like to do?</h4>
         <div class="options">
             <button th:onclick="|window.location.href='/seeBaseForm'|" method="get">Create a new Form!</button>
-            <button th:onclick="|window.location.href='/'|">Edit existing Form</button>
+            <button th:usr="${user}" th:onclick="|window.location.href='/myForms/' + this.getAttribute('usr') |">Edit existing Forms</button>
             <button th:onclick="|window.location.href='/forms'|">View created Forms</button>
         </div>
     </div>
