@@ -51,7 +51,7 @@ $(document).ready(function() {
         const questionsContainer = $("#questionsContainer")
         $.each(fields, function(index, field) {
             // Label
-            const questionLabel = $('<label>').attr('for', `${index + 1}`).text(`${index + 1}. ${field.question}`);
+            const questionLabel = $('<label>').addClass("questionTitle").attr('for', `${index + 1}`).text(`${index + 1}. ${field.question}`);
             questionLabel.css("display","block");
 
             const fieldContainer = $("<div>").attr({
@@ -87,7 +87,9 @@ $(document).ready(function() {
         const mcFieldContainer = $('<div>');
 
         const options = fieldInfo.options || [];
+
         options.forEach(function (option, count) {
+            var optionDiv = $('<div>').addClass('mcOptionDiv')
             const radioBtn = $('<input>').attr({
                 type: 'radio',
                 name: fieldInfo.question + fieldInfo.id,
@@ -95,9 +97,10 @@ $(document).ready(function() {
                 value: option
             });
 
-            const optionLabel = $('<label>').attr('for', 'Q'+ (index + 1) + 'Option' + (count + 1)).text(option);
+            const optionLabel = $('<label>').addClass("mcLabel").attr('for', 'Q'+ (index + 1) + 'Option' + (count + 1)).text(option);
 
-            mcFieldContainer.append(radioBtn, optionLabel, '<br>');
+            optionDiv.append(radioBtn, optionLabel);
+            mcFieldContainer.append(optionDiv)
         });
         return mcFieldContainer;
     }
@@ -107,7 +110,7 @@ $(document).ready(function() {
             type: 'number',
             id: fieldInfo.question + fieldInfo.id,
             name: fieldInfo.question + fieldInfo.id,
-        }).on("input", function() {
+        }).addClass("numericField").on("input", function() {
             const input = parseInt($(this).val(), 10)
             if ((fieldInfo.lowerBound != null && input < fieldInfo.lowerBound) ||
                 (fieldInfo.upperBound != null && input > fieldInfo.upperBound)) {
