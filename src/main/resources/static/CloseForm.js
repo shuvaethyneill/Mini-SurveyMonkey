@@ -8,7 +8,11 @@ $(document).ready(function(){
                 // Handle the form information
                 console.log('Form Information:', data);
                 $('#closeButton').remove()
-                $('#formContainer').append('<p>Form is closed</p>');
+                var contentDiv = $('<div>').addClass('content')
+                var viewGraphsLink = '/form/' + formId
+                contentDiv.append("<p>Form is closed. <span class='graphsLink'><a href="+ viewGraphsLink + ">See Metrics</a></span></p>")
+                $('#formContainer').append(contentDiv);
+
                 $('#responseForm').remove();
             },
             error: function (error) {

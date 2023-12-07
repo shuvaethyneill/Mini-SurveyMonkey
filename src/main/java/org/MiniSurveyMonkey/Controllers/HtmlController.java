@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class HtmlController {
@@ -105,6 +106,35 @@ public class HtmlController {
     public String showDeleteFormConfirmation(Model model, HttpSession session) {
         model.addAttribute("user", session.getAttribute("user"));
         return "deleteFormConfirmation";
+    }
+
+
+
+    /**
+     * Method for getting the submission confirmation
+     * @param formId - Id of the form
+     * @param m - the model
+     * @return the submission confirmation page
+     */
+    @GetMapping("/submitFormConfirmation/{formId}")
+    public String submitConfirmation(@PathVariable(value = "formId") String formId, Model m) {
+        m.addAttribute("formId", formId);
+        Form form = formRepo.findById(formId).orElseThrow(() ->
+                new ResourceNotFoundException("Could not find Form with that id"));
+        m.addAttribute("formAuthor", form.getAuthor());
+        return "submissionConfirmation";
+    }
+
+    /* Method to fetch the form of a particulat user
+     * @param m
+     * @para user - to fetch the id of the form
+     * @return the edit All Forms
+     */
+    @GetMapping("/myForms/{name}")
+    public String getUserForms(@PathVariable(value = "name") String user, Model m){
+        m.addAttribute("user", user);
+        return "myForms";
+
     }
 
 }

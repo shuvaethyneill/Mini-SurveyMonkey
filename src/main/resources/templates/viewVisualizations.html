@@ -9,10 +9,14 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="/loadGraphs.js" ></script>
   <script src="/LoadForm.js" ></script>
+  <link rel="stylesheet" type="text/css" href="../styles/visualizations.css">
+  <link rel="stylesheet" type="text/css" href="../styles/base.css">
 </head>
 <body>
 <h1>Form: <span id="formId_span" th:data-backend-id="${formId}" th:text="${formTitle}"></span></h1>
+<div class="actionButtons">
 <p><button id="deleteFormButton">Delete Form</button></p>
+</div>
 
 <div id="pageContainer" style="display: flex; justify-content: center; height: 100vh;">
   <div id="graphsContainer" style="padding: 20px;">
