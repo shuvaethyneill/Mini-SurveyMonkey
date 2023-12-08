@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>submissionConfirmation</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../styles/submissionConfirmation.css">
+    <link rel="stylesheet" type="text/css" href="../styles/base.css">
+</head>
+<body>
+<h1>Form Submitted!</h1>
+<h3>Form ID : <span id="formId_span" th:text="${formId}"></span></h3>
+<div class="content">
+    <div th:with="viewFormIDVar='/form/' + ${formId}" id="viewIDForm">
+        <p><span class="formLink"> <a id="submissionMessage" th:href="@{${viewFormIDVar}}">View Form</a></span></p>
+    </div>
+
+    <div th:with="viewFormAuthorVar='/homePage/' + ${formAuthor}" id="viewForm">
+        <p><span class="homePageLink"><a id="link back to homepage" th:href="@{${viewFormAuthorVar}}">Home Page</a></span></p>
+    </div>
+</div>
+
+</body>
+</html>

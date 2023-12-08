@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Delete Form Confirmation</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="../styles/deleteConfirmation.css">
+  <link rel="stylesheet" type="text/css" href="../styles/base.css">
+</head>
+
+<body>
+<h1>Form Deleted Successfully</h1>
+<div class="content">
+  <p>Your form has now been deleted.
+    <br>
+  <span class="homePageLink"><a th:href="@{'/homePage/' + ${user}}">Home Page</a></span>
+  </p>
+</div>
+</body>
+
+</html>

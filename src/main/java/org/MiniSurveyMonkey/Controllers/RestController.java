@@ -22,10 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.MiniSurveyMonkey.Response;
 import org.springframework.web.bind.annotation.PutMapping;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @org.springframework.web.bind.annotation.RestController
 @SessionAttributes("user")
@@ -140,30 +137,25 @@ public class RestController {
     }
 
     /**
-     * Put Mapping to edit a form
-     * @param formId - the id of the form
-     * @param fields - the fields of the form
-     * @param m - the model
-     * @return - the form
+
+     * Get Mapping to retrieve all the forms associated with an author
+     * @param model
+     * @param user - the user's whose forms we need to retrieve
+     * @return - the retrieved forms belonging ot an author
      */
-    @PutMapping("/editForm")
-    public Form editForm(@RequestParam String formId, @RequestParam ArrayList<Field> fields, Model m) {
-        ArrayList<Field> fieldInDb = (ArrayList<Field>) fieldRepo.findByFormId(formId);
-        ArrayList<Field> toBeRemoved = new ArrayList<>(fieldInDb);
-        toBeRemoved.removeAll(fields);
-        ArrayList<Field> toBeAdded = new ArrayList<>(fields);
-        toBeAdded.removeAll(fieldInDb);
-        fieldRepo.deleteAll(toBeRemoved);
-        fieldRepo.saveAll(toBeAdded);
-        Form f = (Form) m.getAttribute("formId");
-        assert f != null;
-        f.setFields(fields);
-        m.addAttribute("formId", f);
-        return f;
+    @GetMapping("/getUserForms/{user}")
+    public List<Form> getUserForms(@PathVariable String user, Model model) {
+        List<Form> userForms = formRepo.findByAuthor(user);
+        if (userForms.isEmpty()) {
+            // Handle the case where no forms are found for the user
+            return Collections.emptyList();
+        }
+        model.addAttribute("Forms", userForms);
+        return userForms;
     }
 
     /**
-     * POST Mapping to login as a user
+     *  POST Mapping to login as a user
      * @param user - the user to login with
      * @param m - the model
      * @return - JSON representation of the username
@@ -221,22 +213,25 @@ public class RestController {
         }
 
         for (Field field : f.getFields()) {
+            System.out.println(answersByField.get(field.getId()));
             ArrayList<String> answers = answersByField.get(field.getId());
-            Visualization visualization = null;
-            if (field.getFieldType() == FieldType.NUMBER) {
-                visualization = new HistogramGraph(formId, field.getQuestion(), field.getId(),
-                        ((NumberField) field).getUpperBound() != null ? ((NumberField)field).getUpperBound() : null,
-                        ((NumberField) field).getLowerBound() != null ? ((NumberField)field).getLowerBound() : null);
-                ((HistogramGraph) (visualization)).calculateResponse(answers);
-            } else if (field.getFieldType() == FieldType.MC) {
-                visualization = new PieGraph(formId, field.getQuestion(), field.getId(), ((MultipleChoiceField) (field)).getOptions());
-                ((PieGraph) (visualization)).calculateResponse(answers);
-            } else if (field.getFieldType() == FieldType.TEXT) {
-                visualization = new Table(formId, field.getQuestion(), field.getId());
-                ((Table) (visualization)).setTextResponses(answers);
-            }
+            if (answers != null) {
+                Visualization visualization = null;
+                if (field.getFieldType() == FieldType.NUMBER) {
+                    visualization = new HistogramGraph(formId, field.getQuestion(), field.getId(),
+                            ((NumberField) field).getUpperBound() != null ? ((NumberField) field).getUpperBound() : null,
+                            ((NumberField) field).getLowerBound() != null ? ((NumberField) field).getLowerBound() : null);
+                    ((HistogramGraph) (visualization)).calculateResponse(answers);
+                } else if (field.getFieldType() == FieldType.MC) {
+                    visualization = new PieGraph(formId, field.getQuestion(), field.getId(), ((MultipleChoiceField) (field)).getOptions());
+                    ((PieGraph) (visualization)).calculateResponse(answers);
+                } else if (field.getFieldType() == FieldType.TEXT) {
+                    visualization = new Table(formId, field.getQuestion(), field.getId());
+                    ((Table) (visualization)).setTextResponses(answers);
+                }
 
-            f.addVisualization(visualization);
+                f.addVisualization(visualization);
+            }
         }
 
         temp = f;
@@ -244,5 +239,25 @@ public class RestController {
         formRepo.save(temp);
 
         return temp;
+    }
+
+    /**
+     * DELETE Mapping to delete a form
+     * @param id - id of the form
+     * @param m - model
+     * @return - string success message
+     */
+    @DeleteMapping("/deleteForm/{id}")
+    public String deleteForm(@PathVariable String id, Model m) {
+        Form f = formRepo.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Could not find Form with that id"));
+
+        // delete the associated responses, fields and the form
+        responseRepo.deleteAll(f.getResponses());
+        fieldRepo.deleteAll(f.getFields());
+        formRepo.deleteById(id);
+
+        // Return a success message
+        return "Form deleted successfully";
     }
 }

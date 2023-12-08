@@ -10,17 +10,25 @@
     <script src="../submitResponse.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../CloseForm.js"></script>
+    <script src="../EditFunction.js"></script>
+    <link rel="stylesheet" type="text/css" href="../styles/viewForm.css">
+    <link rel="stylesheet" type="text/css" href="../styles/base.css">
 </head>
 <body>
-<h1>Form: <span id="formId_span" th:data-backend-id="${formId}" th:text="${formTitle}"></span></h1>
+<h1><span id="formId_span" th:data-backend-id="${formId}" th:text="${formTitle}"></span></h1>
+<h4><span id="author">Author: </span></h4>
 
 <!-- AJAX call to retrieve form information -->
 <div id="formContainer">
-    <p id="author">Author: </p>
-    <button type="button" id="closeButton">Close Form</button>
     <form id="responseForm">
         <div id="questionsContainer"></div>
-        <button type="submit">Submit</button>
+        <div class="spacer"></div>
+        <div class="actionButtons">
+            <button id="submit" type="submit">Submit</button>
+            <button type="button" id="closeButton">Close Form</button>
+            <button type="button" id="deleteFormButton">Delete Form</button>
+            <button type="button" id="editButton">Edit Form</button>
+        </div>
     </form>
 
 </div>

@@ -15,6 +15,8 @@ $(document).ready(function() {
 
                     if (data.author !== user){
                         $('#closeButton').remove()
+                        $('#deleteFormButton').remove()
+                        $('#editButton').remove()
                     }
                 })
                 .catch(function(error) {
@@ -23,12 +25,12 @@ $(document).ready(function() {
 
             if (!data.closed){
                 injectFields(data)
-
             }
             else{
                 $('#closeButton').remove()
+                $('#editButton').remove()
                 $('#responseForm').remove();
-                $('#formContainer').append('<p>Form is closed</p>');
+                $('#formContainer').append("<div class='content'><p>Form is closed</p></div>");
             }
         },
         error: function(error) {
@@ -37,13 +39,19 @@ $(document).ready(function() {
         }
     });
 
+    // Delete form button functionality
+    $(document).on('click', '#deleteFormButton', function () {
+        console.log("delete button clicked")
+        deleteForm(formId);
+    });
+
     function injectFields(form) {
         var fields = form.fields
 
         const questionsContainer = $("#questionsContainer")
         $.each(fields, function(index, field) {
             // Label
-            const questionLabel = $('<label>').attr('for', `${index + 1}`).text(`${index + 1}. ${field.question}`);
+            const questionLabel = $('<label>').addClass("questionTitle").attr('for', `${index + 1}`).text(`${index + 1}. ${field.question}`);
             questionLabel.css("display","block");
 
             const fieldContainer = $("<div>").attr({
@@ -63,24 +71,6 @@ $(document).ready(function() {
             questionsContainer.append(fieldContainer,'<br>')
         })
     }
-    function getActiveUser(){
-        return new Promise(function(resolve, reject) {
-            $.ajax({
-                type: 'GET',
-                url: '/getUser',
-                success: function(data) {
-                    // Resolve the Promise with the data
-                    resolve(data);
-                },
-                error: function(error) {
-                    // Handle errors
-                    console.error('Error retrieving form information:', error);
-                    // Reject the Promise with the error
-                    reject(error);
-                }
-            });
-        });
-    }
 
     function buildTextField(fieldInfo) {
         return $('<textarea>').attr({
@@ -97,7 +87,9 @@ $(document).ready(function() {
         const mcFieldContainer = $('<div>');
 
         const options = fieldInfo.options || [];
+
         options.forEach(function (option, count) {
+            var optionDiv = $('<div>').addClass('mcOptionDiv')
             const radioBtn = $('<input>').attr({
                 type: 'radio',
                 name: fieldInfo.question + fieldInfo.id,
@@ -105,9 +97,10 @@ $(document).ready(function() {
                 value: option
             });
 
-            const optionLabel = $('<label>').attr('for', 'Q'+ (index + 1) + 'Option' + (count + 1)).text(option);
+            const optionLabel = $('<label>').addClass("mcLabel").attr('for', 'Q'+ (index + 1) + 'Option' + (count + 1)).text(option);
 
-            mcFieldContainer.append(radioBtn, optionLabel, '<br>');
+            optionDiv.append(radioBtn, optionLabel);
+            mcFieldContainer.append(optionDiv)
         });
         return mcFieldContainer;
     }
@@ -117,7 +110,7 @@ $(document).ready(function() {
             type: 'number',
             id: fieldInfo.question + fieldInfo.id,
             name: fieldInfo.question + fieldInfo.id,
-        }).on("input", function() {
+        }).addClass("numericField").on("input", function() {
             const input = parseInt($(this).val(), 10)
             if ((fieldInfo.lowerBound != null && input < fieldInfo.lowerBound) ||
                 (fieldInfo.upperBound != null && input > fieldInfo.upperBound)) {
@@ -147,3 +140,36 @@ $(document).ready(function() {
         }
     }
 });
+
+function getActiveUser(){
+    return new Promise(function(resolve, reject) {
+        $.ajax({
+            type: 'GET',
+            url: '/getUser',
+            success: function(data) {
+                // Resolve the Promise with the data
+                resolve(data);
+            },
+            error: function(error) {
+                // Handle errors
+                console.error('Error retrieving form information:', error);
+                // Reject the Promise with the error
+                reject(error);
+            }
+        });
+    });
+}
+
+function deleteForm(id) {
+    $.ajax({
+        type: 'DELETE',
+        url: '/deleteForm/' + id,
+        success: function (data) {
+            // redirect to the delete form confirmation page
+            window.location.replace("/deleteFormConfirmation");
+        },
+        error: function (error) {
+            console.error('Error deleting form:', error);
+        }
+    });
+}

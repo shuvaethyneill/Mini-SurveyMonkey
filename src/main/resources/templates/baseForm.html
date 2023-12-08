@@ -4,41 +4,44 @@
   <title>Form Creation</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-  <script src="Form.js"></script>
+  <script type="module" src="/questionUpdates.js"></script>
+  <script type="module" src="/createField.js"></script>
+  <script type="module" src="/createFormSubmission.js"></script>
+  <script type="module" src="/Form.js"></script>
+  <link rel="stylesheet" type="text/css" href="../styles/createForm.css">
+  <link rel="stylesheet" type="text/css" href="../styles/base.css">
 </head>
-<h1>Create a Form</h1>
-<p id="author" th:text="'Author: ' + ${user}"></p>
+<h1><span id="createFormTitle">Create a Form</span></h1>
+<h4><span id="author" th:text="'Author: ' + ${user}"></span></h4>
 <body>
 <form id="myForm">
+  <div class="wholeForm">
   <div id="surveyForm">
     <div id="formTitleDiv">
-      <label for="formTitle">Form Title:</label>
+      <label id="formTitleLabel" for="formTitle">Form Title:</label>
       <input type="text" id="formTitle" name="formTitle" required>
     </div>
-    <br>
-    <br>
     <div class="question" id="question1">
-      <label for="questionTitle1">Question 1</label>
-
-      <input type="text" id="questionTitle1" name="questionTitle1" placeholder="Enter Survey Question" required>
-      <button name="deleteQuestion" disabled> X</button>
-      <br>
-      <br> <!--adding more space-->
-      <label for="fieldType1">Choose Field Type:</label>
-      <select id="fieldType1" name="fieldType1" required>
+      <div class="questionHeader">
+      <label class="questionTitle" for="questionTitle1">Question 1</label>
+      <input class="questionTitleInput" type="text" id="questionTitle1" name="questionTitle1" placeholder="Enter Survey Question" required>
+      <select class="selectFieldType" id="fieldType1" name="fieldType1" required>
         <option value="">Select a Field Type</option>
-        <option value="text">Text Field</option>
+        <option value="textField">Text Field</option>
         <option value="number">Number Field</option>
         <option value="multipleChoice">Multiple Choice</option>
       </select>
+      <button class="deleteButton" name="deleteQuestion" disabled> X</button>
+      </div>
       <div class="inputContainer"></div>
     </div>
-  </div>
 
-  <br>
-  <button id="addQuestion">Add Question</button>
-  <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+  </div>
+    <button class="addQuestion" id="addQuestion">Add Question</button>
+  </div>
+<div class="actionButtons">
+  <input class="submit" type="submit" value="Submit" /> <input class="reset" type="reset" value="Reset" />
+</div>
 </form>
-<div id="submitMessage"></div>
 </body>
 </html>
