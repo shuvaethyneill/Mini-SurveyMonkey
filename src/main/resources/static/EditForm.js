@@ -27,6 +27,7 @@ function renderEditForm(data) {
             case 'MultipleChoiceField':
                 questionDiv.find(`#fieldType${questionNumber}`).val('multipleChoice');
 
+                const fieldContainer = $('<div>');
                 // Assuming createMCOption function exists and works similarly
                 field.options.forEach(function(option, optionIndex) {
                     const mcOption = createMCOption(questionNumber, optionIndex + 1);
@@ -34,16 +35,19 @@ function renderEditForm(data) {
                     inputContainer.append(mcOption);
                 });
 
-                // to add more choices
-                const addChoiceBtn = $('<button>').addClass('mcAddChoiceButton').text('+').click(function (event) {
-                    event.preventDefault();
-                    const optionCount = inputContainer.find('.mcOption').length + 1;
-                    inputContainer.append(createMCOption(questionNumber, optionCount));
-                    updateRemoveChoiceButtons(); // update remove buttons after addition
-                });
-                inputContainer.append( addChoiceBtn);
-                
+                // initial two multiple choice options
+                const choiceContainer = $('<div>');
 
+                // to add more choices
+                const addChoiceBtn = $('<button>').text('+').click(function (event) {
+                    event.preventDefault();
+                    const optionCount = fieldContainer.find('.mcOption').length + 1;
+                    choiceContainer.append(createMCOption(questionNumber, optionCount));
+                    updateRemoveChoiceButtons(); // update remove buttons after addition
+                }).addClass("mcAddChoiceButton");
+                fieldContainer.append(choiceContainer)
+                fieldContainer.append(addChoiceBtn);
+                inputContainer.append(fieldContainer);
                 break;
 
             case 'TextField':
