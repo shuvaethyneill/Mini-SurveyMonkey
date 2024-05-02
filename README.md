@@ -86,10 +86,4 @@ This project leverages MongoDB to perform the noSQL operations in our MiniSruvey
     - Delete or add more questions
 - **Endpoints for all features created**
   - All CRUD operations supported: Add Form, Delete Form, Read Form, Delete Form
-
-
-### What is Submitted on BrightSpace:
-- Source Code
-- UML Class Diagram
-- Database Schema 
-  Note: ORM Diagram is not included because this project works on a nonrelational database so an ORM diagram is not applicable
+ 
